@@ -1,2 +1,3 @@
+include ':prijava'
 include ':app'
 rootProject.name = "MenzApp"
