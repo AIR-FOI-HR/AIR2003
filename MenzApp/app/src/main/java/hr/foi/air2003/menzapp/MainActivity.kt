@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         // if (currentUser === null) {
             // val launchIntent = packageManager.getLaunchIntentForPackage("hr.foi.air2003.menzapp.prijava")
             // startActivity(launchIntent)
-             startActivity(Intent(this, RegistrationActivity::class.java))
+             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         // }
     }

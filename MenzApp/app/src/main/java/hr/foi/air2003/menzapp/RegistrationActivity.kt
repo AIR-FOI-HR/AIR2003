@@ -60,8 +60,9 @@ class RegistrationActivity : AppCompatActivity() {
             ) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    // startActivity(Intent(this, MainActivity::class.java))
-                    // finish()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                    // TODO some kind of notification to user, splash screen or similar
                     updateUI(user)
                 } else {
                     // TODO update notification to user in case of failure
