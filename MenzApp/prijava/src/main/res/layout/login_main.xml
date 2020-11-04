@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     android:background="@color/white"
+    android:gravity="center"
     >
 
     <ImageView
@@ -18,53 +19,52 @@
 
     <EditText
         android:id="@+id/txtUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
         android:layout_marginTop="20dp"
-
-        android:layout_marginRight="50dp"
         android:background="@drawable/txt_background"
         android:drawableLeft="@drawable/ic_user"
         android:drawablePadding="10dp"
         android:fontFamily="@font/raleway"
         android:hint="@string/username"
         android:padding="10dp"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textColor="@color/grey_dark"/>
+
 
 
     <EditText
         android:id="@+id/txtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
         android:background="@drawable/txt_background"
         android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="10dp"
         android:fontFamily="@font/raleway"
         android:hint="@string/password"
         android:padding="10dp"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:textColor="@color/grey_dark"
+        android:inputType="textPassword"
+        />
 
     <TextView
         android:id="@+id/txtForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/raleway"
         android:text="@string/forgotten_password"
         android:textColor="@color/orange_secondary" />
 
-    <Button
+    <ImageView
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/ic_login" />
 
     <TextView
@@ -73,6 +73,7 @@
         android:layout_marginVertical="20dp"
         android:fontFamily="@font/raleway"
         android:gravity="center"
+        android:textColor="@color/grey_dark"
         android:text="@string/services" />
 
 
@@ -87,7 +88,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:srcCompat="@drawable/ic_facebook"
             />
 
@@ -95,7 +96,7 @@
             android:id="@+id/btnGoogle"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:padding="10dp"
+            android:padding="5dp"
             android:src="@drawable/ic_google" />
 
 
@@ -108,7 +109,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/raleway"
         android:gravity="center"
-
+        android:textColor="@color/grey_dark"
         android:text="@string/without_account" />
 
     <TextView

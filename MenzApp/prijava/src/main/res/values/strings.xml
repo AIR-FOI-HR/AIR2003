@@ -7,4 +7,5 @@
     <string name="services">ili prijava putem drugih servisa</string>
     <string name="without_account">Nemaš korisnički račun?</string>
     <string name="register">Registriraj se</string>
+    <string name="email">Email</string>
 </resources>
