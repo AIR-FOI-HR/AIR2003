@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">MenzApp</string>
+
+    <!-- REGISTRATION -->
+    <string name="registration_welcome">Dobrodošli u MenzApp</string>
+    <string name="registration_create_account">Kreirajte svoj račun</string>
+    <string name="registration_username">Korisnički račun</string>
+    <string name="registration_email">E-pošta</string>
+    <string name="registration_password">Lozinka</string>
+    <string name="registration_confirm_password">Ponovi lozinku</string>
+    <string name="registration_button_create_account">KREIRAJ RAČUN</string>
+    <string name="registration_already_have_account">Već imate korisnički račun?</string>
+    <string name="registration_sign_in">Prijavi se</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_text">

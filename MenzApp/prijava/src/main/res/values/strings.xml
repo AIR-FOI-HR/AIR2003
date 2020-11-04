@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name"></string>
+    <string name="username">Korisničko ime</string>
+    <string name="password">Lozinka</string>
+    <string name="forgotten_password">Zaboravio/la si lozinku?</string>
+    <string name="services">ili prijava putem drugih servisa</string>
+    <string name="without_account">Nemaš korisnički račun?</string>
+    <string name="register">Registriraj se</string>
+    <string name="email">Email</string>
+</resources>
