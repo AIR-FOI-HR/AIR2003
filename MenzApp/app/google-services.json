@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:211328840636:android:7136e79904c95063d271b9",
+        "android_client_info": {
+          "package_name": "hr.foi.air2003.menzapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211328840636-m9ges79agqd2a6a2jdjacefk5l2fu7jj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0WGmmf9pT9Y-Wu5PLPzO80ZURTHYl_BA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211328840636-m9ges79agqd2a6a2jdjacefk5l2fu7jj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:211328840636:android:6ff6109b9d6f1f45d271b9",
         "android_client_info": {
           "package_name": "menzApp.foi.hr"

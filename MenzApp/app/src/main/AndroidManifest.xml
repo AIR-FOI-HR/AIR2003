@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MenzApp">
         <activity android:name=".RegistrationActivity"></activity>
-        <activity android:name=".RegistrationActivityTest" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
