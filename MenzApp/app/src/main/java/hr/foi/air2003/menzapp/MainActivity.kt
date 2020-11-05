@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        auth = FirebaseAuth.getInstance();
+        // dbService = FirestoreService().getInstance();
         //TO DO setCurrentFragments
 
         val homeFragment = HomeFragment()
@@ -39,11 +40,7 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
-
-    }
-
-    private fun setCurrentFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        // println(dbService.getAll("Test"))
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
