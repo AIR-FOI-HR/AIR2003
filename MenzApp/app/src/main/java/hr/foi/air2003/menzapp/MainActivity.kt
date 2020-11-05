@@ -55,11 +55,11 @@ class MainActivity : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         println(currentUser)
-        // if (currentUser === null) {
+         if (currentUser === null) {
             // val launchIntent = packageManager.getLaunchIntentForPackage("hr.foi.air2003.menzapp.prijava")
             // startActivity(launchIntent)
              startActivity(Intent(this, LoginActivity::class.java))
-        finish()
-        // }
+        // finish()
+         }
     }
 }
