@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textSize="21dp"
-        android:layout_gravity="center_horizontal |center_vertical"
-        android:text="Chat fragment"/>
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:text="Food menu fragment"/>
 
 </androidx.core.widget.NestedScrollView>

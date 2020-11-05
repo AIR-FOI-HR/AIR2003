@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance();
         // dbService = FirestoreService().getInstance();
-        //TO DO setCurrentFragments
 
         val homeFragment = HomeFragment()
         val profileFragment = ProfileFragment()
