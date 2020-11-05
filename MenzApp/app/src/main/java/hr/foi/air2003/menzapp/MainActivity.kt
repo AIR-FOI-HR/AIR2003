@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var dbService: FirestoreService
+    // private lateinit var dbService: FirestoreService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
