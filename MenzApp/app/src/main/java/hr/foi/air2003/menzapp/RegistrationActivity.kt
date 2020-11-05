@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.prijava.LoginActivity
-import kotlinx.android.synthetic.main.fragment_registration.*
+import kotlinx.android.synthetic.main.registration_main.*
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -19,7 +19,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_registration)
+        setContentView(R.layout.registration_main)
         auth = FirebaseAuth.getInstance();
 
         kreirajRacun.setOnClickListener {

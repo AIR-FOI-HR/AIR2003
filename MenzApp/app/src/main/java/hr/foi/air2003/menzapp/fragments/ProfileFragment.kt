@@ -10,41 +10,39 @@ import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import hr.foi.air2003.menzapp.R
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class ProfileFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        expandablePosts.visibility = View.GONE
-        expandableFeedbacks.visibility = View.GONE
-
-        cvMyPosts.setOnClickListener{
-            if(expandablePosts.visibility == View.GONE){
-                TransitionManager.beginDelayedTransition(cvMyPosts, Explode())
-                expandablePosts.visibility = View.VISIBLE
-            } else{
-                TransitionManager.beginDelayedTransition(cvMyPosts, Explode())
-                expandablePosts.visibility = View.GONE
-            }
-        }
-
-        cvFeedback.setOnClickListener {
-            if(expandableFeedbacks.visibility == View.GONE){
-                TransitionManager.beginDelayedTransition(cvFeedback, Explode())
-                expandableFeedbacks.visibility = View.VISIBLE
-            } else{
-                TransitionManager.beginDelayedTransition(cvFeedback, Explode())
-                expandableFeedbacks.visibility = View.GONE
-            }
-        }
-    }
-
    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+       view.expandablePosts.visibility = View.GONE
+       view.expandableFeedbacks.visibility = View.GONE
+
+       view.cvMyPosts.setOnClickListener{
+           if(view.expandablePosts.visibility == View.GONE){
+               TransitionManager.beginDelayedTransition(view.cvMyPosts, Explode())
+               view.expandablePosts.visibility = View.VISIBLE
+           } else{
+               TransitionManager.beginDelayedTransition(view.cvMyPosts, Explode())
+               view.expandablePosts.visibility = View.GONE
+           }
+       }
+
+       view.cvFeedback.setOnClickListener {
+           if(view.expandableFeedbacks.visibility == View.GONE){
+               TransitionManager.beginDelayedTransition(view.cvFeedback, Explode())
+               view.expandableFeedbacks.visibility = View.VISIBLE
+           } else{
+               TransitionManager.beginDelayedTransition(view.cvFeedback, Explode())
+               view.expandableFeedbacks.visibility = View.GONE
+           }
+       }
+
+       return view
     }
 }

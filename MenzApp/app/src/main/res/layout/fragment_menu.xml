@@ -9,5 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:textSize="21dp"
+        android:layout_gravity="center_horizontal |center_vertical"
+        android:text="Chat fragment"/>
+
 </androidx.core.widget.NestedScrollView>

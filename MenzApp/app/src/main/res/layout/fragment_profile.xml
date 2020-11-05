@@ -201,6 +201,7 @@
                                 android:id="@+id/breakLinePost"
                                 android:layout_width="match_parent"
                                 android:layout_height="5dp"
+                                android:layout_marginVertical="10dp"
                                 android:background="@drawable/txt_line"
                                 android:orientation="vertical"/>
 
@@ -340,6 +341,7 @@
                                 android:id="@+id/breakLineFeedback"
                                 android:layout_width="match_parent"
                                 android:layout_height="5dp"
+                                android:layout_marginVertical="10dp"
                                 android:background="@drawable/txt_line"
                                 android:orientation="vertical"/>
 
