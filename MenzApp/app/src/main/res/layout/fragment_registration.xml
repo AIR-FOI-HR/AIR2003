@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    tools:context=".RegistrationActivity"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,7 +97,7 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="100dp"
-            android:background="@drawable/btn_background"
+            android:background="@drawable/btn_filled_circled"
             android:text="@string/registration_button_create_account"
             android:textColor="@color/white"
             android:textSize="20sp" />

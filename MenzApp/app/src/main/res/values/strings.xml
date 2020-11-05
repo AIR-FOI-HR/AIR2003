@@ -12,6 +12,15 @@
     <string name="registration_already_have_account">Već imate korisnički račun?</string>
     <string name="registration_sign_in">Prijavi se</string>
 
+    <!-- DIALOG EDIT FEED -->
+    <string name="edit_post_title">UREDI OBJAVU</string>
+    <string name="edit_post_date">Datum</string>
+    <string name="edit_post_time">Vrijeme</string>
+    <string name="edit_post_person_count">Broj osoba</string>
+    <string name="edit_post_description">Opis</string>
+    <string name="edit_post_delete">OBRIŠI</string>
+    <string name="edit_post_save">SPREMI</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_text">
