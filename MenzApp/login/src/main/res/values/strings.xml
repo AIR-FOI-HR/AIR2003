@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- REGISTRATION -->
+    <string name="registration_welcome">Dobrodošli u MenzApp</string>
+    <string name="registration_create_account">Kreirajte svoj račun</string>
+    <string name="registration_username">Ime i prezime</string>
+    <string name="registration_email">E-pošta</string>
+    <string name="registration_password">Lozinka</string>
+    <string name="registration_confirm_password">Ponovi lozinku</string>
+    <string name="registration_button_create_account">KREIRAJ RAČUN</string>
+    <string name="registration_already_have_account">Već imate korisnički račun?</string>
+    <string name="registration_sign_in">Prijavi se</string>
+
+    <string name="app_name"></string>
+    <string name="username">Korisničko ime</string>
+    <string name="password">Lozinka</string>
+    <string name="forgotten_password">Zaboravio/la si lozinku?</string>
+    <string name="services">ili prijava putem drugih servisa</string>
+    <string name="without_account">Nemaš korisnički račun?</string>
+    <string name="register">Registriraj se</string>
+    <string name="email">Email</string>
+</resources>

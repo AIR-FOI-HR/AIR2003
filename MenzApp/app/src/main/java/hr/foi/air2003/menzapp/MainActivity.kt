@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air2003.menzapp.fragments.*
-import hr.foi.air2003.menzapp.prijava.LoginActivity
+import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             // val launchIntent = packageManager.getLaunchIntentForPackage("hr.foi.air2003.menzapp.prijava")
             // startActivity(launchIntent)
              startActivity(Intent(this, LoginActivity::class.java))
-        // finish()
+             //finish()
          }
     }
 }
