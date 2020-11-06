@@ -23,13 +23,13 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/txt_background"
+        android:elevation="2dp"
         android:drawableLeft="@drawable/ic_user"
         android:drawablePadding="10dp"
         android:fontFamily="@font/raleway"
         android:hint="@string/username"
         android:padding="13dp"
-        android:textSize="16dp"
-        android:textColor="@color/grey_light" />
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/txtPassword"
@@ -39,13 +39,13 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/txt_background"
+        android:elevation="2dp"
         android:drawableLeft="@drawable/ic_lock"
         android:drawablePadding="10dp"
         android:fontFamily="@font/raleway"
         android:hint="@string/password"
         android:padding="13dp"
         android:textSize="16dp"
-        android:textColor="@color/grey_light"
         android:inputType="textPassword" />
 
     <TextView

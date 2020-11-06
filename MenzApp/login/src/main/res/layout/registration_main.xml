@@ -49,12 +49,13 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/txt_background"
+            android:elevation="2dp"
             android:drawableLeft="@drawable/ic_user"
             android:drawablePadding="10dp"
             android:hint="@string/registration_username"
             android:padding="13dp"
             android:fontFamily="@font/raleway"
-            android:textSize="16dp"/>
+            android:textSize="16dp" />
 
         <EditText
             android:id="@+id/txtEmail"
@@ -64,6 +65,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/txt_background"
+            android:elevation="2dp"
             android:drawableLeft="@drawable/ic_email"
             android:drawablePadding="10dp"
             android:hint="@string/registration_email"
@@ -79,12 +81,14 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/txt_background"
+            android:elevation="2dp"
             android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="10dp"
             android:hint="@string/registration_password"
             android:padding="13dp"
             android:fontFamily="@font/raleway"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:inputType="textPassword"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -93,12 +97,14 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:background="@drawable/txt_background"
+            android:elevation="2dp"
             android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="10dp"
             android:hint="@string/registration_confirm_password"
             android:padding="13dp"
             android:fontFamily="@font/raleway"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/btnCreateAccount"
