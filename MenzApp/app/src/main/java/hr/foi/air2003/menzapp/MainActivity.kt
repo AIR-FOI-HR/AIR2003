@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.fragments.*
 import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance();
         // dbService = FirestoreService().getInstance();
+
+        val currentUser = auth.currentUser
+        userLogin(currentUser)
 
         val homeFragment = HomeFragment()
         val profileFragment = ProfileFragment()
@@ -46,16 +50,14 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun userLogin(currentUser : FirebaseUser?){
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
         println(currentUser)
-         if (currentUser === null) {
+        if (currentUser === null) {
             // val launchIntent = packageManager.getLaunchIntentForPackage("hr.foi.air2003.menzapp.prijava")
             // startActivity(launchIntent)
-             startActivity(Intent(this, LoginActivity::class.java))
-             //finish()
-         }
+            startActivity(Intent(this, LoginActivity::class.java))
+            //finish()
+        }
     }
 }
