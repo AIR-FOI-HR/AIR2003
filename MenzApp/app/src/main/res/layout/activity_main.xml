@@ -7,9 +7,11 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/fl_wrapper"
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_bar"
@@ -18,7 +20,7 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/nav_shadow"
             app:labelVisibilityMode="unlabeled"
-            app:itemIconTint="@color/green_light"
+            app:itemIconTint="@drawable/navigation_bar_icon_selector"
             app:itemBackground="@color/white"
             app:menu="@menu/navigation_bar"/>
 </RelativeLayout>
