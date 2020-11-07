@@ -2,9 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
-    id 'com.google.gms.google-services'
 }
 
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -31,6 +31,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dynamicFeatures = []
 }
 
 dependencies {
@@ -40,9 +41,16 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    // Firebase Authentication
     implementation 'com.google.firebase:firebase-auth-ktx'
+    // Firebase Firestore Database
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    // Import modula prijava
+    implementation project(path: ':login')
 }
