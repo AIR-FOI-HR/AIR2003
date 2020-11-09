@@ -40,6 +40,7 @@
             android:paddingBottom="20dp">
 
             <LinearLayout
+                android:id="@+id/filterDateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -50,8 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/raleway_medium"
-                    android:textSize="16sp"
+                    android:fontFamily="@font/raleway"
+                    android:textSize="14sp"
                     android:text="Dolazak"
                     android:padding="2dp"/>
 
@@ -76,10 +77,10 @@
                 android:paddingRight="15dp"
                 android:background="@drawable/btn_transparent_circled"
                 android:fontFamily="@font/raleway_semibold"
-                android:text="Nova Objava"
+                android:text="Nova objava"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="18sp"/>
+                android:textSize="13sp"/>
 
         </RelativeLayout>
 
