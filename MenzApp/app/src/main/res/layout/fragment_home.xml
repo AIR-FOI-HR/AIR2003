@@ -118,7 +118,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@mipmap/ic_profile_photo_round"/>
-
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -133,8 +132,7 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_marginStart="125dp"
-                        android:background="@drawable/ic_edit_fill"/>
-
+                        android:background="@drawable/ic_plus"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -178,8 +176,6 @@
                                     android:textColor="@color/grey_light"/>
 
                             </LinearLayout>
-
-
 
                         </LinearLayout>
 
@@ -235,7 +231,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@mipmap/ic_profile_photo_round"/>
-
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -250,7 +245,7 @@
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_marginStart="125dp"
-                        android:background="@drawable/ic_edit_fill"/>
+                        android:background="@drawable/ic_plus"/>
 
                 </LinearLayout>
 
@@ -293,10 +288,7 @@
                                     android:textSize="14sp"
                                     android:fontFamily="@font/raleway"
                                     android:textColor="@color/grey_light"/>
-
                             </LinearLayout>
-
-
 
                         </LinearLayout>
 
