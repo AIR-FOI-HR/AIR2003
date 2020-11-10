@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import hr.foi.air2003.menzapp.R
 import kotlinx.android.synthetic.main.popup_filter.*
 import kotlinx.android.synthetic.main.popup_filter.view.*
+import java.lang.ClassCastException
 import java.sql.Timestamp
 import java.util.*
 
@@ -54,7 +56,12 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        fragmentsCommunicator = targetFragment as FragmentsCommunicator
+        try {
+            fragmentsCommunicator = targetFragment as FragmentsCommunicator
+        }catch(e: ClassCastException){
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun setCurrentDateTime(view: View) {

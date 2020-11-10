@@ -12,12 +12,6 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.sql.Timestamp
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
-    private lateinit var timestamp: Timestamp
-    override fun sendData(data: String) {
-        // TODO Implement function to show new date and time
-        timestamp = Timestamp.valueOf(data)
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -36,5 +30,22 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         return view
+    }
+
+    override fun sendData(data: String) {
+        updateFilter(data)
+
+        // TODO Implement filtering posts by selected date and time
+        var timestamp = Timestamp.valueOf(data)
+        filterPosts(timestamp)
+    }
+
+    private fun filterPosts(timestamp: Timestamp) {
+        // TODO Not yet implemented
+    }
+
+    private fun updateFilter(data: String) {
+        var dataSplit = data.split("-")
+        view?.tvSelectedDateTime?.text = "${dataSplit[2].substring(0,2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2,8)}"
     }
 }
