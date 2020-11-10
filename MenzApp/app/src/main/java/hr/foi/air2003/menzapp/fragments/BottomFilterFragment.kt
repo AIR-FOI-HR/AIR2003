@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.fragments
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,10 +16,13 @@ import java.sql.Timestamp
 import java.util.*
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
+    private lateinit var fragmentsCommunicator : FragmentsCommunicator
+    private lateinit var selectedDate : String
+    private lateinit var selectedTime : String
+    private lateinit var dateString : String
+    private lateinit var timeString : String
     private val calendar = Calendar.getInstance()
     private val months = arrayOf("siječnja", "veljače", "ožujka", "travnja", "svibnja", "lipnja", "srpnja", "kolovoza", "rujna", "listopada", "studenoga", "prosinca")
-    private var dateString = ""
-    private var timeString = ""
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,6 +44,19 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         return view
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+
+        var dateTimeString = dateString + timeString
+        fragmentsCommunicator.sendData(dateTimeString)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        fragmentsCommunicator = targetFragment as FragmentsCommunicator
+    }
+
     private fun setCurrentDateTime(view: View) {
         val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
         val currentMonth = months[calendar.get(Calendar.MONTH)]
@@ -48,22 +65,13 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         val currentMinute = calendar.get(Calendar.MINUTE)
 
         val currentDate = "$currentDay. $currentMonth $currentYear."
-        val currentTime = "$currentHour:$currentMinute"
+        val currentTime = "${String.format("%02d", currentHour)}:${String.format("%02d", currentMinute)}"
 
         view.tvSelectedDate.text = currentDate
         view.tvSelectedTime.text = currentTime
 
         dateString = "$currentYear-${calendar.get(Calendar.MONTH) + 1}-$currentDay "
         timeString = "$currentTime:00"
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-
-        val dateTimeString = dateString + timeString
-        val timestamp = Timestamp.valueOf(dateTimeString)
-
-        // TODO Pass timestamp to home fragment
     }
 
     private fun openTimePicker(view: View) {
@@ -73,7 +81,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         val timePickerDialog = TimePickerDialog(
                 view.context,
                 {view, hourOfDay, minute ->
-                    val selectedTime = "$hourOfDay:$minute"
+                    selectedTime = "${String.format("%02d", hourOfDay)}:${String.format("%02d", minute)}"
                     tvSelectedTime.text = selectedTime
                     timeString = "$selectedTime:00"
                 },
@@ -91,7 +99,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         val datePickerDialog = DatePickerDialog(
                 view.context,
                 { view, year, monthOfYear, dayOfMonth ->
-                    val selectedDate = "$dayOfMonth. ${months[monthOfYear]} $year."
+                    selectedDate = "$dayOfMonth. ${months[monthOfYear]} $year."
                     tvSelectedDate.text = selectedDate
                     dateString = "$year-${monthOfYear + 1}-$dayOfMonth "
                 },
