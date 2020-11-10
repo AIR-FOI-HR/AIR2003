@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.login
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
@@ -15,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_main)
@@ -27,6 +29,18 @@ class LoginActivity : AppCompatActivity() {
         txtRegister.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
+
+        txtForgotPassword.setOnClickListener {
+            Toast.makeText(this, "Toast", Toast.LENGTH_LONG).show()
+
+            val popupForgotPassword = Dialog(this)
+            popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password,null))
+            popupForgotPassword.show()
+
+        }
+
+
+
     }
 
     override fun onStart() {
@@ -77,5 +91,7 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         // TODO add user successfully created message or something like that
     }
+
+
 
 }
