@@ -53,4 +53,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     // Import modula prijava
     implementation project(path: ':login')
+    // Import modula baza podataka
+    implementation project(path: ':database')
 }
