@@ -1,48 +1,53 @@
 package hr.foi.air2003.menzapp.fragments
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import hr.foi.air2003.menzapp.R
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class ProfileFragment : Fragment() {
-   override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
 
-       view.expandablePosts.visibility = View.GONE
-       view.expandableFeedbacks.visibility = View.GONE
+    override fun onStart() {
+        super.onStart()
 
-       view.cvMyPosts.setOnClickListener{
-           if(view.expandablePosts.visibility == View.GONE){
-               TransitionManager.beginDelayedTransition(view.cvMyPosts, Explode())
-               view.expandablePosts.visibility = View.VISIBLE
-           } else{
-               TransitionManager.beginDelayedTransition(view.cvMyPosts, Explode())
-               view.expandablePosts.visibility = View.GONE
-           }
-       }
+        // TODO get user data from Firestore
+        val bundle = arguments
+        Toast.makeText(context, "User ID => " + bundle?.getString("userId"), Toast.LENGTH_SHORT).show()
 
-       view.cvFeedback.setOnClickListener {
-           if(view.expandableFeedbacks.visibility == View.GONE){
-               TransitionManager.beginDelayedTransition(view.cvFeedback, Explode())
-               view.expandableFeedbacks.visibility = View.VISIBLE
-           } else{
-               TransitionManager.beginDelayedTransition(view.cvFeedback, Explode())
-               view.expandableFeedbacks.visibility = View.GONE
-           }
-       }
+        expandablePosts.visibility = View.GONE
+        expandableFeedbacks.visibility = View.GONE
 
-       return view
+        cvMyPosts.setOnClickListener {
+            if (expandablePosts.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(cvMyPosts, Explode())
+                expandablePosts.visibility = View.VISIBLE
+            } else {
+                TransitionManager.beginDelayedTransition(cvMyPosts, Explode())
+                expandablePosts.visibility = View.GONE
+            }
+        }
+
+        cvFeedback.setOnClickListener {
+            if (expandableFeedbacks.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(cvFeedback, Explode())
+                expandableFeedbacks.visibility = View.VISIBLE
+            } else {
+                TransitionManager.beginDelayedTransition(cvFeedback, Explode())
+                expandableFeedbacks.visibility = View.GONE
+            }
+        }
     }
 }

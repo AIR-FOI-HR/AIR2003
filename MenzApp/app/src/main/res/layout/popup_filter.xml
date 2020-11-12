@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_typo"
                         android:fontFamily="@font/raleway_bold"
-                        android:textSize="17dp"
+                        android:textSize="17sp"
                         android:text="7. studenog 2020."/>
 
                 </LinearLayout>

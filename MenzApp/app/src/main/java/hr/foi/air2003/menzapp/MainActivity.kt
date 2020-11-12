@@ -48,6 +48,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
+        // Pass user data to selected fragment
+        val bundle = Bundle()
+        bundle.putString("userId", auth.uid)
+        fragment.arguments = bundle
+
+        // Open fragment view inside of container
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
