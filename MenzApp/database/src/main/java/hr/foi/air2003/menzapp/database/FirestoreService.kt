@@ -54,4 +54,10 @@ class FirestoreService {
             .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully deleted!") }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e)}
     }
+
+    /* TODO
+        get document by ID
+        get document by collection and specific field value (hint whereGreaterThan())
+    */
+
 }

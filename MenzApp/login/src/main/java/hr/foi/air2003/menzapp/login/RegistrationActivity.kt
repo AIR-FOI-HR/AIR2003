@@ -14,7 +14,7 @@ class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.registration_main)
-        auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance()
 
         btnCreateAccount.setOnClickListener {
             checkRegistrationInput()
@@ -53,19 +53,19 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun createAccount() {
         auth.createUserWithEmailAndPassword(txtEmail.text.toString(), txtPassword.text.toString())
-            .addOnCompleteListener(
-                this
-            ) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    // startActivity(Intent(this, MainActivity::class.java)) // TODO check how to solve circular dependecy
-                    finish()
-                    // TODO some kind of notification to user, splash screen or similar
-                    updateUI(user)
-                } else {
-                    // TODO update notification to user in case of failure
-                    updateUI(null)
+                .addOnCompleteListener(
+                        this
+                ) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        // startActivity(Intent(this, MainActivity::class.java)) // TODO check how to solve circular dependecy
+                        finish()
+                        // TODO some kind of notification to user, splash screen or similar
+                        updateUI(user)
+                    } else {
+                        // TODO update notification to user in case of failure
+                        updateUI(null)
+                    }
                 }
-            }
     }
 }

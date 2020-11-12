@@ -1,10 +1,11 @@
 package hr.foi.air2003.menzapp.database.model
 
-data class Chat (
-    var chatId: String = "",
-    var chatName: String = "",
-    var participantsId: Array<String>
-) { override fun equals(other: Any?): Boolean {
+data class Chat(
+        var chatId: String = "",
+        var chatName: String = "",
+        var participantsId: Array<String>
+) {
+    override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
