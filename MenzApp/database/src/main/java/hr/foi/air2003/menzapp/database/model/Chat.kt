@@ -1,4 +1,4 @@
-package com.example.database.model
+package hr.foi.air2003.menzapp.database.model
 
 data class Chat (
     var chatId: String = "",

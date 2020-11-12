@@ -1,4 +1,4 @@
-package com.example.database
+package hr.foi.air2003.menzapp.database
 
 import org.junit.Test
 
