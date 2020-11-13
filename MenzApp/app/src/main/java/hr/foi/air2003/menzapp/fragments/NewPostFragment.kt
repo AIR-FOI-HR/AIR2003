@@ -8,13 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.dialog_new_post.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import java.lang.Exception
 import java.sql.Timestamp
 
@@ -31,16 +29,57 @@ class NewPostFragment : DialogFragment() {
         super.onStart()
         setDialogLayout()
 
-        btn_saveNewPost.setOnClickListener {
-            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-            val post = Post(
-                    authorId = currentUserId.toString(),
-                    timestamp = Timestamp.valueOf(tvDateTime.text.toString()),
-                    description = tvDescription.text.toString(),
-                    numberOfPeople = tvNumberOfPeople.text as Int
-            )
-            saveNewPost(post)
+        tvDate.setOnClickListener {
+            // TODO Open date picker dialog
         }
+
+        tvTime.setOnClickListener {
+            // TODO Open time picker dialog
+        }
+
+        btn_saveNewPost.setOnClickListener {
+            checkPostInput()
+        }
+    }
+
+    private fun checkPostInput() {
+        val date = tvDate.text.toString()
+        val time = tvTime.text.toString()
+        val numberOfPeople = tvNumberOfPeople.text.toString()
+        val description = tvDescription.text.toString()
+
+        if(date.isEmpty()){
+            tvDate.error = "Molimo odaberite datum"
+            tvDate.requestFocus()
+            return
+        }
+
+        if(time.isEmpty()){
+            tvTime.error = "Molimo odaberite vrijeme"
+            tvTime.requestFocus()
+            return
+        }
+
+        if(numberOfPeople.isEmpty()){
+            tvNumberOfPeople.error = "Molimo unesite broj osoba"
+            tvNumberOfPeople.requestFocus()
+            return
+        }
+
+        if(description.isEmpty()){
+            tvDescription.error = "Molimo unesite opis"
+            tvDescription.requestFocus()
+            return
+        }
+
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val post = Post(
+                authorId = currentUserId.toString(),
+                timestamp = Timestamp.valueOf("$date $time"),
+                description = description,
+                numberOfPeople = numberOfPeople.toInt()
+        )
+        saveNewPost(post)
     }
 
     private fun setDialogLayout() {
@@ -59,6 +98,7 @@ class NewPostFragment : DialogFragment() {
         try {
             // TODO Show popup window for success
             FirestoreService.instance.post("Posts", post)
+            this.dismiss()
         } catch (e: Exception) {
             // TODO Show popup window for failure
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
