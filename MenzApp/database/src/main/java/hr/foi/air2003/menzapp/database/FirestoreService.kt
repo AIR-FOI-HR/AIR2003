@@ -60,7 +60,7 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
 
-    fun createDocument(collection: String, document: String, data: Any) {
+    fun createDocument(collection: String, document: String) {
         db.collection(collection).document(document)
     }
 

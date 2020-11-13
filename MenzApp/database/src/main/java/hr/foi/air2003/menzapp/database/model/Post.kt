@@ -10,7 +10,7 @@ data class Post(
         var timestamp: Timestamp,
         var description: String = "",
         var numberOfPeople: Int = 0,
-        var userRequests: Array<String>
+        var userRequests: Array<String> = arrayOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -6,7 +6,7 @@ data class Chat(
         @DocumentId
         var chatId: String = "",
         var chatName: String = "",
-        var participantsId: Array<String>
+        var participantsId: Array<String> = arrayOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
