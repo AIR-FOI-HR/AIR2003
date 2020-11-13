@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
+import hr.foi.air2003.menzapp.database.FirestoreService
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.sql.Timestamp
 
