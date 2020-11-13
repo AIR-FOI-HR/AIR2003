@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/white"
     android:padding="10dp">
 
@@ -26,11 +26,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textEditFeed"
+                    android:id="@+id/textNewPost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/edit_post_title"
+                    android:text="@string/new_post_title"
                     android:fontFamily="@font/raleway_semibold"
                     android:paddingStart="30dp"
                     android:paddingEnd="30dp"
@@ -54,7 +54,7 @@
                 >
 
                 <Button
-                    android:id="@+id/btn_cancelEditPost"
+                    android:id="@+id/btn_cancelNewPost"
                     android:layout_width="36dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="10dp"
@@ -168,20 +168,7 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/btn_deletePost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/btn_transparent_angled"
-                android:fontFamily="@font/raleway_semibold"
-                android:padding="10dp"
-                android:text="@string/edit_post_delete"
-                android:textColor="@color/grey_light"
-                android:textSize="15sp" />
-
-            <Button
-                android:id="@+id/btn_saveEditPost"
+                android:id="@+id/btn_saveNewPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

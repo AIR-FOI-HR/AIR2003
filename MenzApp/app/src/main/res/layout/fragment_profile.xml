@@ -179,10 +179,10 @@
 
                                 <Button
                                     android:id="@+id/btnEditPost"
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
+                                    android:layout_width="21dp"
+                                    android:layout_height="23dp"
                                     android:layout_marginLeft="125dp"
-                                    android:background="@drawable/ic_edit_fill"/>
+                                    android:background="@drawable/ic_edit_fill" />
 
                             </LinearLayout>
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MenzApp</string>
 
-    <!-- DIALOG EDIT FEED -->
+    <!-- DIALOG EDIT FEED AND NEW POST-->
     <string name="edit_post_title">UREDI OBJAVU</string>
     <string name="edit_post_date">Datum</string>
     <string name="edit_post_time">Vrijeme</string>
@@ -9,4 +9,7 @@
     <string name="edit_post_description">Opis</string>
     <string name="edit_post_delete">OBRIŠI</string>
     <string name="edit_post_save">SPREMI</string>
+    <string name="new_post_title">NOVA OBJAVA</string>
+
+
 </resources>
