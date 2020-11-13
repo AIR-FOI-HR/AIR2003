@@ -65,8 +65,13 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }
 
+    fun getDocumentByID(collection: String, document: String): Any {
+        return db.collection(collection).document(document).get()
+            .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully retrieved data by ID!") }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document by ID", e) }
+    }
+
     /* TODO
-        get document by ID
         get document by collection and specific field value (hint whereGreaterThan())
     */
 
