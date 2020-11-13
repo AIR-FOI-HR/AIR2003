@@ -1,6 +1,5 @@
 package hr.foi.air2003.menzapp.fragments
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

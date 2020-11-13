@@ -5,54 +5,64 @@ import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class FirestoreService {
-    public fun getInstance(): FirestoreService {
-        if (instance != null) {
-            return instance
-        } else {
-            instance = FirestoreService()
-            return instance
+class FirestoreService private constructor() {
+
+    /*
+        The companion object is a singleton, and its members can be accessed directly via the name of the containing class.
+        If you need a function or a property to be tied to a class rather than to instances of it, you can declare it inside a companion object.
+    */
+
+    companion object {
+        lateinit var instance: FirestoreService
+    }
+
+    init {
+        fun getInstance(): FirestoreService {
+            return if (instance != null) {
+                instance
+            } else {
+                instance = FirestoreService()
+                instance
+            }
         }
     }
 
-    private lateinit var instance: FirestoreService
-
     private val db = Firebase.firestore
 
-    public fun post(collection: String, item: Any) {
+    fun post(collection: String, item: Any) {
         db.collection(collection).add(item)
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
 
-    public fun getAll(collection: String): Any {
+    fun getAll(collection: String): Any {
         return db.collection(collection).get()
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully retrieved data!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully retrieved data!") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
     }
 
-    public fun putIntoDocument(collection: String, document: String, data: Any) {
+    fun putIntoDocument(collection: String, document: String, data: Any) {
         db.collection(collection).document(document)
-            .set(data)
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
+                .set(data)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }
 
-    public fun update(collection: String, document: String, field: String, data: Any) {
+    fun update(collection: String, document: String, field: String, data: Any) {
         db.collection(collection).document(document)
-            .update(field, data)
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
+                .update(field, data)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
 
-    public fun createDocument(collection: String, document: String, data: Any) {
+    fun createDocument(collection: String, document: String, data: Any) {
         db.collection(collection).document(document)
     }
 
-    public fun deleteDocument(collection: String, document: String, data: Any) {
+    fun deleteDocument(collection: String, document: String, data: Any) {
         db.collection(collection).document(document).delete()
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e)}
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully deleted!") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }
 
     /* TODO

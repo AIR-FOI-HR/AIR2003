@@ -16,4 +16,10 @@ class SearchFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        // TODO Implement search logic
+    }
 }

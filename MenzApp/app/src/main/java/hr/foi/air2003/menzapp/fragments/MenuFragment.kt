@@ -16,4 +16,10 @@ class MenuFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_menu, container, false)
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        // TODO Implement food menu logic
+    }
 }

@@ -16,4 +16,10 @@ class ChatFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_chat, container, false)
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        // TODO Implement chat logic
+    }
 }

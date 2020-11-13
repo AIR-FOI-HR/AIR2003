@@ -13,8 +13,6 @@ import hr.foi.air2003.menzapp.database.FirestoreService
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
-    private lateinit var dbService: FirestoreService
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -25,8 +23,6 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        dbService = FirestoreService().getInstance()
 
         // TODO get user data from Firestore
         val bundle = arguments
