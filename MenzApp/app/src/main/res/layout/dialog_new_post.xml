@@ -85,7 +85,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/txt_edit_background"
-            android:fontFamily="@font/raleway_semibold"
+            android:fontFamily="@font/raleway"
             android:padding="5dp"
             android:textSize="15sp"/>
 
@@ -110,7 +110,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/txt_edit_background"
-            android:fontFamily="@font/raleway_semibold"
+            android:fontFamily="@font/raleway"
             android:padding="5dp"
             android:textSize="15sp" />
 
@@ -135,7 +135,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/txt_edit_background"
-            android:fontFamily="@font/raleway_semibold"
+            android:fontFamily="@font/raleway"
             android:padding="5dp"
             android:textSize="15sp" />
 
@@ -160,7 +160,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/txt_edit_background"
-            android:fontFamily="@font/raleway_semibold"
+            android:fontFamily="@font/raleway"
             android:inputType="textMultiLine"
             android:padding="5dp"
             android:textSize="15sp" />
