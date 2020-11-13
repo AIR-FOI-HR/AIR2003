@@ -13,9 +13,10 @@ class FirestoreService private constructor() {
     */
 
     companion object {
-        lateinit var instance: FirestoreService
+        var instance = FirestoreService()
+    }
 
-        /*
+    init {
         fun getDBInstance(): FirestoreService {
             return if (instance != null) {
                 instance
@@ -24,12 +25,6 @@ class FirestoreService private constructor() {
                 instance
             }
         }
-        */
-    }
-
-    init {
-        if(instance == null)
-            instance = FirestoreService()
     }
 
     private val db = Firebase.firestore
