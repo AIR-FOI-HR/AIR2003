@@ -71,18 +71,26 @@
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btnSettings"
-                        android:layout_width="76dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="62dp"
-                        android:background="@drawable/btn_settings"
-                        android:fontFamily="@font/raleway_semibold"
-                        android:text="Postavke"
-                        android:textAllCaps="false"
-                        android:textColor="@color/orange_secondary"
-                        android:textSize="11dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingEnd="15dp">
+
+                        <Button
+                            android:id="@+id/btnSettings"
+                            android:layout_width="76dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_gravity="right"
+                            android:background="@drawable/btn_settings"
+                            android:fontFamily="@font/raleway_semibold"
+                            android:text="Postavke"
+                            android:textAllCaps="false"
+                            android:textColor="@color/orange_secondary"
+                            android:textSize="11dp"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
