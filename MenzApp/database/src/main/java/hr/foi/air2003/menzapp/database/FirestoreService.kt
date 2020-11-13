@@ -13,9 +13,10 @@ class FirestoreService private constructor() {
     */
 
     companion object {
-        lateinit var instance: FirestoreService
+        var instance = FirestoreService()
+    }
 
-        /*
+    init {
         fun getDBInstance(): FirestoreService {
             return if (instance != null) {
                 instance
@@ -24,12 +25,6 @@ class FirestoreService private constructor() {
                 instance
             }
         }
-        */
-    }
-
-    init {
-        if(instance == null)
-            instance = FirestoreService()
     }
 
     private val db = Firebase.firestore
@@ -60,7 +55,7 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
 
-    fun createDocument(collection: String, document: String, data: Any) {
+    fun createDocument(collection: String, document: String) {
         db.collection(collection).document(document)
     }
 

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         // FirestoreService.instance.getAll("Users")
 
         // Get current user
-        auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         userLogin(currentUser)
 

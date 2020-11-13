@@ -24,6 +24,8 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onStart() {
         super.onStart()
 
+        val bundle = arguments
+
         filterDateTime.setOnClickListener {
             var bottomFragment = BottomFilterFragment()
             bottomFragment.setTargetFragment(this, 1)
@@ -31,7 +33,10 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         btnNewPost.setOnClickListener {
-            Toast.makeText(it.context, "Otvoriti popup prozor za novu objavu", Toast.LENGTH_SHORT).show()
+            var newPostFragment = NewPostFragment()
+            newPostFragment.arguments = bundle
+            newPostFragment.setTargetFragment(this, 1)
+            newPostFragment.show(requireFragmentManager(), "New post")
         }
     }
 
