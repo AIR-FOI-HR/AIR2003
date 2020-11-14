@@ -1,18 +1,19 @@
 package hr.foi.air2003.menzapp.fragments
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.database.FirestoreService
-import hr.foi.air2003.menzapp.database.model.User
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -27,11 +28,23 @@ class ProfileFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val userID = Firebase.auth.currentUser?.uid
-        val user = FirestoreService.instance.getDocumentByID("Users", userID.toString()) as User
-
-        tvFullName.text = user.fullName
-        tvDescription.text = user.bio
+        //Get user data from firestore
+        try {
+            val userID = Firebase.auth.currentUser?.uid
+            val snapshot = FirestoreService.instance.getDocumentByID("Users", userID.toString())
+            snapshot
+                    .addOnSuccessListener {
+                        Log.d(ContentValues.TAG, "Document successfully loaded!")
+                        tvFullName.text = it.getString("fullName")
+                        tvSubscribers.text = "${it.get("subscribersCount")} pretplatnika"
+                        tvAboutMe.text = it.getString("bio")
+                    }
+                    .addOnFailureListener {
+                        e -> Log.w(ContentValues.TAG, "Error loading data: ", e)
+                    }
+        } catch(e : Exception) {
+            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+        }
 
         expandablePosts.visibility = View.GONE
         expandableFeedbacks.visibility = View.GONE
