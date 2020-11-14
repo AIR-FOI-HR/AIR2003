@@ -60,7 +60,7 @@
         android:text="@string/forgotten_password"
         android:textColor="@color/orange_secondary"
         android:layout_gravity="left"
-        android:textSize="16dp"/>
+        android:textSize="16dp" />
 
     <ImageView
         android:id="@+id/btnLogin"
@@ -69,7 +69,7 @@
         android:layout_marginEnd="40dp"
         android:layout_gravity="right"
         android:background="@drawable/ic_login"
-        android:layout_marginBottom="25dp"/>
+        android:layout_marginBottom="25dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -114,7 +114,7 @@
         android:gravity="center"
         android:textColor="@color/grey_dark"
         android:text="@string/without_account"
-        android:textSize="16dp"/>
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/txtRegister"
@@ -125,6 +125,6 @@
         android:gravity="center"
         android:text="@string/register"
         android:textColor="@color/orange_secondary"
-        android:textSize="16dp"/>
+        android:textSize="16dp" />
 
 </LinearLayout>

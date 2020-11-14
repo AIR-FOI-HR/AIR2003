@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         // Set current fragment when navigation icon is selected
         setCurrentFragment(homeFragment)
         bottom_nav_bar.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.ic_user -> setCurrentFragment(profileFragment)
                 R.id.ic_search -> setCurrentFragment(searchFragment)
                 R.id.ic_food -> setCurrentFragment(menuFragment)
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
-    private fun userLogin(currentUser : FirebaseUser?){
+    private fun userLogin(currentUser: FirebaseUser?) {
         // Check if user is signed in (non-null) and update UI accordingly
         println(currentUser)
         if (currentUser === null) {

@@ -17,11 +17,11 @@ import java.lang.ClassCastException
 import java.util.*
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
-    private lateinit var fragmentsCommunicator : FragmentsCommunicator
-    private lateinit var selectedDate : String
-    private lateinit var selectedTime : String
-    private lateinit var dateString : String
-    private lateinit var timeString : String
+    private lateinit var fragmentsCommunicator: FragmentsCommunicator
+    private lateinit var selectedDate: String
+    private lateinit var selectedTime: String
+    private lateinit var dateString: String
+    private lateinit var timeString: String
     private val calendar = Calendar.getInstance()
     private val months = arrayOf("siječnja", "veljače", "ožujka", "travnja", "svibnja", "lipnja", "srpnja", "kolovoza", "rujna", "listopada", "studenoga", "prosinca")
 
@@ -59,7 +59,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
 
         try {
             fragmentsCommunicator = targetFragment as FragmentsCommunicator
-        }catch(e: ClassCastException){
+        } catch (e: ClassCastException) {
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
@@ -85,7 +85,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        val timePickerDialog = TimePickerDialog(
+        TimePickerDialog(
                 requireContext(),
                 { view, hourOfDay, minute ->
                     selectedTime = "${String.format("%02d", hourOfDay)}:${String.format("%02d", minute)}"
