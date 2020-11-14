@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.database
 
 import android.content.ContentValues
 import android.util.Log
+import androidx.core.content.contentValuesOf
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -44,8 +45,8 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
     }
 
-    fun putIntoDocument(collection: String, document: String, data: Any) {
-        db.collection(collection).document(document)
+    fun postDocumentWithID(collection: String, documentId: String, data: Any) {
+        db.collection(collection).document(documentId)
                 .set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }

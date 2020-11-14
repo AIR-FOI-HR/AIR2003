@@ -70,18 +70,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun userLogin() {
         auth.signInWithEmailAndPassword(txtUsername.text.toString(), txtPassword.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        updateUI(user)
-                        // startActivity(Intent(this, MainActivity::class.java)) // TODO check how to solve circular dependecy
-                        finish()
-                    } else {
-                        Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
-                                Toast.LENGTH_SHORT).show()
-                        updateUI(null)
-                    }
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    updateUI(user)
+                    finish()
+                } else {
+                    Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
+                        Toast.LENGTH_SHORT).show()
+                    updateUI(null)
                 }
+            }
     }
 
     private fun updateUI(user: FirebaseUser?) {

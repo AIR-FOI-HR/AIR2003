@@ -91,6 +91,19 @@
 
                     </LinearLayout>
 
+                    <Button
+                        android:id="@+id/btnLogout"
+                        android:layout_width="76dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="-76dp"
+                        android:background="@color/green_light"
+                        android:fontFamily="@font/raleway_semibold"
+                        android:text="Log out test"
+                        android:textAllCaps="false"
+                        android:textColor="@color/green_primary"
+                        android:textSize="11dp"/>
+
                 </LinearLayout>
 
                 <TextView

@@ -6,7 +6,12 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import hr.foi.air2003.menzapp.database.FirestoreService
+import hr.foi.air2003.menzapp.database.model.Post
+import hr.foi.air2003.menzapp.database.model.User
 import kotlinx.android.synthetic.main.registration_main.*
+import java.lang.Exception
+import java.sql.Timestamp
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -22,8 +27,9 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         txtSignIn.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
+
     }
 
     private fun updateUI(user: FirebaseUser?) {
@@ -54,19 +60,28 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun createAccount() {
         auth.createUserWithEmailAndPassword(txtEmail.text.toString(), txtPassword.text.toString())
-                .addOnCompleteListener(
-                        this
-                ) { task ->
-                    if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        // startActivity(Intent(this, MainActivity::class.java)) // TODO check how to solve circular dependecy
-                        finish()
-                        // TODO some kind of notification to user, splash screen or similar
-                        updateUI(user)
-                    } else {
-                        // TODO update notification to user in case of failure
-                        updateUI(null)
-                    }
+            .addOnCompleteListener(
+                this
+            ) { task ->
+                if (task.isSuccessful) {
+                    FirestoreService.instance.postDocumentWithID("Users", auth.currentUser?.uid.toString(), getUserInfo())
+                    finish()
+                    // TODO some kind of notification to user, splash screen or similar
+                } else {
+                    // TODO update notification to user in case of failure
                 }
+            }
+    }
+
+    private fun getUserInfo(): User {
+        val user = User(
+            userId = auth.currentUser?.uid.toString(),
+            fullName = txtFullName.text.toString(),
+            email = txtEmail.text.toString(),
+            bio = "Ready to eat!",
+            profilePicture = "",
+            notificationsOn = true
+        )
+        return user
     }
 }
