@@ -2,6 +2,8 @@ package hr.foi.air2003.menzapp.database
 
 import android.content.ContentValues
 import android.util.Log
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -35,6 +37,7 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
 
+    // TODO Change getAll function
     fun getAll(collection: String): Any {
         return db.collection(collection).get()
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully retrieved data!") }
@@ -65,10 +68,8 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }
 
-    fun getDocumentByID(collection: String, document: String): Any {
+    fun getDocumentByID(collection: String, document: String): Task<DocumentSnapshot> {
         return db.collection(collection).document(document).get()
-            .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully retrieved data by ID!") }
-            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document by ID", e) }
     }
 
     /* TODO

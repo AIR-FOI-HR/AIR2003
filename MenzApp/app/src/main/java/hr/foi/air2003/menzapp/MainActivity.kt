@@ -6,23 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.fragments.*
 import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // FirestoreService.instance.getAll("Users")
-
         // Get current user
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
+        val currentUser = FirebaseAuth.getInstance().currentUser
         userLogin(currentUser)
 
         val homeFragment = HomeFragment()
@@ -47,11 +41,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
-        // Pass user data to selected fragment
-        //val bundle = Bundle()
-        //bundle.putString("userId", auth.uid)
-        //fragment.arguments = bundle
-
         // Open fragment view inside of container
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }

@@ -16,7 +16,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_main)
@@ -36,10 +35,7 @@ class LoginActivity : AppCompatActivity() {
             val popupForgotPassword = Dialog(this)
             popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password,null))
             popupForgotPassword.show()
-
         }
-
-
 
     }
 

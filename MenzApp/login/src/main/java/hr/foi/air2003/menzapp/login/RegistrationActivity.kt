@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.registration_main.*
 
 class RegistrationActivity : AppCompatActivity() {
+
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
