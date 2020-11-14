@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.FieldValue
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
@@ -23,6 +23,8 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
 
     override fun onStart() {
         super.onStart()
+
+        getPosts()
 
         filterDateTime.setOnClickListener {
             var bottomFragment = BottomFilterFragment()
@@ -53,4 +55,17 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         var dataSplit = data.split("-")
         tvSelectedDateTime?.text = "${dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2, 8)}"
     }
+
+    private fun getPosts() {
+        val posts: MutableList<Any> = ArrayList() // TODO change type to Post
+
+        FirestoreService.instance.getAll("Posts") // Get all with query -> FieldValue.serverTimestamp()
+                .addOnSuccessListener { collection ->
+                    collection.documents.forEach {
+                        posts.add(it.getData()!!) // Mutable Map retrieved, convert to Post
+                    }
+                    println(posts)
+                }
+    }
+
 }
