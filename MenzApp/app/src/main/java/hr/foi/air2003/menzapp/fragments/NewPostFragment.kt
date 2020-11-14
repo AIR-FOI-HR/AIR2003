@@ -125,17 +125,18 @@ class NewPostFragment : DialogFragment() {
 
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val post = Post(
-                authorId = currentUserId.toString(),
-                timestamp = Timestamp.valueOf("$dateString $timeString"),
-                description = description,
-                numberOfPeople = numberOfPeople.toInt()
+            postId = "$currentUserId-$dateString-$timeString",
+            authorId = currentUserId.toString(),
+            timestamp = Timestamp.valueOf("$dateString $timeString"),
+            description = description,
+            numberOfPeople = numberOfPeople.toInt()
         )
         saveNewPost(post)
     }
 
     private fun saveNewPost(post: Post) {
         try {
-            FirestoreService.instance.post("Posts", post)
+            FirestoreService.instance.postDocumentWithID("Posts", post.postId, post)
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {
