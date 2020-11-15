@@ -2,11 +2,8 @@ package hr.foi.air2003.menzapp.database
 
 import android.content.ContentValues
 import android.util.Log
-import androidx.core.content.contentValuesOf
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.*
 
 class FirestoreService private constructor() {
 
@@ -30,7 +27,7 @@ class FirestoreService private constructor() {
         }
     }
 
-    private val db = Firebase.firestore
+    private val db = FirebaseFirestore.getInstance()
 
     fun post(collection: String, item: Any) {
         db.collection(collection).add(item)
@@ -38,12 +35,15 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
 
-    // TODO Change getAll function
-    fun getAll(collection: String): Any {
+    // TODO Update function to support real time change detection
+    fun getAll(collection: String): Task<QuerySnapshot> {
         return db.collection(collection).get()
-                .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully retrieved data!") }
-                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
     }
+
+    fun getAllWithQuery(collection: String, timestamp: ServerTimestamp): Query { // Change to universal query
+        return db.collection(collection).orderBy("timestamp", Query.Direction.DESCENDING)
+    }
+
 
     fun postDocumentWithID(collection: String, documentId: String, data: Any) {
         db.collection(collection).document(documentId)
