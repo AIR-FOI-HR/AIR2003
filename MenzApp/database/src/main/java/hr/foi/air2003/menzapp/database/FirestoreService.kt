@@ -27,6 +27,15 @@ class FirestoreService private constructor() {
         }
     }
 
+    enum class Operation {
+        ARRAY_CONTAINS, ARRAY_CONTAINS_ANY, EQUAL_TO, NOT_EQUAL_TO, IN, NOT_IN, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO
+    }
+
+    // TODO Make changes where needed
+    enum class Collection(val value: String) {
+        USER("Users"), POST("Posts"), CHAT("Chats"), MESSAGE("Messages"), FEEDBACK("Feedbacks"), SUBSCRIPTION("Subscriptions")
+    }
+
     private val db = FirebaseFirestore.getInstance()
 
     fun post(collection: String, item: Any) {
@@ -40,10 +49,20 @@ class FirestoreService private constructor() {
         return db.collection(collection).get()
     }
 
-    fun getAllWithQuery(collection: String, timestamp: ServerTimestamp): Query { // Change to universal query
-        return db.collection(collection).orderBy("timestamp", Query.Direction.DESCENDING)
+    fun getAllWithQuery(collection: String, operation: Operation, field: String, value: Any): Task<QuerySnapshot> {
+        return when(operation){
+            Operation.ARRAY_CONTAINS -> db.collection(collection).whereArrayContains(field, value).get()
+            Operation.ARRAY_CONTAINS_ANY -> db.collection(collection).whereArrayContainsAny(field, value as MutableList<out String>).get()
+            Operation.EQUAL_TO -> db.collection(collection).whereEqualTo(field, value).get()
+            Operation.NOT_EQUAL_TO -> db.collection(collection).whereNotEqualTo(field, value).get()
+            Operation.IN -> db.collection(collection).whereIn(field, value as MutableList<out String>).get()
+            Operation.NOT_IN -> db.collection(collection).whereNotIn(field, value as MutableList<out String>).get()
+            Operation.GREATER_THAN -> db.collection(collection).whereGreaterThan(field, value).get()
+            Operation.GREATER_THAN_OR_EQUAL_TO -> db.collection(collection).whereGreaterThanOrEqualTo(field, value).get()
+            Operation.LESS_THAN -> db.collection(collection).whereLessThan(field, value).get()
+            Operation.LESS_THAN_OR_EQUAL_TO -> db.collection(collection).whereLessThanOrEqualTo(field, value).get()
+        }
     }
-
 
     fun postDocumentWithID(collection: String, documentId: String, data: Any) {
         db.collection(collection).document(documentId)
@@ -72,9 +91,4 @@ class FirestoreService private constructor() {
     fun getDocumentByID(collection: String, document: String): Task<DocumentSnapshot> {
         return db.collection(collection).document(document).get()
     }
-
-    /* TODO
-        get document by collection and specific field value (hint whereGreaterThan())
-    */
-
 }

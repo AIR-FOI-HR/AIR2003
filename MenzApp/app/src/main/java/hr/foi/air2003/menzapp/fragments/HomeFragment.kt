@@ -1,11 +1,9 @@
 package hr.foi.air2003.menzapp.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -14,9 +12,8 @@ import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.lang.Exception
 import java.sql.Timestamp
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onCreateView(
@@ -27,15 +24,11 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
 
-        val currentDateTime = LocalDateTime.now()
-        val timestampFormatter = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss.SSS")
-        val timestampDateTime = currentDateTime.format(timestampFormatter).toString()
-
-        filterPosts(Timestamp.valueOf(timestampDateTime))
+        val currentDateTime = Timestamp(System.currentTimeMillis())
+        filterPosts(currentDateTime)
 
         filterDateTime.setOnClickListener {
             var bottomFragment = BottomFilterFragment()
@@ -52,7 +45,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
 
     override fun sendData(data: String) {
         updateFilter(data)
-        var timestamp = Timestamp.valueOf(data)
+        val timestamp = Timestamp.valueOf(data)
         filterPosts(timestamp)
     }
 
@@ -67,6 +60,14 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
                     }
                     println(posts)
                 }
+
+        /*
+        val list = listOf<String>("A", "B")
+        try {
+            FirestoreService.instance.getAllWithQuery("Posts", FirestoreService.Operation.IN, "Posts", list)
+        }catch (e: Exception){
+        }
+         */
     }
 
     private fun updateFilter(data: String) {
@@ -83,5 +84,4 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         FirestoreService.instance.update("Posts", post.postId, "userRequests", updatedUserRequests) // Get all with query -> FieldValue.serverTimestamp()
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
     }
-
 }
