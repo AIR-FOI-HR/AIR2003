@@ -12,7 +12,6 @@ import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import java.lang.Exception
-import java.sql.Timestamp
 
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
@@ -108,9 +107,8 @@ class NewPostFragment : DialogFragment() {
 
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val post = Post(
-                postId = "$currentUserId-${dateTimePicker.getTimestamp()}",
                 authorId = currentUserId.toString(),
-                timestamp = Timestamp.valueOf(dateTimePicker.getTimestamp()),
+                timestamp = dateTimePicker.getTimestamp(),
                 description = description,
                 numberOfPeople = numberOfPeople.toInt()
         )
@@ -119,7 +117,7 @@ class NewPostFragment : DialogFragment() {
 
     private fun saveNewPost(post: Post) {
         try {
-            FirestoreService.instance.postDocumentWithID("Posts", post.postId, post)
+            FirestoreService.instance.post("Posts", post)
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {
