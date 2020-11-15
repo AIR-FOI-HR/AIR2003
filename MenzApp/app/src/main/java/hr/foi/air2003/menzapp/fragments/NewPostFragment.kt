@@ -1,31 +1,21 @@
 package hr.foi.air2003.menzapp.fragments
 
 import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.graphics.Point
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.AlertDialogLayout
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.dialog_new_post.*
-import kotlinx.android.synthetic.main.popup_filter.*
 import java.lang.Exception
 import java.sql.Timestamp
-import java.util.*
 
 class NewPostFragment : DialogFragment() {
-    private val calendar = Calendar.getInstance()
-    private lateinit var timeString: String
-    private lateinit var dateString: String
-    private val months = arrayOf("siječnja", "veljače", "ožujka", "travnja", "svibnja", "lipnja", "srpnja", "kolovoza", "rujna", "listopada", "studenoga", "prosinca")
+    private lateinit var dateTimePicker: DateTimePicker
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,47 +28,40 @@ class NewPostFragment : DialogFragment() {
     override fun onStart() {
         super.onStart()
         setDialogLayout()
+        dateTimePicker = DateTimePicker()
 
         tvDate.setOnClickListener {
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-            val datePickerDialog = DatePickerDialog(
-                    requireContext(),
-                    { view, year, monthOfYear, dayOfMonth ->
-                        tvDate.text = "$dayOfMonth. ${months[monthOfYear]} $year."
-                        dateString = "$year-${monthOfYear + 1}-$dayOfMonth"
-                    },
-                    year,
-                    month,
-                    day
-            )
-
-            datePickerDialog.datePicker.minDate = System.currentTimeMillis()
-            datePickerDialog.show()
+            openDatePicker()
         }
 
         tvTime.setOnClickListener {
-            val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
-
-            TimePickerDialog(
-                    requireContext(),
-                    { view, hours, minutes ->
-                        val selectedTime = "${String.format("%02d", hours)}:${String.format("%02d", minutes)}"
-                        tvTime.text = selectedTime
-                        timeString = "$selectedTime:00"
-                    },
-                    hourOfDay,
-                    minute,
-                    true
-            ).show()
+            openTimePicker()
         }
 
         btn_saveNewPost.setOnClickListener {
             checkPostInput()
         }
+    }
+
+    private fun openTimePicker() {
+        val timePicker = dateTimePicker.getTimePicker(requireContext())
+        timePicker.show()
+        timePicker.setOnDismissListener { updateTime() }
+    }
+
+    private fun updateTime() {
+        tvTime.text = dateTimePicker.getTimeString()
+    }
+
+    private fun openDatePicker() {
+        val datePicker = dateTimePicker.getDatePicker(requireContext())
+        datePicker.datePicker.minDate = System.currentTimeMillis()
+        datePicker.show()
+        datePicker.setOnDismissListener { updateDate() }
+    }
+
+    private fun updateDate() {
+        tvDate.text = dateTimePicker.getDateString()
     }
 
     private fun setDialogLayout() {
@@ -126,7 +109,7 @@ class NewPostFragment : DialogFragment() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val post = Post(
                 authorId = currentUserId.toString(),
-                timestamp = Timestamp.valueOf("$dateString $timeString"),
+                timestamp = Timestamp.valueOf(dateTimePicker.getTimestamp()),
                 description = description,
                 numberOfPeople = numberOfPeople.toInt()
         )
