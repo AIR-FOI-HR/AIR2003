@@ -13,6 +13,7 @@ import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onCreateView(
@@ -26,7 +27,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onStart() {
         super.onStart()
 
-        val currentDateTime = Timestamp(System.currentTimeMillis(),0)
+        val currentDateTime = Timestamp(System.currentTimeMillis()/1000,0)
         filterPosts(currentDateTime)
 
         filterDateTime.setOnClickListener {
@@ -42,10 +43,11 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
     }
 
-    override fun sendData(data: Any) {
-        val timestamp = data as Timestamp
-        updateFilter(timestamp.toString())
-        filterPosts(timestamp)
+    override fun sendData(data: String) {
+        updateFilter(data)
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(data)
+        filterPosts(Timestamp(sdf.time/1000, 0))
     }
 
     private fun filterPosts(timestamp: Timestamp) { // TODO implement filtering
