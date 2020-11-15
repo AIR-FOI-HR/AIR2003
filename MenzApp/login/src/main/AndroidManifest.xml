@@ -3,7 +3,7 @@
     package="hr.foi.air2003.menzapp.login">
 
     <application>
-        <activity android:name="hr.foi.air2003.menzapp.login.LoginActivity"/>
-        <activity android:name="hr.foi.air2003.menzapp.login.RegistrationActivity"/>
+        <activity android:name="hr.foi.air2003.menzapp.login.LoginActivity" />
+        <activity android:name="hr.foi.air2003.menzapp.login.RegistrationActivity" />
     </application>
 </manifest>

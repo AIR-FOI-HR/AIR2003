@@ -16,7 +16,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_main)
@@ -34,12 +33,9 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Toast", Toast.LENGTH_LONG).show()
 
             val popupForgotPassword = Dialog(this)
-            popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password,null))
+            popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password, null))
             popupForgotPassword.show()
-
         }
-
-
 
     }
 
@@ -78,7 +74,6 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     updateUI(user)
-                    // startActivity(Intent(this, MainActivity::class.java)) // TODO check how to solve circular dependecy
                     finish()
                 } else {
                     Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
@@ -91,7 +86,6 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         // TODO add user successfully created message or something like that
     }
-
 
 
 }

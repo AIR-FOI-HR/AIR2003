@@ -1,15 +1,13 @@
 package hr.foi.air2003.menzapp.fragments
 
+import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
+import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.dialog_new_post.*
@@ -17,6 +15,8 @@ import java.lang.Exception
 import java.sql.Timestamp
 
 class NewPostFragment : DialogFragment() {
+    private lateinit var dateTimePicker: DateTimePicker
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -28,13 +28,14 @@ class NewPostFragment : DialogFragment() {
     override fun onStart() {
         super.onStart()
         setDialogLayout()
+        dateTimePicker = DateTimePicker()
 
         tvDate.setOnClickListener {
-            // TODO Open date picker dialog
+            openDatePicker()
         }
 
         tvTime.setOnClickListener {
-            // TODO Open time picker dialog
+            openTimePicker()
         }
 
         btn_saveNewPost.setOnClickListener {
@@ -42,44 +43,25 @@ class NewPostFragment : DialogFragment() {
         }
     }
 
-    private fun checkPostInput() {
-        val date = tvDate.text.toString()
-        val time = tvTime.text.toString()
-        val numberOfPeople = tvNumberOfPeople.text.toString()
-        val description = tvDescription.text.toString()
+    private fun openTimePicker() {
+        val timePicker = dateTimePicker.getTimePicker(requireContext())
+        timePicker.show()
+        timePicker.setOnDismissListener { updateTime() }
+    }
 
-        if(date.isEmpty()){
-            tvDate.error = "Molimo odaberite datum"
-            tvDate.requestFocus()
-            return
-        }
+    private fun updateTime() {
+        tvTime.text = dateTimePicker.getTimeString()
+    }
 
-        if(time.isEmpty()){
-            tvTime.error = "Molimo odaberite vrijeme"
-            tvTime.requestFocus()
-            return
-        }
+    private fun openDatePicker() {
+        val datePicker = dateTimePicker.getDatePicker(requireContext())
+        datePicker.datePicker.minDate = System.currentTimeMillis()
+        datePicker.show()
+        datePicker.setOnDismissListener { updateDate() }
+    }
 
-        if(numberOfPeople.isEmpty()){
-            tvNumberOfPeople.error = "Molimo unesite broj osoba"
-            tvNumberOfPeople.requestFocus()
-            return
-        }
-
-        if(description.isEmpty()){
-            tvDescription.error = "Molimo unesite opis"
-            tvDescription.requestFocus()
-            return
-        }
-
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-        val post = Post(
-                authorId = currentUserId.toString(),
-                timestamp = Timestamp.valueOf("$date $time"),
-                description = description,
-                numberOfPeople = numberOfPeople.toInt()
-        )
-        saveNewPost(post)
+    private fun updateDate() {
+        tvDate.text = dateTimePicker.getDateString()
     }
 
     private fun setDialogLayout() {
@@ -94,14 +76,72 @@ class NewPostFragment : DialogFragment() {
         window?.setGravity(Gravity.CENTER)
     }
 
+    private fun checkPostInput() {
+        val date = tvDate.text.toString()
+        val time = tvTime.text.toString()
+        val numberOfPeople = tvNumberOfPeople.text.toString()
+        val description = tvDescription.text.toString()
+
+        if (date.isEmpty()) {
+            tvDate.error = "Molimo odaberite datum"
+            tvDate.requestFocus()
+            return
+        }
+
+        if (time.isEmpty()) {
+            tvTime.error = "Molimo odaberite vrijeme"
+            tvTime.requestFocus()
+            return
+        }
+
+        if (numberOfPeople.isEmpty()) {
+            tvNumberOfPeople.error = "Molimo unesite broj osoba"
+            tvNumberOfPeople.requestFocus()
+            return
+        }
+
+        if (description.isEmpty()) {
+            tvDescription.error = "Molimo unesite opis"
+            tvDescription.requestFocus()
+            return
+        }
+
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val post = Post(
+                postId = "$currentUserId-${dateTimePicker.getTimestamp()}",
+                authorId = currentUserId.toString(),
+                timestamp = Timestamp.valueOf(dateTimePicker.getTimestamp()),
+                description = description,
+                numberOfPeople = numberOfPeople.toInt()
+        )
+        saveNewPost(post)
+    }
+
     private fun saveNewPost(post: Post) {
         try {
-            // TODO Show popup window for success
-            FirestoreService.instance.post("Posts", post)
+            FirestoreService.instance.postDocumentWithID("Posts", post.postId, post)
             this.dismiss()
+            notifyUser(true)
         } catch (e: Exception) {
-            // TODO Show popup window for failure
-            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            notifyUser(false)
         }
+    }
+
+    private fun notifyUser(success: Boolean) {
+        val builder = AlertDialog.Builder(context)
+
+        if (success) {
+            // TODO Change style of alert dialog in themes.xml
+            builder.setTitle("Uspjeh")
+            builder.setMessage("Objava je uspješno kreirana!")
+            builder.setPositiveButton("OK", null)
+        } else {
+            builder.setTitle("Greška")
+            builder.setMessage("Objava nije kreirana!")
+            builder.setPositiveButton("OK", null)
+        }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

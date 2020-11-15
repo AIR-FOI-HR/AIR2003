@@ -1,5 +1,7 @@
 package hr.foi.air2003.menzapp.database.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.firebase.firestore.DocumentId
 
 data class Chat(

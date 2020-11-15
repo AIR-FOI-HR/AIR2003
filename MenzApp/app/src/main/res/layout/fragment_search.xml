@@ -11,6 +11,6 @@
         android:layout_margin="@dimen/text_margin"
         android:textSize="21dp"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:text="Search fragment"/>
+        android:text="Search fragment" />
 
 </androidx.core.widget.NestedScrollView>
