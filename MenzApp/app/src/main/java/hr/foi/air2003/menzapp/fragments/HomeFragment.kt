@@ -6,22 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import com.google.type.DateTime
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import hr.foi.air2003.menzapp.database.model.User
-import kotlinx.android.synthetic.main.feedback.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.post.view.*
 import kotlinx.android.synthetic.main.post.view.tvDateTime
 import kotlinx.android.synthetic.main.post.view.tvDescription
 import kotlinx.android.synthetic.main.post.view.tvNumberOfPeople
@@ -37,6 +34,11 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(context, "On resume started", Toast.LENGTH_LONG).show()
     }
 
     override fun onStart() {
@@ -81,24 +83,32 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
                         val json = Gson().toJson(document.data)
                         val post = Gson().fromJson(json, Post::class.java)
 
-                        if (post.timestamp >= timestamp) {
-                            val dynamicalViewPosts: View = LayoutInflater.from(context).inflate(R.layout.post_home, null)
-                            homeLayout.addView(dynamicalViewPosts)
-
-                            val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
-                            dynamicalViewPosts.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
-                            dynamicalViewPosts.tvNumberOfPeople.text = "Optimalan broj ljudi: ${post.numberOfPeople}"
-                            dynamicalViewPosts.tvDescription.text = post.description
-
-                            FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, post.authorId)
-                                    .addOnSuccessListener { document ->
-                                        val json = Gson().toJson(document.data)
-                                        val user = Gson().fromJson(json, User::class.java)
-                                        dynamicalViewPosts.tvAuthorName.text = user.fullName
-                                    }
-                                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
-                        }
+                        if (post.timestamp >= timestamp) { createPostLayout(post) }
                     }
+                }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
+    }
+
+    private fun createPostLayout(post: Post) {
+        val dynamicalViewPosts: View = LayoutInflater.from(context).inflate(R.layout.post_home, null)
+        homeLayout.addView(dynamicalViewPosts)
+
+        val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+        dynamicalViewPosts.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
+        dynamicalViewPosts.tvNumberOfPeople.text = "Optimalan broj ljudi: ${post.numberOfPeople}"
+        dynamicalViewPosts.tvDescription.text = post.description
+        dynamicalViewPosts.btnRespond.setOnClickListener {
+            requestToJoin(post)
+            it.visibility = View.GONE
+
+            // TODO Maybe implement button to undo request
+        }
+
+        FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, post.authorId)
+                .addOnSuccessListener { document ->
+                    val json = Gson().toJson(document.data)
+                    val user = Gson().fromJson(json, User::class.java)
+                    dynamicalViewPosts.tvAuthorName.text = user.fullName
                 }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
     }
@@ -108,13 +118,15 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         tvSelectedDateTime?.text = "${dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2, 8)}"
     }
 
-    private fun requestToJoin(post: Post) { // Use this function to respond to a Post
-        val updatedUserRequests: MutableList<String> = ArrayList()
-        if (post.userRequests.size > 0) {
+    private fun requestToJoin(post: Post) {
+        val updatedUserRequests: MutableList<String> = mutableListOf()
+        if (post.userRequests.isNotEmpty()) {
             post.userRequests.forEach { updatedUserRequests.add(it) }
         }
+
         updatedUserRequests.add(Firebase.auth.currentUser!!.uid)
-        FirestoreService.instance.updateField(FirestoreService.Collection.POST, post.postId, "userRequests", updatedUserRequests) // Get all with query -> FieldValue.serverTimestamp()
+        FirestoreService.instance.updateField(FirestoreService.Collection.POST, post.postId, "userRequests", updatedUserRequests)
+
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
     }
 }

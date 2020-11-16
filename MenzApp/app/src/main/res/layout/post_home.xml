@@ -58,6 +58,7 @@
                     android:paddingEnd="15dp">
 
                     <Button
+                        android:id="@+id/btnRespond"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="right"
