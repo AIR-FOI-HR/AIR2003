@@ -7,6 +7,7 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -22,6 +23,7 @@ import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
+    private var postId: String? = ""
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -36,7 +38,7 @@ class NewPostFragment : DialogFragment() {
         setDialogLayout()
         dateTimePicker = DateTimePicker()
 
-        var postId = arguments?.getString("post")
+        postId = arguments?.getString("post")
 
         if (postId != "") {
             textNewPost.text = "UREDI OBJAVU"
@@ -144,7 +146,7 @@ class NewPostFragment : DialogFragment() {
                 numberOfPeople = numberOfPeople.toInt()
         )
 
-        if(arguments!!.isEmpty){
+        if(postId.isNullOrEmpty()){
             saveNewPost(post)
         }else{
             post.postId = arguments?.getString("post").toString()

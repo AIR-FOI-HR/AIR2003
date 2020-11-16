@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
     private lateinit var dateTimePicker: DateTimePicker
+    private lateinit var dynamicalViewPosts: View
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,6 +41,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         super.onStart()
 
         dateTimePicker = DateTimePicker()
+        dynamicalViewPosts = View(context)
 
         val currentDateTime = Timestamp(System.currentTimeMillis() / 1000, 0)
         filterPosts(currentDateTime)
@@ -61,6 +63,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
     }
 
+
     override fun sendData(data: String) {
         updateFilter(data)
 
@@ -70,6 +73,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
 
     private fun filterPosts(timestamp: Timestamp) {
         val userId = Firebase.auth.currentUser?.uid
+        homeLayout.removeView(dynamicalViewPosts)
 
         //Populate posts with data from firestore
         FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.POST, FirestoreService.Operation.NOT_EQUAL_TO, "authorId", userId.toString())
@@ -85,7 +89,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     }
 
     private fun createPostLayout(post: Post) {
-        val dynamicalViewPosts: View = LayoutInflater.from(context).inflate(R.layout.post_home, null)
+        dynamicalViewPosts = LayoutInflater.from(context).inflate(R.layout.post_home, null)
         homeLayout.addView(dynamicalViewPosts)
 
         val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
@@ -110,7 +114,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
 
     private fun updateFilter(data: String) {
         var dataSplit = data.split("-")
-        tvSelectedDateTime?.text = "${dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2, 8)}"
+        tvSelectedDateTime?.text = "${dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2)}"
     }
 
     private fun requestToJoin(post: Post) {
