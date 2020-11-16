@@ -10,11 +10,11 @@ import java.util.*
 private val calendar = Calendar.getInstance()
 
 class DateTimePicker(
-        var day: Int = calendar.get(Calendar.DAY_OF_MONTH),
-        var month: Int = calendar.get(Calendar.MONTH),
-        var year: Int = calendar.get(Calendar.YEAR),
-        var hour: Int = calendar.get(Calendar.HOUR_OF_DAY),
-        var minute: Int = calendar.get(Calendar.MINUTE)
+        private var day: Int = calendar.get(Calendar.DAY_OF_MONTH),
+        private var month: Int = calendar.get(Calendar.MONTH),
+        private var year: Int = calendar.get(Calendar.YEAR),
+        private var hour: Int = calendar.get(Calendar.HOUR_OF_DAY),
+        private var minute: Int = calendar.get(Calendar.MINUTE)
 ) {
     private val months = arrayOf("siječnja", "veljače", "ožujka", "travnja", "svibnja", "lipnja", "srpnja", "kolovoza", "rujna", "listopada", "studenoga", "prosinca")
 
@@ -65,6 +65,13 @@ class DateTimePicker(
 
     fun timestampToString(timestamp: Timestamp): String {
         calendar.timeInMillis = timestamp.seconds * 1000
+
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+        month = calendar.get(Calendar.MONTH)
+        year = calendar.get(Calendar.YEAR)
+        hour = calendar.get(Calendar.HOUR_OF_DAY)
+        minute = calendar.get(Calendar.MINUTE)
+
         return "${getDateString()}/${getTimeString()}"
     }
 }

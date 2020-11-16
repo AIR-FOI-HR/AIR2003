@@ -13,7 +13,6 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import kotlinx.android.synthetic.main.popup_filter.*
 import java.lang.ClassCastException
-import java.text.SimpleDateFormat
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
     private lateinit var fragmentsCommunicator: FragmentsCommunicator

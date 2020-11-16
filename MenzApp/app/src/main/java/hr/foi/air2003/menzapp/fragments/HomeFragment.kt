@@ -1,6 +1,8 @@
 package hr.foi.air2003.menzapp.fragments
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +10,27 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.google.type.DateTime
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
+import hr.foi.air2003.menzapp.database.model.User
+import kotlinx.android.synthetic.main.feedback.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.post.view.*
+import kotlinx.android.synthetic.main.post.view.tvDateTime
+import kotlinx.android.synthetic.main.post.view.tvDescription
+import kotlinx.android.synthetic.main.post.view.tvNumberOfPeople
+import kotlinx.android.synthetic.main.post_home.view.*
 import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
+    private lateinit var dateTimePicker: DateTimePicker
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -27,7 +42,9 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onStart() {
         super.onStart()
 
-        val currentDateTime = Timestamp(System.currentTimeMillis()/1000,0)
+        dateTimePicker = DateTimePicker()
+
+        val currentDateTime = Timestamp(System.currentTimeMillis() / 1000, 0)
         filterPosts(currentDateTime)
 
         filterDateTime.setOnClickListener {
@@ -37,8 +54,12 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         btnNewPost.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("post", "")
+
             var newPostFragment = NewPostFragment()
             newPostFragment.setTargetFragment(this, 1)
+            newPostFragment.arguments = bundle
             newPostFragment.show(requireFragmentManager(), "New post")
         }
     }
@@ -47,28 +68,39 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         updateFilter(data)
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(data)
-        filterPosts(Timestamp(sdf.time/1000, 0))
+        filterPosts(Timestamp(sdf.time / 1000, 0))
     }
 
-    private fun filterPosts(timestamp: Timestamp) { // TODO implement filtering
-        println(timestamp)
-        val posts: MutableList<Any> = ArrayList() // TODO change type to Post
+    private fun filterPosts(timestamp: Timestamp) {
+        val userId = Firebase.auth.currentUser?.uid
 
-        FirestoreService.instance.getAll("Posts") // Get all with query timestamp
-                .addOnSuccessListener { collection ->
-                    collection.documents.forEach {
-                        posts.add(it.getData()!!) // Mutable Map retrieved, convert to Post
+        //Populate posts with data from firestore
+        FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.POST, FirestoreService.Operation.NOT_EQUAL_TO, "authorId", userId.toString())
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        val json = Gson().toJson(document.data)
+                        val post = Gson().fromJson(json, Post::class.java)
+
+                        if (post.timestamp >= timestamp) {
+                            val dynamicalViewPosts: View = LayoutInflater.from(context).inflate(R.layout.post_home, null)
+                            homeLayout.addView(dynamicalViewPosts)
+
+                            val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+                            dynamicalViewPosts.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
+                            dynamicalViewPosts.tvNumberOfPeople.text = "Optimalan broj ljudi: ${post.numberOfPeople}"
+                            dynamicalViewPosts.tvDescription.text = post.description
+
+                            FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, post.authorId)
+                                    .addOnSuccessListener { document ->
+                                        val json = Gson().toJson(document.data)
+                                        val user = Gson().fromJson(json, User::class.java)
+                                        dynamicalViewPosts.tvAuthorName.text = user.fullName
+                                    }
+                                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
+                        }
                     }
-                    println(posts)
                 }
-
-        /*
-        val list = listOf<String>("A", "B")
-        try {
-            FirestoreService.instance.getAllWithQuery("Posts", FirestoreService.Operation.IN, "Posts", list)
-        }catch (e: Exception){
-        }
-         */
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
     }
 
     private fun updateFilter(data: String) {
@@ -82,7 +114,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             post.userRequests.forEach { updatedUserRequests.add(it) }
         }
         updatedUserRequests.add(Firebase.auth.currentUser!!.uid)
-        FirestoreService.instance.updateField("Posts", post.postId, "userRequests", updatedUserRequests) // Get all with query -> FieldValue.serverTimestamp()
+        FirestoreService.instance.updateField(FirestoreService.Collection.POST, post.postId, "userRequests", updatedUserRequests) // Get all with query -> FieldValue.serverTimestamp()
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
     }
 }

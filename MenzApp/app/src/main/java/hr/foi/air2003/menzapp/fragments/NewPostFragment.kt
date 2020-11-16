@@ -14,6 +14,9 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.dialog_new_post.*
+import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
+import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
+import kotlinx.android.synthetic.main.post.*
 import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
@@ -32,9 +35,11 @@ class NewPostFragment : DialogFragment() {
         setDialogLayout()
         dateTimePicker = DateTimePicker()
 
-        if (!arguments!!.isEmpty) {
+        var postId = arguments?.getString("post")
+
+        if (postId != "") {
             textNewPost.text = "UREDI OBJAVU"
-            loadPost(arguments?.getString("post"))
+            loadPost(postId)
         }
 
         tvDate.setOnClickListener {
@@ -52,7 +57,7 @@ class NewPostFragment : DialogFragment() {
 
     private fun loadPost(postId: String?) {
         if (!postId!!.isNullOrEmpty()) {
-            FirestoreService.instance.getDocumentByID("Posts", postId)
+            FirestoreService.instance.getDocumentByID(FirestoreService.Collection.POST, postId)
                     .addOnSuccessListener { document ->
                         val json = Gson().toJson(document.data)
                         val post = Gson().fromJson(json, Post::class.java)
@@ -151,7 +156,7 @@ class NewPostFragment : DialogFragment() {
         val map = Gson().fromJson(json, HashMap<String, Any>()::class.java)
 
         try {
-            FirestoreService.instance.update("Posts", post.postId, map)
+            FirestoreService.instance.update(FirestoreService.Collection.POST, post.postId, map)
             this.dismiss()
             notifyUser(true)
         }catch (e: Exception){
@@ -161,7 +166,7 @@ class NewPostFragment : DialogFragment() {
 
     private fun saveNewPost(post: Post) {
         try {
-            FirestoreService.instance.post("Posts", post)
+            FirestoreService.instance.post(FirestoreService.Collection.POST, post)
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {
@@ -172,8 +177,8 @@ class NewPostFragment : DialogFragment() {
     private fun notifyUser(success: Boolean) {
         val builder = AlertDialog.Builder(context)
 
+        // TODO Show custom dialog
         if (success) {
-            // TODO Change style of alert dialog in themes.xml
             builder.setTitle("Uspjeh")
             builder.setMessage("Objava je uspješno kreirana!")
             builder.setPositiveButton("OK", null)

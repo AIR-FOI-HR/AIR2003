@@ -72,14 +72,13 @@ class ProfileFragment : Fragment() {
            val intent = Intent (activity, LoginActivity::class.java)
            activity?.startActivity(intent)
        }
-
     }
 
     private fun retrieveUserData(userId: String?) {
         if (!userId.isNullOrEmpty()) {
 
             //Populate user info with data from firestore
-            FirestoreService.instance.getDocumentByID("Users", userId.toString())
+            FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, userId.toString())
                 .addOnSuccessListener { document ->
                     val json = Gson().toJson(document.data)
                     val user = Gson().fromJson(json, User::class.java)
@@ -90,7 +89,7 @@ class ProfileFragment : Fragment() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
 
             //Populate posts with data from firestore
-            FirestoreService.instance.getAllWithQuery("Posts", FirestoreService.Operation.EQUAL_TO,"authorId", userId.toString())
+            FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.POST, FirestoreService.Operation.EQUAL_TO,"authorId", userId.toString())
                     .addOnSuccessListener { documents ->
                         for (document in documents){
                             val json = Gson().
@@ -110,7 +109,7 @@ class ProfileFragment : Fragment() {
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
 
             //Populate feedbacks with data from firestore
-            FirestoreService.instance.getAllWithQuery("Feedbacks", FirestoreService.Operation.EQUAL_TO,"recipientId", userId.toString())
+            FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.FEEDBACK, FirestoreService.Operation.EQUAL_TO,"recipientId", userId.toString())
                     .addOnSuccessListener { documents ->
                         for (document in documents){
                             val json = Gson().toJson(document.data)
@@ -119,7 +118,7 @@ class ProfileFragment : Fragment() {
                             val dynamicalViewFeedbacks: View = LayoutInflater.from(context).inflate(R.layout.feedback, null)
                             expandableFeedbacks.addView(dynamicalViewFeedbacks)
 
-                            FirestoreService.instance.getDocumentByID("Users", feedback.authorId)
+                            FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, feedback.authorId)
                                     .addOnSuccessListener { document ->
                                             val json = Gson().toJson(document.data)
                                             val user = Gson().fromJson(json, User::class.java)
