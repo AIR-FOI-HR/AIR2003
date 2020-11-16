@@ -64,14 +64,15 @@ class DateTimePicker(
     }
 
     fun timestampToString(timestamp: Timestamp): String {
-        calendar.timeInMillis = timestamp.seconds * 1000
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = timestamp.seconds * 1000
 
-        day = calendar.get(Calendar.DAY_OF_MONTH)
-        month = calendar.get(Calendar.MONTH)
-        year = calendar.get(Calendar.YEAR)
-        hour = calendar.get(Calendar.HOUR_OF_DAY)
-        minute = calendar.get(Calendar.MINUTE)
+        val d = cal.get(Calendar.DAY_OF_MONTH)
+        val m = cal.get(Calendar.MONTH)
+        val y = cal.get(Calendar.YEAR)
+        val h = cal.get(Calendar.HOUR_OF_DAY)
+        val min = cal.get(Calendar.MINUTE)
 
-        return "${getDateString()}/${getTimeString()}"
+        return "$d. ${months[m]} $y./${String.format("%02d", h)}:${String.format("%02d", min)}"
     }
 }

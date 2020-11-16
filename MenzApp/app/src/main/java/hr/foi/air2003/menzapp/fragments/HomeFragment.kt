@@ -36,11 +36,6 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(context, "On resume started", Toast.LENGTH_LONG).show()
-    }
-
     override fun onStart() {
         super.onStart()
 
