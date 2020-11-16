@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Feedback
 import hr.foi.air2003.menzapp.database.model.Post
@@ -24,11 +24,11 @@ import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.feedback.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.post.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class ProfileFragment : Fragment() {
+    private lateinit var dateTimePicker: DateTimePicker
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -39,6 +39,7 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        dateTimePicker = DateTimePicker()
 
         val userId = Firebase.auth.currentUser?.uid
         print(userId)
@@ -92,15 +93,18 @@ class ProfileFragment : Fragment() {
             FirestoreService.instance.getAllWithQuery("Posts", FirestoreService.Operation.EQUAL_TO,"authorId", userId.toString())
                     .addOnSuccessListener { documents ->
                         for (document in documents){
-                            val json = Gson().toJson(document.data)
+                            val json = Gson().
+                            toJson(document.data)
                             val post = Gson().fromJson(json, Post::class.java)
 
                             val dynamicalViewPosts: View = LayoutInflater.from(context).inflate(R.layout.post, null)
                             expandablePosts.addView(dynamicalViewPosts)
 
-                            dynamicalViewPosts.tvDateTime.text = timestampToString(post.timestamp)
+                            val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+                            dynamicalViewPosts.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
                             dynamicalViewPosts.tvNumberOfPeople.text = "Optimalan broj ljudi: ${post.numberOfPeople}"
                             dynamicalViewPosts.tvDescription.text = post.description
+                            dynamicalViewPosts.btnEditPost.setOnClickListener { editPost(post.postId) }
                         }
                     }
                     .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
@@ -151,8 +155,13 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun timestampToString(timestamp: Timestamp): String {
-        val date = Date(timestamp.seconds*1000)
-        return SimpleDateFormat("dd.MM.yyyy. HH:mm").format(date)
+    private fun editPost(postId: String) {
+        val bundle = Bundle()
+        bundle.putString("post", postId)
+
+        val newPostFragment = NewPostFragment()
+        newPostFragment.setTargetFragment(this, 1)
+        newPostFragment.arguments = bundle
+        newPostFragment.show(requireFragmentManager(), "Post")
     }
 }

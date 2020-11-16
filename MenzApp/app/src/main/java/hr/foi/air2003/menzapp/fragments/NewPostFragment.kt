@@ -1,11 +1,14 @@
 package hr.foi.air2003.menzapp.fragments
 
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.graphics.Point
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.database.FirestoreService
@@ -29,6 +32,11 @@ class NewPostFragment : DialogFragment() {
         setDialogLayout()
         dateTimePicker = DateTimePicker()
 
+        if (!arguments!!.isEmpty) {
+            textNewPost.text = "UREDI OBJAVU"
+            loadPost(arguments?.getString("post"))
+        }
+
         tvDate.setOnClickListener {
             openDatePicker()
         }
@@ -39,6 +47,23 @@ class NewPostFragment : DialogFragment() {
 
         btn_saveNewPost.setOnClickListener {
             checkPostInput()
+        }
+    }
+
+    private fun loadPost(postId: String?) {
+        if (!postId!!.isNullOrEmpty()) {
+            FirestoreService.instance.getDocumentByID("Posts", postId)
+                    .addOnSuccessListener { document ->
+                        val json = Gson().toJson(document.data)
+                        val post = Gson().fromJson(json, Post::class.java)
+
+                        val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+                        tvDate.text = dateTime[0]
+                        tvTime.text = dateTime[1]
+                        tvDescription.setText(post.description)
+                        tvNumberOfPeople.setText(post.numberOfPeople.toString())
+                    }
+                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error retrieving document", e) }
         }
     }
 
@@ -112,7 +137,26 @@ class NewPostFragment : DialogFragment() {
                 description = description,
                 numberOfPeople = numberOfPeople.toInt()
         )
-        saveNewPost(post)
+
+        if(arguments!!.isEmpty){
+            saveNewPost(post)
+        }else{
+            post.postId = arguments?.getString("post").toString()
+            editPost(post)
+        }
+    }
+
+    private fun editPost(post: Post) {
+        val json = Gson().toJson(post)
+        val map = Gson().fromJson(json, HashMap<String, Any>()::class.java)
+
+        try {
+            FirestoreService.instance.update("Posts", post.postId, map)
+            this.dismiss()
+            notifyUser(true)
+        }catch (e: Exception){
+            notifyUser(false)
+        }
     }
 
     private fun saveNewPost(post: Post) {

@@ -82,7 +82,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             post.userRequests.forEach { updatedUserRequests.add(it) }
         }
         updatedUserRequests.add(Firebase.auth.currentUser!!.uid)
-        FirestoreService.instance.update("Posts", post.postId, "userRequests", updatedUserRequests) // Get all with query -> FieldValue.serverTimestamp()
+        FirestoreService.instance.updateField("Posts", post.postId, "userRequests", updatedUserRequests) // Get all with query -> FieldValue.serverTimestamp()
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
     }
 }

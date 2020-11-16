@@ -71,7 +71,14 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }
 
-    fun update(collection: String, document: String, field: String, data: Any) {
+    fun update(collection: String, document: String, data: Map<String, Any>) {
+        db.collection(collection).document(document)
+                .update(data)
+                .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
+                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
+    }
+
+    fun updateField(collection: String, document: String, field: String, data: Any) {
         db.collection(collection).document(document)
                 .update(field, data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }

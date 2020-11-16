@@ -62,4 +62,9 @@ class DateTimePicker(
     fun getTimestampString(): String {
         return "$year-${month + 1}-$day ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
     }
+
+    fun timestampToString(timestamp: Timestamp): String {
+        calendar.timeInMillis = timestamp.seconds * 1000
+        return "${getDateString()}/${getTimeString()}"
+    }
 }
