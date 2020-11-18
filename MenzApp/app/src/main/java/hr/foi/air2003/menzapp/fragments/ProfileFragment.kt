@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
@@ -20,6 +21,8 @@ import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Feedback
 import hr.foi.air2003.menzapp.database.model.Post
 import hr.foi.air2003.menzapp.database.model.User
+import hr.foi.air2003.menzapp.database.other.Collection
+import hr.foi.air2003.menzapp.database.other.Operation
 import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.feedback.view.*
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -89,16 +92,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun createFeedbackLayout(userId: String) {
-        FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.FEEDBACK, FirestoreService.Operation.EQUAL_TO, "recipientId", userId.toString())
+        FirestoreService.instance.getAllWithQuery(Collection.FEEDBACK, Operation.EQUAL_TO, "recipientId", userId.toString())
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         val json = Gson().toJson(document.data)
                         val feedback = Gson().fromJson(json, Feedback::class.java)
+                        feedback.feedbackId = document.id
 
                         val dynamicalViewFeedbacks: View = LayoutInflater.from(context).inflate(R.layout.feedback, null)
                         expandableFeedbacks.addView(dynamicalViewFeedbacks)
 
-                        FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, feedback.authorId)
+                        FirestoreService.instance.getDocumentByID(Collection.USER, feedback.authorId)
                                 .addOnSuccessListener { document ->
                                     val json = Gson().toJson(document.data)
                                     val user = Gson().fromJson(json, User::class.java)
@@ -133,11 +137,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun createPostLayout(userId: String) {
-        FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.POST, FirestoreService.Operation.EQUAL_TO, "authorId", userId.toString())
+        FirestoreService.instance.getAllWithQuery(Collection.POST, Operation.EQUAL_TO, "authorId", userId.toString())
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         val json = Gson().toJson(document.data)
                         val post = Gson().fromJson(json, Post::class.java)
+                        post.postId = document.id
 
                         val dynamicalViewPosts: View = LayoutInflater.from(context).inflate(R.layout.post, null)
                         expandablePosts.addView(dynamicalViewPosts)
@@ -153,7 +158,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun createUserLayout(userId: String) {
-        FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, userId.toString())
+        FirestoreService.instance.getDocumentByID(Collection.USER, userId.toString())
                 .addOnSuccessListener { document ->
                     val json = Gson().toJson(document.data)
                     val user = Gson().fromJson(json, User::class.java)
@@ -167,6 +172,7 @@ class ProfileFragment : Fragment() {
     private fun editPost(postId: String) {
         val bundle = Bundle()
         bundle.putString("post", postId)
+        Toast.makeText(context, postId, Toast.LENGTH_SHORT).show()
 
         val newPostFragment = NewPostFragment()
         newPostFragment.setTargetFragment(this, 1)

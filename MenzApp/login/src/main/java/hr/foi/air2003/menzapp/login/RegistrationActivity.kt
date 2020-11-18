@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.User
+import hr.foi.air2003.menzapp.database.other.Collection
 import kotlinx.android.synthetic.main.registration_main.*
 
 class RegistrationActivity : AppCompatActivity() {
@@ -59,7 +60,7 @@ class RegistrationActivity : AppCompatActivity() {
                 this
             ) { task ->
                 if (task.isSuccessful) {
-                    FirestoreService.instance.postDocumentWithID(FirestoreService.Collection.USER, auth.currentUser?.uid.toString(), getUserInfo())
+                    FirestoreService.instance.postDocumentWithID(Collection.USER, auth.currentUser?.uid.toString(), getUserInfo())
                     finish()
                     // TODO some kind of notification to user, splash screen or similar
                 } else {

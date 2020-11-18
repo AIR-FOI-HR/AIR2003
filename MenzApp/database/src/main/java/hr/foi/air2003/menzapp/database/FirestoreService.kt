@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
+import hr.foi.air2003.menzapp.database.other.Operation
 
 class FirestoreService private constructor() {
 
@@ -27,29 +28,21 @@ class FirestoreService private constructor() {
         }
     }
 
-    enum class Operation {
-        ARRAY_CONTAINS, ARRAY_CONTAINS_ANY, EQUAL_TO, NOT_EQUAL_TO, IN, NOT_IN, GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO
-    }
-
-    enum class Collection(val value: String) {
-        USER("Users"), POST("Posts"), CHAT("Chats"), MESSAGE("Messages"), FEEDBACK("Feedbacks"), SUBSCRIPTION("Subscriptions")
-    }
-
     private val db = FirebaseFirestore.getInstance()
 
-    fun post(collection: Collection, item: Any) {
-        db.collection(collection.value).add(item)
+    fun post(collection: String, item: Any) {
+        db.collection(collection).document().set(item)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
 
     // TODO Update function to support real time change detection
-    fun getAll(collection: Collection): Task<QuerySnapshot> {
-        return db.collection(collection.value).get()
+    fun getAll(collection: String): Task<QuerySnapshot> {
+        return db.collection(collection).get()
     }
 
-    fun getAllWithQuery(collection: Collection, operation: Operation, field: String, value: Any): Task<QuerySnapshot> {
-        val collectionReference = db.collection(collection.value)
+    fun getAllWithQuery(collection: String, operation: Operation, field: String, value: Any): Task<QuerySnapshot> {
+        val collectionReference = db.collection(collection)
         return when (operation) {
             Operation.ARRAY_CONTAINS -> collectionReference.whereArrayContains(field, value).get()
             Operation.ARRAY_CONTAINS_ANY -> collectionReference.whereArrayContainsAny(field, value as MutableList<out String>).get()
@@ -64,38 +57,38 @@ class FirestoreService private constructor() {
         }
     }
 
-    fun postDocumentWithID(collection: Collection, document: String, data: Any) {
-        db.collection(collection.value).document(document)
+    fun postDocumentWithID(collection: String, document: String, data: Any) {
+        db.collection(collection).document(document)
                 .set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }
 
-    fun update(collection: Collection, document: String, data: Map<String, Any>) {
-        db.collection(collection.value).document(document)
+    fun update(collection: String, document: String, data: Map<String, Any>) {
+        db.collection(collection).document(document)
                 .update(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
 
-    fun updateField(collection: Collection, document: String, field: String, data: Any) {
-        db.collection(collection.value).document(document)
+    fun updateField(collection: String, document: String, field: String, data: Any) {
+        db.collection(collection).document(document)
                 .update(field, data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
 
-    fun createDocument(collection: Collection, document: String) {
-        db.collection(collection.value).document(document)
+    fun createDocument(collection: String, document: String) {
+        db.collection(collection).document(document)
     }
 
-    fun deleteDocument(collection: Collection, document: String, data: Any) {
-        db.collection(collection.value).document(document).delete()
+    fun deleteDocument(collection: String, document: String, data: Any) {
+        db.collection(collection).document(document).delete()
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully deleted!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }
 
-    fun getDocumentByID(collection: Collection, document: String): Task<DocumentSnapshot> {
-        return db.collection(collection.value).document(document).get()
+    fun getDocumentByID(collection: String, document: String): Task<DocumentSnapshot> {
+        return db.collection(collection).document(document).get()
     }
 }

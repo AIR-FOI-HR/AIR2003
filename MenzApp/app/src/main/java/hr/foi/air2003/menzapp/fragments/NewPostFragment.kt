@@ -1,4 +1,3 @@
-
 package hr.foi.air2003.menzapp.fragments
 
 import android.app.AlertDialog
@@ -7,7 +6,6 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -15,10 +13,10 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
+import hr.foi.air2003.menzapp.database.other.Collection
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
-import kotlinx.android.synthetic.main.post.*
 import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
@@ -60,7 +58,7 @@ class NewPostFragment : DialogFragment() {
 
     private fun loadPost(postId: String?) {
         if (!postId!!.isNullOrEmpty()) {
-            FirestoreService.instance.getDocumentByID(FirestoreService.Collection.POST, postId)
+            FirestoreService.instance.getDocumentByID(Collection.POST, postId)
                     .addOnSuccessListener { document ->
                         val json = Gson().toJson(document.data)
                         val post = Gson().fromJson(json, Post::class.java)
@@ -101,8 +99,8 @@ class NewPostFragment : DialogFragment() {
         val size = Point()
         val display = window?.windowManager?.defaultDisplay?.getRealSize(size)
 
-        var width = (size.x * 0.90).toInt()
-        var height = (size.y * 0.75).toInt()
+        val width = (size.x * 0.90).toInt()
+        val height = (size.y * 0.75).toInt()
 
         window?.setLayout(width, height)
         window?.setGravity(Gravity.CENTER)
@@ -159,7 +157,7 @@ class NewPostFragment : DialogFragment() {
         val map = Gson().fromJson(json, HashMap<String, Any>()::class.java)
 
         try {
-            FirestoreService.instance.update(FirestoreService.Collection.POST, post.postId, map)
+            FirestoreService.instance.update(Collection.POST, post.postId, map)
             this.dismiss()
             notifyUser(true)
         }catch (e: Exception){
@@ -169,7 +167,7 @@ class NewPostFragment : DialogFragment() {
 
     private fun saveNewPost(post: Post) {
         try {
-            FirestoreService.instance.post(FirestoreService.Collection.POST, post)
+            FirestoreService.instance.post(Collection.POST, post)
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {

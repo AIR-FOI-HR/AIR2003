@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
@@ -18,6 +17,8 @@ import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import hr.foi.air2003.menzapp.database.model.User
+import hr.foi.air2003.menzapp.database.other.Collection
+import hr.foi.air2003.menzapp.database.other.Operation
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.post.view.tvDateTime
 import kotlinx.android.synthetic.main.post.view.tvDescription
@@ -76,7 +77,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         homeLayout.removeView(dynamicalViewPosts)
 
         //Populate posts with data from firestore
-        FirestoreService.instance.getAllWithQuery(FirestoreService.Collection.POST, FirestoreService.Operation.NOT_EQUAL_TO, "authorId", userId.toString())
+        FirestoreService.instance.getAllWithQuery(Collection.POST, Operation.NOT_EQUAL_TO, "authorId", userId.toString())
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         val json = Gson().toJson(document.data)
@@ -103,7 +104,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             // TODO Maybe implement button to undo request
         }
 
-        FirestoreService.instance.getDocumentByID(FirestoreService.Collection.USER, post.authorId)
+        FirestoreService.instance.getDocumentByID(Collection.USER, post.authorId)
                 .addOnSuccessListener { document ->
                     val json = Gson().toJson(document.data)
                     val user = Gson().fromJson(json, User::class.java)
@@ -124,7 +125,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         updatedUserRequests.add(Firebase.auth.currentUser!!.uid)
-        FirestoreService.instance.updateField(FirestoreService.Collection.POST, post.postId, "userRequests", updatedUserRequests)
+        FirestoreService.instance.updateField(Collection.POST, post.postId, "userRequests", updatedUserRequests)
 
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
     }
