@@ -5,14 +5,14 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import hr.foi.air2003.menzapp.database.FirestoreService
-import hr.foi.air2003.menzapp.database.model.User
-import hr.foi.air2003.menzapp.database.other.Collection
+import hr.foi.air2003.menzapp.core.Repository
+import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.registration_main.*
 
 class RegistrationActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val repository = Repository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,8 @@ class RegistrationActivity : AppCompatActivity() {
                 this
             ) { task ->
                 if (task.isSuccessful) {
-                    FirestoreService.instance.postDocumentWithID(Collection.USER, auth.currentUser?.uid.toString(), getUserInfo())
+                    val user = getUserInfo()
+                    repository.createUser(user.userId, user)
                     finish()
                     // TODO some kind of notification to user, splash screen or similar
                 } else {

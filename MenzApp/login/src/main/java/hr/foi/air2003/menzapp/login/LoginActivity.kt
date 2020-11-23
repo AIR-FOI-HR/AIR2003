@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.login_main.*
 import kotlinx.android.synthetic.main.login_main.txtPassword
 
-
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -19,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_main)
-        auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance()
 
         btnLogin.setOnClickListener {
             checkLoginInput()
@@ -70,17 +69,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun userLogin() {
         auth.signInWithEmailAndPassword(txtUsername.text.toString(), txtPassword.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    updateUI(user)
-                    finish()
-                } else {
-                    Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
-                        Toast.LENGTH_SHORT).show()
-                    updateUI(null)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        updateUI(user)
+                        finish()
+                    } else {
+                        Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
+                                Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
                 }
-            }
     }
 
     private fun updateUI(user: FirebaseUser?) {

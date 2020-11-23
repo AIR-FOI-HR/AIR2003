@@ -6,28 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import hr.foi.air2003.menzapp.database.other.Operation
 
-class FirestoreService private constructor() {
-
-    /*
-        The companion object is a singleton, and its members can be accessed directly via the name of the containing class.
-        If you need a function or a property to be tied to a class rather than to instances of it, you can declare it inside a companion object.
-    */
-
-    companion object {
-        var instance = FirestoreService()
-    }
-
-    init {
-         fun getDBInstance() : FirestoreService{
-            return if(instance != null){
-                instance
-            }else{
-                instance = FirestoreService()
-                instance
-            }
-        }
-    }
-
+object FirestoreService {
     private val db = FirebaseFirestore.getInstance()
 
     fun post(collection: String, item: Any) {
@@ -88,7 +67,7 @@ class FirestoreService private constructor() {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }
 
-    fun getDocumentByID(collection: String, document: String): Task<DocumentSnapshot> {
-        return db.collection(collection).document(document).get()
+    fun getDocumentByID(collection: String, document: String): DocumentReference {
+        return db.collection(collection).document(document)
     }
 }
