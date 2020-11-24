@@ -28,10 +28,6 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
-        // TODO add user successfully created message or something like that
-    }
-
     private fun checkRegistrationInput() {
         if (txtEmail.text.toString().isEmpty()) {
             txtEmail.error = "Molimo unesite email"
@@ -61,7 +57,7 @@ class RegistrationActivity : AppCompatActivity() {
             ) { task ->
                 if (task.isSuccessful) {
                     FirestoreService.instance.postDocumentWithID(Collection.USER, auth.currentUser?.uid.toString(), getUserInfo())
-                    finish()
+                    this.sendVerificationEmail()
                     // TODO some kind of notification to user, splash screen or similar
                 } else {
                     // TODO update notification to user in case of failure
@@ -70,7 +66,6 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun getUserInfo(): User {
-
         return User(
             userId = auth.currentUser?.uid.toString(),
             fullName = txtFullName.text.toString(),
@@ -79,5 +74,19 @@ class RegistrationActivity : AppCompatActivity() {
             profilePicture = "",
             notificationsOn = true
         )
+    }
+
+    private fun sendVerificationEmail() {
+        if (auth.currentUser !== null) {
+            auth.currentUser!!.sendEmailVerification().addOnCompleteListener( this ) { task ->
+                if (task.isSuccessful) {
+                    finish();
+                } else {
+                    // Verification email not sent, display error message and suggest to retry registration
+                }
+            }
+        } else {
+            // What now?
+        }
     }
 }

@@ -73,8 +73,17 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    updateUI(user)
-                    finish()
+                    // TODO Achtung, achtung!!!!
+                    // When you uncomment these lines, all mails have to be verified to log in,
+                    // for development purposes we will leave this commented
+                    // if (auth.currentUser!!.isEmailVerified) {
+                        // All good, login the user
+                        updateUI(user)
+                        finish()
+                    //} else {
+                        //auth.signOut()
+                        // Display message that the user email is not verified
+                   // }
                 } else {
                     Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
                         Toast.LENGTH_SHORT).show()
