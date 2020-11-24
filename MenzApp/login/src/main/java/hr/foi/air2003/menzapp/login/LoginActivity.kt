@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.dialog_password.*
 import kotlinx.android.synthetic.main.login_main.*
 import kotlinx.android.synthetic.main.login_main.txtPassword
 
@@ -35,6 +36,21 @@ class LoginActivity : AppCompatActivity() {
             val popupForgotPassword = Dialog(this)
             popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password, null))
             popupForgotPassword.show()
+            popupForgotPassword.btn_sendEmail.setOnClickListener {
+                if (!popupForgotPassword.txt_sendToMail.text.toString().isNullOrEmpty() &&
+                    Patterns.EMAIL_ADDRESS.matcher(popupForgotPassword.txt_sendToMail.text.toString()).matches()) {
+                    auth.sendPasswordResetEmail(popupForgotPassword.txt_sendToMail.text.toString())
+                        .addOnCompleteListener( this ) { task ->
+                            if (task.isSuccessful) {
+                                popupForgotPassword.hide()
+                                // TODO Add some kind of popup to notify the mail is sent
+                            }
+                        }
+                    }
+                }
+            popupForgotPassword.btn_cancel.setOnClickListener {
+                popupForgotPassword.hide()
+            }
         }
 
     }

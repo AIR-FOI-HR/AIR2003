@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun userLogin(currentUser: FirebaseUser?) {
         // Check if user is signed in (non-null) and update UI accordingly
-        println(currentUser)
         if (currentUser === null) {
             startActivity(Intent(this, LoginActivity::class.java))
         }
