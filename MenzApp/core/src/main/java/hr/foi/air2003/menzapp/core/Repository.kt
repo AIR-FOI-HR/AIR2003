@@ -41,7 +41,7 @@ class Repository {
 
     fun updatePost(post: Post){
         val data: HashMap<String, Any> = hashMapOf(
-            Pair("authorId", post.authorId),
+            Pair("author", post.author),
             Pair("timestamp", post.timestamp),
             Pair("description", post.description),
             Pair("numberOfPeople", post.numberOfPeople),

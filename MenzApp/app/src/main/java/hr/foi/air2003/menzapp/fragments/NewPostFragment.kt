@@ -14,6 +14,7 @@ import hr.foi.air2003.menzapp.viewmodel.NewPostViewModel
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
@@ -149,6 +150,7 @@ class NewPostFragment : DialogFragment() {
     private fun editPost(post: Post) {
         try {
             viewModel.updatePost(post)
+            rvPostsLayout.adapter?.notifyDataSetChanged()
             this.dismiss()
             notifyUser(true)
         }catch (e: Exception){
@@ -159,6 +161,7 @@ class NewPostFragment : DialogFragment() {
     private fun saveNewPost(post: Post) {
         try {
             viewModel.createPost(post)
+            rvPostsLayout.adapter?.notifyDataSetChanged()
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {

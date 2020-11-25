@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.core.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.other.DataOrException

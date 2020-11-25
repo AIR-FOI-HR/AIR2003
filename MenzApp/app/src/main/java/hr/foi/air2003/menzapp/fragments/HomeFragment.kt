@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -13,6 +16,7 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.home_post.view.*
@@ -67,6 +71,10 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     }
 
     private fun filterPosts(timestamp: Timestamp) {
+        rvPostsLayout.hasFixedSize()
+        rvPostsLayout.layoutManager = LinearLayoutManager(context)
+        rvPostsLayout.itemAnimator = DefaultItemAnimator()
+
         val userId: String? = Firebase.auth.currentUser?.uid
 
         if(userId != null){
@@ -74,35 +82,9 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             liveData.observe(this, {
                 val posts = it.data
                 if(posts != null){
-                    for (post in posts){
-                        if(post.timestamp >= timestamp)
-                            createPostLayout(post)
-                    }
+                    rvPostsLayout.adapter = HomeAdapter(posts, R.layout.home_post)
                 }
             })
-        }
-    }
-
-    private fun createPostLayout(post: Post) {
-        dynamicalViewPosts = LayoutInflater.from(context).inflate(R.layout.home_post, null)
-        homeLayout.addView(dynamicalViewPosts)
-
-        val liveData = viewModel.getAuthor(post.authorId)
-        liveData.observe(this, {
-            val user = it.data
-            if(user != null)
-                dynamicalViewPosts.tvAuthorName.text = user.fullName
-        })
-
-        val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
-        dynamicalViewPosts.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
-        dynamicalViewPosts.tvNumberOfPeople.text = "Optimalan broj ljudi: ${post.numberOfPeople}"
-        dynamicalViewPosts.tvDescription.text = post.description
-        dynamicalViewPosts.btnRespond.setOnClickListener {
-            requestToJoin(post)
-            it.visibility = View.GONE
-
-            // TODO Maybe implement button to undo request
         }
     }
 
@@ -122,5 +104,34 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         viewModel.updateUserRequests(post)
 
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
+    }
+
+    inner class HomeAdapter(val posts: List<Post>, val itemLayout: Int) : RecyclerView.Adapter<HomeViewHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(itemLayout, parent, false)
+            return HomeViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+            val post = posts[position]
+            holder.updatePosts(post)
+        }
+
+        override fun getItemCount(): Int {
+            return posts.size
+        }
+    }
+
+    inner class HomeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        fun updatePosts(post: Post){
+            val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+            itemView.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
+            itemView.tvNumberOfPeople.text = "Optimalan broj ljudi: ${post.numberOfPeople}"
+            itemView.tvDescription.text = post.description
+        }
+
+        fun updateAuthor(user: User){
+            itemView.tvAuthorName.text = user.fullName
+        }
     }
 }

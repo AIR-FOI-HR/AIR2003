@@ -25,7 +25,7 @@ class PostLiveData (private val documentReference: DocumentReference) : LiveData
         if(value != null && value.exists()){
             val model = Post(
                 value.id,
-                value.getString("authorId")!!,
+                value.getField<Map<String, String>>("author")!!,
                 value.getTimestamp("timestamp")!!,
                 value.getString("description")!!,
                 value.getField<Int>("numberOfPeople")!!,
