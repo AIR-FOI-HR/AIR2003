@@ -5,14 +5,13 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import hr.foi.air2003.menzapp.database.FirestoreService
-import hr.foi.air2003.menzapp.database.model.User
-import hr.foi.air2003.menzapp.database.other.Collection
+import hr.foi.air2003.menzapp.core.Repository
+import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.registration_main.*
 
 class RegistrationActivity : AppCompatActivity() {
-
     private lateinit var auth: FirebaseAuth
+    private var repository = Repository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +25,10 @@ class RegistrationActivity : AppCompatActivity() {
         txtSignIn.setOnClickListener {
             finish()
         }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        // TODO add user successfully created message or something like that
     }
 
     private fun checkRegistrationInput() {
@@ -52,41 +55,27 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun createAccount() {
         auth.createUserWithEmailAndPassword(txtEmail.text.toString(), txtPassword.text.toString())
-            .addOnCompleteListener(
-                this
-            ) { task ->
-                if (task.isSuccessful) {
-                    FirestoreService.instance.postDocumentWithID(Collection.USER, auth.currentUser?.uid.toString(), getUserInfo())
-                    this.sendVerificationEmail()
-                    // TODO some kind of notification to user, splash screen or similar
-                } else {
-                    // TODO update notification to user in case of failure
+                .addOnCompleteListener(
+                        this
+                ) { task ->
+                    if (task.isSuccessful) {
+                        repository.createUser(auth.currentUser?.uid.toString(), getUserInfo())
+                        finish()
+                        // TODO some kind of notification to user, splash screen or similar
+                    } else {
+                        // TODO update notification to user in case of failure
+                    }
                 }
-            }
     }
 
     private fun getUserInfo(): User {
         return User(
-            userId = auth.currentUser?.uid.toString(),
-            fullName = txtFullName.text.toString(),
-            email = txtEmail.text.toString(),
-            bio = "Ready to eat!",
-            profilePicture = "",
-            notificationsOn = true
+                userId = auth.currentUser?.uid.toString(),
+                fullName = txtFullName.text.toString(),
+                email = txtEmail.text.toString(),
+                bio = "Ready to eat!",
+                profilePicture = "",
+                notificationsOn = true
         )
-    }
-
-    private fun sendVerificationEmail() {
-        if (auth.currentUser !== null) {
-            auth.currentUser!!.sendEmailVerification().addOnCompleteListener( this ) { task ->
-                if (task.isSuccessful) {
-                    finish();
-                } else {
-                    // Verification email not sent, display error message and suggest to retry registration
-                }
-            }
-        } else {
-            // What now?
-        }
     }
 }
