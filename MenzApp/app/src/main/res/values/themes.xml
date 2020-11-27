@@ -19,5 +19,9 @@
         <item name="android:fontFamily">@font/menzapp_font</item>
     </style>
 
+    <style name="SplashScreenTheme" parent="Theme.MenzApp">
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    </style>
+
     <!-- TODO Change style of alert dialog -->
 </resources>

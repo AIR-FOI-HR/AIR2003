@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.media.MediaBrowserCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.transition.TransitionManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.SplashScreenActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
@@ -55,7 +57,7 @@ class ProfileFragment : Fragment() {
 
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            val intent = Intent(activity, LoginActivity::class.java)
+            val intent = Intent(activity, SplashScreenActivity::class.java)
             activity?.startActivity(intent)
         }
     }
