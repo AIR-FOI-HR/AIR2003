@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import hr.foi.air2003.menzapp.R
@@ -12,8 +13,7 @@ import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.database.FirestoreService
 import hr.foi.air2003.menzapp.database.model.Post
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.Exception
-import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onCreateView(
@@ -27,7 +27,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     override fun onStart() {
         super.onStart()
 
-        val currentDateTime = Timestamp(System.currentTimeMillis())
+        val currentDateTime = Timestamp(System.currentTimeMillis()/1000,0)
         filterPosts(currentDateTime)
 
         filterDateTime.setOnClickListener {
@@ -45,8 +45,9 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
 
     override fun sendData(data: String) {
         updateFilter(data)
-        val timestamp = Timestamp.valueOf(data)
-        filterPosts(timestamp)
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(data)
+        filterPosts(Timestamp(sdf.time/1000, 0))
     }
 
     private fun filterPosts(timestamp: Timestamp) { // TODO implement filtering

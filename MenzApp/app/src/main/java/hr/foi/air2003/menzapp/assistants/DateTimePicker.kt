@@ -3,6 +3,8 @@ package hr.foi.air2003.menzapp.assistants
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 private val calendar = Calendar.getInstance()
@@ -51,7 +53,13 @@ class DateTimePicker(
         return "${String.format("%02d", hour)}:${String.format("%02d", minute)}"
     }
 
-    fun getTimestamp(): String {
-        return "$year-${month + 1}-$day ${String.format("%02d", hour)}:${String.format("%02d", minute)}:00"
+    fun getTimestamp(): Timestamp {
+        val timestamp = "$year-${month + 1}-$day ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timestamp)
+        return Timestamp(sdf.time/1000, 0)
+    }
+
+    fun getTimestampString(): String {
+        return "$year-${month + 1}-$day ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
     }
 }

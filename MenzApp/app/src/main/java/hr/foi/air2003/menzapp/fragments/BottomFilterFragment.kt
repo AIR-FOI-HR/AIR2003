@@ -13,6 +13,7 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import kotlinx.android.synthetic.main.popup_filter.*
 import java.lang.ClassCastException
+import java.text.SimpleDateFormat
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
     private lateinit var fragmentsCommunicator: FragmentsCommunicator
@@ -45,7 +46,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        fragmentsCommunicator.sendData(dateTimePicker.getTimestamp())
+        fragmentsCommunicator.sendData(dateTimePicker.getTimestampString())
     }
 
     override fun onAttach(context: Context) {
