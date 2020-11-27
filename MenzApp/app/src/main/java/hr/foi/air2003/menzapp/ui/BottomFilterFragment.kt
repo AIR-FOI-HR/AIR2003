@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp.fragments
+package hr.foi.air2003.menzapp.ui
 
 import android.content.Context
 import android.content.DialogInterface
@@ -13,7 +13,6 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import kotlinx.android.synthetic.main.popup_filter.*
 import java.lang.ClassCastException
-import java.text.SimpleDateFormat
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
     private lateinit var fragmentsCommunicator: FragmentsCommunicator
@@ -27,11 +26,10 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.popup_filter, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         dateTimePicker = DateTimePicker()
-
         setCurrentDateTime()
 
         layoutDate.setOnClickListener {
@@ -46,7 +44,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        fragmentsCommunicator.sendData(dateTimePicker.getTimestampString())
+        fragmentsCommunicator.bindData(dateTimePicker.getTimestampString())
     }
 
     override fun onAttach(context: Context) {
@@ -55,6 +53,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         try {
             fragmentsCommunicator = targetFragment as FragmentsCommunicator
         } catch (e: ClassCastException) {
+            // TODO Handle exception
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.dialog_password.*
 import kotlinx.android.synthetic.main.login_main.*
 import kotlinx.android.synthetic.main.login_main.txtPassword
 
@@ -19,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_main)
-        auth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance()
 
         btnLogin.setOnClickListener {
             checkLoginInput()
@@ -35,6 +36,21 @@ class LoginActivity : AppCompatActivity() {
             val popupForgotPassword = Dialog(this)
             popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password, null))
             popupForgotPassword.show()
+            popupForgotPassword.btn_sendEmail.setOnClickListener {
+                if (!popupForgotPassword.txt_sendToMail.text.toString().isNullOrEmpty() &&
+                        Patterns.EMAIL_ADDRESS.matcher(popupForgotPassword.txt_sendToMail.text.toString()).matches()) {
+                    auth.sendPasswordResetEmail(popupForgotPassword.txt_sendToMail.text.toString())
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    popupForgotPassword.hide()
+                                    // TODO Add some kind of popup to notify the mail is sent
+                                }
+                            }
+                }
+            }
+            popupForgotPassword.btn_cancel.setOnClickListener {
+                popupForgotPassword.hide()
+            }
         }
 
     }
@@ -70,22 +86,29 @@ class LoginActivity : AppCompatActivity() {
 
     private fun userLogin() {
         auth.signInWithEmailAndPassword(txtUsername.text.toString(), txtPassword.text.toString())
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    updateUI(user)
-                    finish()
-                } else {
-                    Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
-                        Toast.LENGTH_SHORT).show()
-                    updateUI(null)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        // TODO Achtung, achtung!!!!
+                        // When you uncomment these lines, all mails have to be verified to log in,
+                        // for development purposes we will leave this commented
+                        // if (auth.currentUser!!.isEmailVerified) {
+                        // All good, login the user
+                        updateUI(user)
+                        finish()
+                        //} else {
+                        //auth.signOut()
+                        // Display message that the user email is not verified
+                        // }
+                    } else {
+                        Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
+                                Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
                 }
-            }
     }
 
     private fun updateUI(user: FirebaseUser?) {
         // TODO add user successfully created message or something like that
     }
-
-
 }

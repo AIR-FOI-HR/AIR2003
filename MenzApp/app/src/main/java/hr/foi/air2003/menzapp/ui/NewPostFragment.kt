@@ -1,33 +1,56 @@
-package hr.foi.air2003.menzapp.fragments
+package hr.foi.air2003.menzapp.ui
 
 import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.database.FirestoreService
-import hr.foi.air2003.menzapp.database.model.Post
+import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
+import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
+import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
+    private lateinit var viewModel: NewPostViewModel
+    private lateinit var post: Post
+    private lateinit var user: User
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        // Get post data and user data
+        if(arguments != null){
+            if(arguments!!.getString("post") != "")
+                post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
+
+            if(!arguments!!.getString("currentUser").isNullOrEmpty())
+                user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
+        }
+
         return inflater.inflate(R.layout.dialog_new_post, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setDialogLayout()
+
         dateTimePicker = DateTimePicker()
+        viewModel = ViewModelProvider(this).get(NewPostViewModel::class.java)
+
+        if (post.postId != "") {
+            textNewPost.text = "UREDI OBJAVU"
+            loadPost(post)
+        }
 
         tvDate.setOnClickListener {
             openDatePicker()
@@ -38,8 +61,16 @@ class NewPostFragment : DialogFragment() {
         }
 
         btn_saveNewPost.setOnClickListener {
-            checkPostInput()
+            checkPostInput(post.postId)
         }
+    }
+
+    private fun loadPost(post: Post) {
+        val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+        tvDate.text = dateTime[0]
+        tvTime.text = dateTime[1]
+        tvDescription.setText(post.description)
+        tvNumberOfPeople.setText(post.numberOfPeople.toString())
     }
 
     private fun openTimePicker() {
@@ -66,16 +97,16 @@ class NewPostFragment : DialogFragment() {
     private fun setDialogLayout() {
         val window = dialog?.window
         val size = Point()
-        val display = window?.windowManager?.defaultDisplay?.getRealSize(size)
+        window?.windowManager?.defaultDisplay?.getRealSize(size)
 
-        var width = (size.x * 0.90).toInt()
-        var height = (size.y * 0.75).toInt()
+        val width = (size.x * 0.90).toInt()
+        val height = (size.y * 0.75).toInt()
 
         window?.setLayout(width, height)
         window?.setGravity(Gravity.CENTER)
     }
 
-    private fun checkPostInput() {
+    private fun checkPostInput(postId: String?) {
         val date = tvDate.text.toString()
         val time = tvTime.text.toString()
         val numberOfPeople = tvNumberOfPeople.text.toString()
@@ -105,19 +136,36 @@ class NewPostFragment : DialogFragment() {
             return
         }
 
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val post = Post(
-                authorId = currentUserId.toString(),
+                author = mapOf(Pair("authorId", user.userId), Pair("fullName", user.fullName)),
                 timestamp = dateTimePicker.getTimestamp(),
                 description = description,
                 numberOfPeople = numberOfPeople.toInt()
         )
-        saveNewPost(post)
+
+        if(postId.isNullOrEmpty()){
+            saveNewPost(post)
+        }else{
+            post.postId = postId
+            editPost(post)
+        }
+    }
+
+    private fun editPost(post: Post) {
+        try {
+            viewModel.updatePost(post)
+            rvPostsLayout.adapter?.notifyDataSetChanged()
+            this.dismiss()
+            notifyUser(true)
+        }catch (e: Exception){
+            notifyUser(false)
+        }
     }
 
     private fun saveNewPost(post: Post) {
         try {
-            FirestoreService.instance.post("Posts", post)
+            viewModel.createPost(post)
+            rvPostsLayout.adapter?.notifyDataSetChanged()
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {
@@ -128,8 +176,8 @@ class NewPostFragment : DialogFragment() {
     private fun notifyUser(success: Boolean) {
         val builder = AlertDialog.Builder(context)
 
+        // TODO Create and show custom dialog
         if (success) {
-            // TODO Change style of alert dialog in themes.xml
             builder.setTitle("Uspjeh")
             builder.setMessage("Objava je uspješno kreirana!")
             builder.setPositiveButton("OK", null)
