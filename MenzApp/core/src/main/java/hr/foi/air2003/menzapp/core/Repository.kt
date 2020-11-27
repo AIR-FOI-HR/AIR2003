@@ -31,10 +31,6 @@ class Repository {
         FirestoreService.updateField(Collection.POST, post.postId, "userRequests", post.userRequests)
     }
 
-    fun getPost(postId: String) : PostLiveData{
-        return PostLiveData(FirestoreService.getDocumentByID(Collection.POST, postId))
-    }
-
     fun createPost(post: Post){
         FirestoreService.post(Collection.POST, post)
     }

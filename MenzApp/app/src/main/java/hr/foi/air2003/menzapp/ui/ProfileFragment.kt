@@ -28,21 +28,29 @@ class ProfileFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        if(arguments != null)
+            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
+
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if(arguments != null){
-            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-        }
+        expandViewListener()
 
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         dateTimePicker = DateTimePicker()
 
         retrieveUserData(user)
 
+        btnLogout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(activity, LoginActivity::class.java)
+            activity?.startActivity(intent)
+        }
+    }
+
+    private fun expandViewListener() {
         expandablePosts.visibility = View.GONE
         expandableFeedbacks.visibility = View.GONE
 
@@ -65,13 +73,6 @@ class ProfileFragment : Fragment() {
                 expandableFeedbacks.visibility = View.GONE
             }
         }
-
-        btnLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(activity, LoginActivity::class.java)
-            activity?.startActivity(intent)
-        }
-
     }
 
     private fun retrieveUserData(user: User) {

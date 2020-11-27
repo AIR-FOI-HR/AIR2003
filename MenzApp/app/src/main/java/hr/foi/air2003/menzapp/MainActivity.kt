@@ -3,7 +3,6 @@ package hr.foi.air2003.menzapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -21,12 +20,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel = MainViewModel()
+        user = User()
 
         // Get current user
         currentUser = FirebaseAuth.getInstance().currentUser
-        userLogin(currentUser)
-        user = getUser()
+        if(currentUser === null)
+            userLogin()
+        else
+            setUser()
 
         val homeFragment = HomeFragment()
         val profileFragment = ProfileFragment()
@@ -44,12 +50,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.ic_chat -> setCurrentFragment(chatFragment)
                 R.id.ic_home -> setCurrentFragment(homeFragment)
             }
-
             true
         }
     }
 
+    private fun userLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        setUser()
+    }
+
     private fun setCurrentFragment(fragment: Fragment) {
+        // Pass user data to fragments
         val bundle = Bundle()
         val json = Gson().toJson(user)
         bundle.putString("currentUser", json)
@@ -59,33 +71,18 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
-    // TODO Maybe move this to Login Activity
-    private fun getUser(): User{
-        user = User()
-        var user = User()
-        if(currentUser != null){
-            val liveData = viewModel.getUser(currentUser!!.uid)
-            liveData.observe(this, {
-                val data = it.data
-                if(data != null) {
-                    user.userId = data.userId
-                    user.fullName = data.fullName
-                    user.bio = data.bio
-                    user.email = data.email
-                    user.profilePicture = data.profilePicture
-                    user.notificationsOn = data.notificationsOn
-                }
-            })
-        }
-
-        return user
-    }
-
-    private fun userLogin(currentUser: FirebaseUser?) {
-        // Check if user is signed in (non-null) and update UI accordingly
-        println(currentUser)
-        if (currentUser === null) {
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
+    private fun setUser(){
+        val liveData = viewModel.getUser(currentUser!!.uid)
+        liveData.observe(this, {
+            val data = it.data
+            if(data != null) {
+                user.userId = data.userId
+                user.fullName = data.fullName
+                user.bio = data.bio
+                user.email = data.email
+                user.profilePicture = data.profilePicture
+                user.notificationsOn = data.notificationsOn
+            }
+        })
     }
 }

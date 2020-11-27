@@ -44,7 +44,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        fragmentsCommunicator.sendData(dateTimePicker.getTimestampString())
+        fragmentsCommunicator.bindData(dateTimePicker.getTimestampString())
     }
 
     override fun onAttach(context: Context) {
@@ -53,6 +53,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         try {
             fragmentsCommunicator = targetFragment as FragmentsCommunicator
         } catch (e: ClassCastException) {
+            // TODO Handle exception
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }

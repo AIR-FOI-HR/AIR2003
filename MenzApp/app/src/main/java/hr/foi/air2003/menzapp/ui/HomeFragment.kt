@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,15 +31,14 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        if(arguments != null)
+            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if(arguments != null)
-            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-
         createRecyclerView()
 
         dateTimePicker = DateTimePicker()
@@ -78,10 +78,11 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
     }
 
-    override fun sendData(data: String) {
-        updateFilter(data)
+    @SuppressLint("SimpleDateFormat")
+    override fun bindData(data: Any) {
+        updateFilter(data.toString())
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(data)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(data.toString())
         filterPosts(Timestamp(sdf.time / 1000, 0))
     }
 
@@ -92,7 +93,8 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
             val data = it.data
             if(data != null){
                 for(d in data){
-                    posts.add(d.item)
+                    if(d.item.timestamp >= timestamp)
+                        posts.add(d.item)
                 }
 
                 adapter.addItems(posts)
@@ -100,8 +102,9 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateFilter(data: String) {
-        var dataSplit = data.split("-")
+        val dataSplit = data.split("-")
         tvSelectedDateTime?.text = "${dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2)}"
     }
 

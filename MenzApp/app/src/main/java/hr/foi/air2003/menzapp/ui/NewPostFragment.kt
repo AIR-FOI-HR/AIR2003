@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
@@ -29,6 +28,15 @@ class NewPostFragment : DialogFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        // Get post data and user data
+        if(arguments != null){
+            if(arguments!!.getString("post") != "")
+                post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
+
+            if(!arguments!!.getString("currentUser").isNullOrEmpty())
+                user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
+        }
+
         return inflater.inflate(R.layout.dialog_new_post, container, false)
     }
 
@@ -38,14 +46,6 @@ class NewPostFragment : DialogFragment() {
 
         dateTimePicker = DateTimePicker()
         viewModel = ViewModelProvider(this).get(NewPostViewModel::class.java)
-
-        if(arguments != null){
-            if(arguments!!.getString("post") != "")
-                post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
-
-            if(!arguments!!.getString("currentUser").isNullOrEmpty())
-                user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-        }
 
         if (post.postId != "") {
             textNewPost.text = "UREDI OBJAVU"
@@ -97,7 +97,7 @@ class NewPostFragment : DialogFragment() {
     private fun setDialogLayout() {
         val window = dialog?.window
         val size = Point()
-        val display = window?.windowManager?.defaultDisplay?.getRealSize(size)
+        window?.windowManager?.defaultDisplay?.getRealSize(size)
 
         val width = (size.x * 0.90).toInt()
         val height = (size.y * 0.75).toInt()
@@ -176,7 +176,7 @@ class NewPostFragment : DialogFragment() {
     private fun notifyUser(success: Boolean) {
         val builder = AlertDialog.Builder(context)
 
-        // TODO Show custom dialog
+        // TODO Create and show custom dialog
         if (success) {
             builder.setTitle("Uspjeh")
             builder.setMessage("Objava je uspješno kreirana!")
