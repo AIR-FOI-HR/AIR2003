@@ -76,10 +76,10 @@
 
             <ImageView
                 android:id="@+id/ivStar4"
-                android:layout_width="18dp"
+                android:layout_width="20dp"
                 android:layout_height="18dp"
-                android:src="@drawable/ic_star_filled"
                 android:padding="1dp"
+                android:src="@drawable/ic_star_filled"
                 app:tint="@color/green_primary" />
 
             <ImageView

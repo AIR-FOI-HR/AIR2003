@@ -24,17 +24,17 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvDateTime"
+                    android:id="@+id/tvPostDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="26.10.2020., 14:00"
                     android:fontFamily="@font/raleway_medium"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/black_typo"
                     android:layout_marginBottom="5dp" />
 
                 <TextView
-                    android:id="@+id/tvNumberOfPeople"
+                    android:id="@+id/tvNumOfPeople"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Optimalan broj ljudi: 2"

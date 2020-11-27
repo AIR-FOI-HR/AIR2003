@@ -16,14 +16,14 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
-import hr.foi.air2003.menzapp.recyclerview.HomeRecyclerViewAdapter
+import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var viewModel: HomeViewModel
-    private lateinit var adapter: HomeRecyclerViewAdapter
+    private lateinit var adapterPost: HomePostRecyclerViewAdapter
     private lateinit var user: User
 
     override fun onCreateView(
@@ -66,14 +66,14 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
     }
 
     private fun createRecyclerView() {
-        adapter = HomeRecyclerViewAdapter()
+        adapterPost = HomePostRecyclerViewAdapter()
 
         rvPostsLayout.hasFixedSize()
         rvPostsLayout.layoutManager = LinearLayoutManager(context)
         rvPostsLayout.itemAnimator = DefaultItemAnimator()
-        rvPostsLayout.adapter = adapter
+        rvPostsLayout.adapter = adapterPost
 
-        adapter.itemClick = { post ->
+        adapterPost.itemClick = { post ->
             requestToJoin(post)
         }
     }
@@ -97,7 +97,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
                         posts.add(d.item)
                 }
 
-                adapter.addItems(posts)
+                adapterPost.addItems(posts)
             }
         })
     }
