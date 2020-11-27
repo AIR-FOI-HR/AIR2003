@@ -72,17 +72,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUser(){
-        val liveData = viewModel.getUser(currentUser!!.uid)
-        liveData.observe(this, {
-            val data = it.data
-            if(data != null) {
-                user.userId = data.userId
-                user.fullName = data.fullName
-                user.bio = data.bio
-                user.email = data.email
-                user.profilePicture = data.profilePicture
-                user.notificationsOn = data.notificationsOn
-            }
-        })
+        if(currentUser != null){
+            val liveData = viewModel.getUser(currentUser!!.uid)
+            liveData.observe(this, {
+                val data = it.data
+                if(data != null) {
+                    user.userId = data.userId
+                    user.fullName = data.fullName
+                    user.bio = data.bio
+                    user.email = data.email
+                    user.profilePicture = data.profilePicture
+                    user.notificationsOn = data.notificationsOn
+                }
+            })
+        }
     }
 }

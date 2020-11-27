@@ -8,7 +8,7 @@ data class Post (
         @DocumentId
         var postId: String = "",
         var author: Map<String, String> = mapOf(Pair("authorId", ""), Pair("fullName", "")),
-        var timestamp: Timestamp,
+        var timestamp: Timestamp = Timestamp.now(),
         var description: String = "",
         var numberOfPeople: Int = 0,
         var userRequests: List<String> = listOf()

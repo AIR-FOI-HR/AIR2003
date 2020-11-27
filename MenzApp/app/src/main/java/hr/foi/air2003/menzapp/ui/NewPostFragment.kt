@@ -32,6 +32,8 @@ class NewPostFragment : DialogFragment() {
         if(arguments != null){
             if(arguments!!.getString("post") != "")
                 post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
+            else
+                post = Post()
 
             if(!arguments!!.getString("currentUser").isNullOrEmpty())
                 user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
