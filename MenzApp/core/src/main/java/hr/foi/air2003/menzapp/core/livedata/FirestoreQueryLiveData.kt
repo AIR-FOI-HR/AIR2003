@@ -2,12 +2,14 @@ package hr.foi.air2003.menzapp.core.livedata
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.*
+import com.google.gson.Gson
+import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.other.DataOrException
+import hr.foi.air2003.menzapp.core.other.QueryItem
 
-typealias DocumentSnapshotOrException = DataOrException<List<DocumentSnapshot>?, FirebaseFirestoreException?>
+typealias QueryResultOrException<T, E> = DataOrException<List<QueryItem<T>>, E>
 
-open class FirestoreQueryLiveData(private val query: Query) : LiveData<DocumentSnapshotOrException>(),
-    EventListener<QuerySnapshot> {
+open class FirestoreQueryLiveData<T>(private val query: Query) : LiveData<T>(), EventListener<QuerySnapshot> {
     private var listenerRegistration: ListenerRegistration? = null
 
     override fun onActive() {
@@ -20,8 +22,5 @@ open class FirestoreQueryLiveData(private val query: Query) : LiveData<DocumentS
         listenerRegistration?.remove()
     }
 
-    override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {
-        val documents: List<DocumentSnapshot>? = snapshot?.documents
-        postValue(DocumentSnapshotOrException(documents, error))
-    }
+    override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) { }
 }

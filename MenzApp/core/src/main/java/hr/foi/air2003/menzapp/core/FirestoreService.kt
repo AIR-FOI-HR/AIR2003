@@ -2,7 +2,6 @@ package hr.foi.air2003.menzapp.core
 
 import android.content.ContentValues
 import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import hr.foi.air2003.menzapp.core.other.Operation
 

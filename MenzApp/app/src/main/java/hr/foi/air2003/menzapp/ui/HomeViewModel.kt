@@ -1,8 +1,7 @@
-package hr.foi.air2003.menzapp.viewmodel
+package hr.foi.air2003.menzapp.ui
 
 import androidx.lifecycle.ViewModel
 import hr.foi.air2003.menzapp.core.Repository
-import hr.foi.air2003.menzapp.core.livedata.FirestoreQueryLiveData
 import hr.foi.air2003.menzapp.core.livedata.PostQueryLiveData
 import hr.foi.air2003.menzapp.core.livedata.UserLiveData
 import hr.foi.air2003.menzapp.core.model.Post

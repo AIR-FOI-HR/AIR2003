@@ -21,18 +21,18 @@ class PostLiveData (private val documentReference: DocumentReference) : LiveData
         listenerRegistration?.remove()
     }
 
-    override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-        if(value != null && value.exists()){
+    override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+        if(snapshot != null && snapshot.exists()){
             val model = Post(
-                value.id,
-                value.getField<Map<String, String>>("author")!!,
-                value.getTimestamp("timestamp")!!,
-                value.getString("description")!!,
-                value.getField<Int>("numberOfPeople")!!,
-                value.getField<List<String>>("userRequests")!!
+                snapshot.id,
+                snapshot.getField<Map<String, String>>("author")!!,
+                snapshot.getTimestamp("timestamp")!!,
+                snapshot.getString("description")!!,
+                snapshot.getField<Int>("numberOfPeople")!!,
+                snapshot.getField<List<String>>("userRequests")!!
             )
 
-            setValue(PostOrException(model, error))
+            value = PostOrException(model, error)
         }
         else if(error != null){
             // TODO Handle error

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    tools:context=".fragments.BottomFilterFragment">
+    tools:context=".ui.BottomFilterFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

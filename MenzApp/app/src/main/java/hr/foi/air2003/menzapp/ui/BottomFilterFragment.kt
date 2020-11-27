@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp.fragments
+package hr.foi.air2003.menzapp.ui
 
 import android.content.Context
 import android.content.DialogInterface
@@ -26,11 +26,10 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.popup_filter, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         dateTimePicker = DateTimePicker()
-
         setCurrentDateTime()
 
         layoutDate.setOnClickListener {

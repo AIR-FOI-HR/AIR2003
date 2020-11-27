@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp.fragments
+package hr.foi.air2003.menzapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,9 +17,7 @@ class MenuFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        // TODO Implement food menu logic
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }

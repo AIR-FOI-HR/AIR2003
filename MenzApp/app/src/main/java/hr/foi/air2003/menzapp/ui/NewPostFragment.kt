@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp.fragments
+package hr.foi.air2003.menzapp.ui
 
 import android.app.AlertDialog
 import android.graphics.Point
@@ -7,10 +7,11 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
-import hr.foi.air2003.menzapp.viewmodel.NewPostViewModel
+import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
@@ -20,6 +21,8 @@ import java.lang.Exception
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var viewModel: NewPostViewModel
+    private lateinit var post: Post
+    private lateinit var user: User
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -29,16 +32,24 @@ class NewPostFragment : DialogFragment() {
         return inflater.inflate(R.layout.dialog_new_post, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setDialogLayout()
+
         dateTimePicker = DateTimePicker()
         viewModel = ViewModelProvider(this).get(NewPostViewModel::class.java)
 
-        var postId: String? = arguments?.getString("post")
-        if (!postId.isNullOrEmpty()) {
+        if(arguments != null){
+            if(arguments!!.getString("post") != "")
+                post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
+
+            if(!arguments!!.getString("currentUser").isNullOrEmpty())
+                user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
+        }
+
+        if (post.postId != "") {
             textNewPost.text = "UREDI OBJAVU"
-            loadPost(postId)
+            loadPost(post)
         }
 
         tvDate.setOnClickListener {
@@ -50,22 +61,16 @@ class NewPostFragment : DialogFragment() {
         }
 
         btn_saveNewPost.setOnClickListener {
-            checkPostInput(postId)
+            checkPostInput(post.postId)
         }
     }
 
-    private fun loadPost(postId: String) {
-        val liveData = viewModel.getPost(postId)
-        liveData.observe(this, {
-            val post = it.data
-            if(post != null) {
-                val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
-                tvDate.text = dateTime[0]
-                tvTime.text = dateTime[1]
-                tvDescription.setText(post.description)
-                tvNumberOfPeople.setText(post.numberOfPeople.toString())
-            }
-        })
+    private fun loadPost(post: Post) {
+        val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
+        tvDate.text = dateTime[0]
+        tvTime.text = dateTime[1]
+        tvDescription.setText(post.description)
+        tvNumberOfPeople.setText(post.numberOfPeople.toString())
     }
 
     private fun openTimePicker() {
@@ -131,9 +136,8 @@ class NewPostFragment : DialogFragment() {
             return
         }
 
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val post = Post(
-                authorId = currentUserId.toString(),
+                author = mapOf(Pair("authorId", user.userId), Pair("fullName", user.fullName)),
                 timestamp = dateTimePicker.getTimestamp(),
                 description = description,
                 numberOfPeople = numberOfPeople.toInt()

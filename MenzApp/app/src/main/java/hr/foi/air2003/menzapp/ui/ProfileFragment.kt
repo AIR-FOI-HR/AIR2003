@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp.fragments
+package hr.foi.air2003.menzapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,17 +10,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
+import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.login.LoginActivity
-import hr.foi.air2003.menzapp.viewmodel.ProfileViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var viewModel: ProfileViewModel
+    private lateinit var user: User
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -30,13 +31,17 @@ class ProfileFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if(arguments != null){
+            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
+        }
+
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         dateTimePicker = DateTimePicker()
 
-        val userId = Firebase.auth.currentUser?.uid
-        retrieveUserData(userId)
+        retrieveUserData(user)
 
         expandablePosts.visibility = View.GONE
         expandableFeedbacks.visibility = View.GONE
@@ -66,25 +71,23 @@ class ProfileFragment : Fragment() {
             val intent = Intent(activity, LoginActivity::class.java)
             activity?.startActivity(intent)
         }
+
     }
 
-    private fun retrieveUserData(userId: String?) {
-        if (!userId.isNullOrEmpty()) {
+    private fun retrieveUserData(user: User) {
+        //Populate user info with data from firestore
+        createUserLayout(user)
 
-            //Populate user info with data from firestore
-            createUserLayout(userId)
+        //Populate posts with data from firestore
+        createPostLayout(user.userId)
 
-            //Populate posts with data from firestore
-            createPostLayout(userId)
-
-            //Populate feedbacks with data from firestore
-            createFeedbackLayout(userId)
-        }
+        //Populate feedbacks with data from firestore
+        createFeedbackLayout(user.userId)
     }
 
     private fun createFeedbackLayout(userId: String) {
         val liveData = viewModel.getFeedbacks(userId)
-        liveData.observe(this, {
+        liveData.observe(viewLifecycleOwner, {
             val feedbacks = it.data
             if (feedbacks != null){
                 for(feedback in feedbacks){
@@ -96,7 +99,7 @@ class ProfileFragment : Fragment() {
 
     private fun createPostLayout(userId: String) {
         val liveData = viewModel.getPosts(userId)
-        liveData.observe(this, {
+        liveData.observe(viewLifecycleOwner, {
             val posts = it.data
             if(posts != null){
                 for(post in posts){
@@ -106,20 +109,16 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun createUserLayout(userId: String) {
-        val liveData = viewModel.getUser(userId)
-        liveData.observe(this, {
-            val user = it.data
-            if (user != null) {
-                tvFullName.text = user.fullName
-                tvAboutMe.text = user.bio
-            }
-        })
+    private fun createUserLayout(user: User) {
+        tvFullName.text = user.fullName
+        tvAboutMe.text = user.bio
     }
 
-    private fun editPost(postId: String) {
+    private fun editPost(post: Post) {
         val bundle = Bundle()
-        bundle.putString("post", postId)
+        val postJson = Gson().toJson(post)
+        bundle.putString("post", postJson)
+        bundle.putString("user", arguments?.getString("currentUser"))
 
         val newPostFragment = NewPostFragment()
         newPostFragment.setTargetFragment(this, 1)

@@ -21,14 +21,14 @@ class FeedbackLiveData(private val documentReference: DocumentReference) : LiveD
         listenerRegistration?.remove()
     }
 
-    override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-        if(value != null && value.exists()){
+    override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+        if(snapshot != null && snapshot.exists()){
             val model = Feedback(
-                value.id,
-                value.getString("authorId")!!,
-                value.getString("recipientId")!!,
-                value.getField<Int>("mark")!!,
-                value.getString("feedback")!!
+                snapshot.id,
+                snapshot.getString("authorId")!!,
+                snapshot.getString("recipientId")!!,
+                snapshot.getField<Int>("mark")!!,
+                snapshot.getString("feedback")!!
             )
 
             setValue(FeedbackOrException(model, error))

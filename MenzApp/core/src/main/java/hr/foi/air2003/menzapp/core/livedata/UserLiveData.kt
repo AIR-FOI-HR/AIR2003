@@ -20,18 +20,18 @@ class UserLiveData(private val documentReference: DocumentReference) : LiveData<
         listenerRegistration?.remove()
     }
 
-    override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-        if(value != null && value.exists()){
+    override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+        if(snapshot != null && snapshot.exists()){
             val model = User(
-                value.id,
-                value.getString("fullName")!!,
-                value.getString("email")!!,
-                value.getString("bio")!!,
-                value.getString("profilePicture")!!,
-                value.getBoolean("notificationsOn")!!
+                snapshot.id,
+                snapshot.getString("fullName")!!,
+                snapshot.getString("email")!!,
+                snapshot.getString("bio")!!,
+                snapshot.getString("profilePicture")!!,
+                snapshot.getBoolean("notificationsOn")!!
             )
 
-            setValue(UserOrException(model, error))
+            value = UserOrException(model, error)
         }
         else if(error != null){
             // TODO Handle error

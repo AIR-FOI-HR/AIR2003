@@ -16,11 +16,11 @@ class Repository {
     }
 
     fun getAllPosts(userId: String) : PostQueryLiveData {
-        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.NOT_EQUAL_TO, "authorId", userId))
+        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.NOT_EQUAL_TO, "author.authorId", userId))
     }
 
     fun getPostsByAuthor(authorId: String) : PostQueryLiveData {
-        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.EQUAL_TO, "authorId", authorId))
+        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.EQUAL_TO, "author.authorId", authorId))
     }
 
     fun getFeedbacksByRecipient(recipientId: String) : FeedbackQueryLiveData{

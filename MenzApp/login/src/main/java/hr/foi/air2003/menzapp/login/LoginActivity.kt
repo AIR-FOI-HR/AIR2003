@@ -85,6 +85,4 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         // TODO add user successfully created message or something like that
     }
-
-
 }
