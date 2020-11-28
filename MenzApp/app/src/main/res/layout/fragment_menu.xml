@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MenuFragment">
+    tools:context=".ui.MenuFragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,6 +11,6 @@
         android:layout_margin="@dimen/text_margin"
         android:textSize="21dp"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:text="Food menu fragment"/>
+        android:text="Food menu fragment" />
 
 </androidx.core.widget.NestedScrollView>

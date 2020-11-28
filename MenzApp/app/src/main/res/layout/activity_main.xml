@@ -22,6 +22,6 @@
         app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@drawable/navigation_bar_icon_selector"
         app:itemBackground="@color/white"
-        app:menu="@menu/navigation_bar"/>
+        app:menu="@menu/navigation_bar" />
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
-package hr.foi.air2003.menzapp.database.model
+package hr.foi.air2003.core.model
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
-import java.sql.Timestamp
 
 data class Subscription(
         @DocumentId

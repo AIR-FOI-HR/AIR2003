@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ProfileFragment"
+    tools:context=".ui.ProfileFragment"
     android:background="@color/white">
 
     <LinearLayout
@@ -31,7 +31,7 @@
                     android:id="@+id/ivProfilePhoto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@mipmap/ic_profile_photo"/>
+                    android:src="@mipmap/ic_profile_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -58,7 +58,7 @@
                             android:fontFamily="@font/raleway_bold"
                             android:layout_marginTop="3dp"
                             android:textSize="14dp"
-                            android:text="Ana Horvat"/>
+                            android:text="Ana Horvat" />
 
                         <TextView
                             android:id="@+id/tvSubscribers"
@@ -67,7 +67,7 @@
                             android:textColor="@color/grey_light"
                             android:fontFamily="@font/raleway"
                             android:textSize="12dp"
-                            android:text="128 pretplatnika"/>
+                            android:text="128 pretplatnika" />
 
                     </LinearLayout>
 
@@ -87,9 +87,22 @@
                             android:text="Postavke"
                             android:textAllCaps="false"
                             android:textColor="@color/orange_secondary"
-                            android:textSize="11dp"/>
+                            android:textSize="11dp" />
 
                     </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnLogout"
+                        android:layout_width="76dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="-76dp"
+                        android:background="@color/green_light"
+                        android:fontFamily="@font/raleway_semibold"
+                        android:text="Log out test"
+                        android:textAllCaps="false"
+                        android:textColor="@color/green_primary"
+                        android:textSize="11dp"/>
 
                 </LinearLayout>
 
@@ -102,7 +115,7 @@
                     android:layout_marginTop="11dp"
                     android:lines="3"
                     android:textSize="12dp"
-                    android:text="A day in the life of me: Eat avocado toast, sleep and study."/>
+                    android:text="A day in the life of me: Eat avocado toast, sleep and study." />
 
             </LinearLayout>
 
@@ -138,7 +151,7 @@
                         android:textColor="@color/black_typo"
                         android:text="Moje objave"
                         android:layout_margin="7dp"
-                        android:padding="5dp"/>
+                        android:padding="5dp" />
 
                     <LinearLayout
                         android:id="@+id/expandablePosts"
@@ -146,73 +159,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:id="@+id/postNo1"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvProfilePosts"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_margin="17dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/tvDateTime"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="26.10.2020., 14:00"
-                                        android:fontFamily="@font/raleway_medium"
-                                        android:textSize="16dp"
-                                        android:textColor="@color/black_typo"
-                                        android:layout_marginBottom="5dp"/>
-
-                                    <TextView
-                                        android:id="@+id/tvNumberOfPeople"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Optimalan broj ljudi: 2"
-                                        android:textSize="13dp"
-                                        android:fontFamily="@font/raleway"
-                                        android:textColor="@color/grey_light"/>
-
-                                </LinearLayout>
-
-                                <Button
-                                    android:id="@+id/btnEditPost"
-                                    android:layout_width="21dp"
-                                    android:layout_height="23dp"
-                                    android:layout_marginLeft="125dp"
-                                    android:background="@drawable/ic_edit_fill" />
-
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tvDescription"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="11dp"
-                                android:textColor="@color/black_typo"
-                                android:fontFamily="@font/raleway"
-                                android:lines="3"
-                                android:textSize="13dp"
-                                android:text="Tražim žensko društvo za menzu. Nije bitno kakvi ste, samo da ne želite ručati sami kao ja :D"/>
-
-                            <View
-                                android:id="@+id/breakLinePost"
-                                android:layout_width="match_parent"
-                                android:layout_height="5dp"
-                                android:layout_marginVertical="10dp"
-                                android:background="@drawable/txt_line"
-                                android:orientation="vertical"/>
-
-                        </LinearLayout>
+                            android:layout_height="match_parent"/>
 
                     </LinearLayout>
 
@@ -244,7 +194,7 @@
                         android:fontFamily="@font/raleway_bold"
                         android:textSize="14dp"
                         android:textColor="@color/black_typo"
-                        android:text="Ocjene i komentari"/>
+                        android:text="Ocjene i komentari" />
 
                     <LinearLayout
                         android:id="@+id/expandableFeedbacks"
@@ -252,107 +202,10 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvProfileFeedbacks"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_margin="17dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/cvUserPhoto"
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:layout_marginRight="10dp"
-                                    app:cardCornerRadius="50dp">
-
-                                    <ImageView
-                                        android:id="@+id/ivUserPhoto"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:src="@mipmap/ic_profile_photo"/>
-
-                                </androidx.cardview.widget.CardView>
-
-                                <TextView
-                                    android:id="@+id/userName"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:textSize="14dp"
-                                    android:textColor="@color/black_typo"
-                                    android:fontFamily="@font/raleway_medium"
-                                    android:text="Petra Petrić"/>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginVertical="10dp"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:id="@+id/ivStar1"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:src="@drawable/ic_star_filled"
-                                    android:padding="1dp"
-                                    app:tint="@color/green_primary"/>
-                                <ImageView
-                                    android:id="@+id/ivStar2"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:src="@drawable/ic_star_filled"
-                                    android:padding="1dp"
-                                    app:tint="@color/green_primary"/>
-                                <ImageView
-                                    android:id="@+id/ivStar3"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:src="@drawable/ic_star_filled"
-                                    android:padding="1dp"
-                                    app:tint="@color/green_primary"/>
-                                <ImageView
-                                    android:id="@+id/ivStar4"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:src="@drawable/ic_star_filled"
-                                    android:padding="1dp"
-                                    app:tint="@color/green_primary"/>
-                                <ImageView
-                                    android:id="@+id/ivStar5"
-                                    android:layout_width="18dp"
-                                    android:layout_height="18dp"
-                                    android:src="@drawable/ic_star_filled"
-                                    android:padding="1dp"
-                                    app:tint="@color/green_primary"/>
-
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tvFeedbackDescription"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:lines="3"
-                                android:fontFamily="@font/raleway"
-                                android:textColor="@color/black_typo"
-                                android:textSize="13dp"
-                                android:text="Super cura. otvorena i druželjubiva. Super smo se proveli na ručku, sigurno idemo opet :D"/>
-
-                            <View
-                                android:id="@+id/breakLineFeedback"
-                                android:layout_width="match_parent"
-                                android:layout_height="5dp"
-                                android:layout_marginVertical="10dp"
-                                android:background="@drawable/txt_line"
-                                android:orientation="vertical"/>
-
-                        </LinearLayout>
+                            android:layout_height="match_parent"/>
 
                     </LinearLayout>
 

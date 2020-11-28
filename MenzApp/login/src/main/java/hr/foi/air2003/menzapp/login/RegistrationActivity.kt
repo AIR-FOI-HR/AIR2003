@@ -1,15 +1,17 @@
 package hr.foi.air2003.menzapp.login
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import hr.foi.air2003.menzapp.core.Repository
+import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.registration_main.*
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private var repository = Repository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +23,7 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         txtSignIn.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
 
@@ -57,15 +59,23 @@ class RegistrationActivity : AppCompatActivity() {
                         this
                 ) { task ->
                     if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        // startActivity(Intent(this, MainActivity::class.java)) // TODO check how to solve circular dependecy
+                        repository.createUser(auth.currentUser?.uid.toString(), getUserInfo())
                         finish()
                         // TODO some kind of notification to user, splash screen or similar
-                        updateUI(user)
                     } else {
                         // TODO update notification to user in case of failure
-                        updateUI(null)
                     }
                 }
+    }
+
+    private fun getUserInfo(): User {
+        return User(
+                userId = auth.currentUser?.uid.toString(),
+                fullName = txtFullName.text.toString(),
+                email = txtEmail.text.toString(),
+                bio = "Ready to eat!",
+                profilePicture = "",
+                notificationsOn = true
+        )
     }
 }
