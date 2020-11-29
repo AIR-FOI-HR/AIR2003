@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         setCurrentFragment(HomeFragment())
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
+    public fun setCurrentFragment(fragment: Fragment) {
         // Pass user data to fragments
         val bundle = Bundle()
         val json = Gson().toJson(user)

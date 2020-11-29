@@ -4,23 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.gson.Gson
+import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
-import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.cvProfileFeedback
+import kotlinx.android.synthetic.main.fragment_profile.cvProfileMyPosts
+import kotlinx.android.synthetic.main.fragment_profile.expandableProfileFeedbacks
+import kotlinx.android.synthetic.main.fragment_profile.expandableProfilePosts
+import kotlinx.android.synthetic.main.fragment_profile.rvProfileFeedbacks
+import kotlinx.android.synthetic.main.fragment_profile.rvProfilePosts
+import kotlinx.android.synthetic.main.fragment_profile.tvProfileAboutMe
+import kotlinx.android.synthetic.main.fragment_profile.tvProfileFullName
+import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
@@ -49,6 +54,10 @@ class VisitedProfileFragment : Fragment() {
         dateTimePicker = DateTimePicker()
 
         retrieveUserData(authorId)
+
+        btnBack.setOnClickListener {
+            (activity as MainActivity).setCurrentFragment(HomeFragment())
+        }
     }
 
     private fun createRecyclerViews() {
