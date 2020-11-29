@@ -191,7 +191,7 @@
                                         android:orientation="vertical">
 
                                         <TextView
-                                            android:id="@+id/tvDateTime"
+                                            android:id="@+id/tvHomePostTimestamp"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="26.10.2020., 14:00"
@@ -201,7 +201,7 @@
                                             android:layout_marginBottom="5dp" />
 
                                         <TextView
-                                            android:id="@+id/tvNumberOfPeople"
+                                            android:id="@+id/tvHomePostPeople"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Optimalan broj ljudi: 2"
@@ -228,7 +228,7 @@
                                 </LinearLayout>
 
                                 <TextView
-                                    android:id="@+id/tvDescription"
+                                    android:id="@+id/tvHomePostDescription"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="11dp"

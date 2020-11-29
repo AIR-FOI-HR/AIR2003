@@ -12,8 +12,8 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
-import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
-import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
+import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostDescription
+import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
 
@@ -71,8 +71,8 @@ class NewPostFragment : DialogFragment() {
         val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
         tvDate.text = dateTime[0]
         tvTime.text = dateTime[1]
-        tvDescription.setText(post.description)
-        tvNumberOfPeople.setText(post.numberOfPeople.toString())
+        tvHomePostDescription.setText(post.description)
+        tvHomePostPeople.setText(post.numberOfPeople.toString())
     }
 
     private fun openTimePicker() {
@@ -111,8 +111,8 @@ class NewPostFragment : DialogFragment() {
     private fun checkPostInput(postId: String?) {
         val date = tvDate.text.toString()
         val time = tvTime.text.toString()
-        val numberOfPeople = tvNumberOfPeople.text.toString()
-        val description = tvDescription.text.toString()
+        val numberOfPeople = tvHomePostPeople.text.toString()
+        val description = tvHomePostDescription.text.toString()
 
         if (date.isEmpty()) {
             tvDate.error = "Molimo odaberite datum"
@@ -127,14 +127,14 @@ class NewPostFragment : DialogFragment() {
         }
 
         if (numberOfPeople.isEmpty()) {
-            tvNumberOfPeople.error = "Molimo unesite broj osoba"
-            tvNumberOfPeople.requestFocus()
+            tvHomePostPeople.error = "Molimo unesite broj osoba"
+            tvHomePostPeople.requestFocus()
             return
         }
 
         if (description.isEmpty()) {
-            tvDescription.error = "Molimo unesite opis"
-            tvDescription.requestFocus()
+            tvHomePostDescription.error = "Molimo unesite opis"
+            tvHomePostDescription.requestFocus()
             return
         }
 

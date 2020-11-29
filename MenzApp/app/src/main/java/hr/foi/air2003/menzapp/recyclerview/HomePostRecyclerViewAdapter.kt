@@ -31,10 +31,10 @@ class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Post) {
             val dateTime = dateTimePicker.timestampToString(item.timestamp).split("/")
-            itemView.tvAuthorName.text = item.author["fullName"]
-            itemView.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
-            itemView.tvNumberOfPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
-            itemView.tvDescription.text = item.description
+            itemView.tvHomePostAuthorName.text = item.author["fullName"]
+            itemView.tvHomePostTimestamp.text = "${dateTime[0]} ${dateTime[1]}"
+            itemView.tvHomePostPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
+            itemView.tvHomePostDescription.text = item.description
         }
     }
 }

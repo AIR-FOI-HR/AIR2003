@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
-import kotlinx.android.synthetic.main.home_post_list_item.view.*
-import kotlinx.android.synthetic.main.home_post_list_item.view.tvDescription
+import kotlinx.android.synthetic.main.home_post_list_item.view.tvHomePostDescription
 import kotlinx.android.synthetic.main.profile_post_list_item.view.*
 
 class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
@@ -32,7 +31,7 @@ class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
             val dateTime = dateTimePicker.timestampToString(item.timestamp).split("/")
             itemView.tvPostDateTime.text = "${dateTime[0]} ${dateTime[1]}"
             itemView.tvNumOfPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
-            itemView.tvDescription.text = item.description
+            itemView.tvHomePostDescription.text = item.description
         }
     }
 }
