@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
@@ -38,6 +37,8 @@ class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
 
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Post) {
+            // TODO Show user profile picture
+
             val dateTime = dateTimePicker.timestampToString(item.timestamp).split("/")
             itemView.tvHomePostAuthorName.text = item.author["fullName"]
             itemView.tvHomePostTimestamp.text = "${dateTime[0]} ${dateTime[1]}"
