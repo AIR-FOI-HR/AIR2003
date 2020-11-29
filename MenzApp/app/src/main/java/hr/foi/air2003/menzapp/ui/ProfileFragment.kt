@@ -2,7 +2,6 @@ package hr.foi.air2003.menzapp.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.media.MediaBrowserCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +19,8 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
-import hr.foi.air2003.menzapp.login.LoginActivity
-import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -76,32 +72,32 @@ class ProfileFragment : Fragment() {
         rvProfileFeedbacks.itemAnimator = DefaultItemAnimator()
         rvProfileFeedbacks.adapter = adapterFeedback
 
-        adapterPost.itemClick = { post ->
+        adapterPost.editClick = { post ->
             editPost(post)
         }
     }
 
     private fun expandViewListener() {
-        expandablePosts.visibility = View.GONE
-        expandableFeedbacks.visibility = View.GONE
+        expandableProfilePosts.visibility = View.GONE
+        expandableProfileFeedbacks.visibility = View.GONE
 
-        cvMyPosts.setOnClickListener {
-            if (expandablePosts.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(cvMyPosts, Explode())
-                expandablePosts.visibility = View.VISIBLE
+        cvProfileMyPosts.setOnClickListener {
+            if (expandableProfilePosts.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(cvProfileMyPosts, Explode())
+                expandableProfilePosts.visibility = View.VISIBLE
             } else {
-                TransitionManager.beginDelayedTransition(cvMyPosts, Explode())
-                expandablePosts.visibility = View.GONE
+                TransitionManager.beginDelayedTransition(cvProfileMyPosts, Explode())
+                expandableProfilePosts.visibility = View.GONE
             }
         }
 
-        cvFeedback.setOnClickListener {
-            if (expandableFeedbacks.visibility == View.GONE) {
-                TransitionManager.beginDelayedTransition(cvFeedback, Explode())
-                expandableFeedbacks.visibility = View.VISIBLE
+        cvProfileFeedback.setOnClickListener {
+            if (expandableProfileFeedbacks.visibility == View.GONE) {
+                TransitionManager.beginDelayedTransition(cvProfileFeedback, Explode())
+                expandableProfileFeedbacks.visibility = View.VISIBLE
             } else {
-                TransitionManager.beginDelayedTransition(cvFeedback, Explode())
-                expandableFeedbacks.visibility = View.GONE
+                TransitionManager.beginDelayedTransition(cvProfileFeedback, Explode())
+                expandableProfileFeedbacks.visibility = View.GONE
             }
         }
     }
@@ -148,8 +144,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun createUserLayout(user: User) {
-        tvFullName.text = user.fullName
-        tvAboutMe.text = user.bio
+        tvProfileFullName.text = user.fullName
+        tvProfileAboutMe.text = user.bio
 
         // TODO Show user profile picture
     }

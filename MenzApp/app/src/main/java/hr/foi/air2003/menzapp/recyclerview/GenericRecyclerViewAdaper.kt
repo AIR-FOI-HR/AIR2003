@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class GenericRecyclerViewAdaper<T> : RecyclerView.Adapter<GenericViewHolder<T>>() {
     var items: List<T> = listOf()
-    var itemClick: ((T)->Unit)? = null
+    //var itemClick: ((T)->Unit)? = null
 
     fun addItems(items: List<T>){
         this.items = items

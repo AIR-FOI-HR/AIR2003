@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -73,8 +74,13 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         rvPostsLayout.itemAnimator = DefaultItemAnimator()
         rvPostsLayout.adapter = adapterPost
 
-        adapterPost.itemClick = { post ->
+        adapterPost.respondClick = { post ->
             requestToJoin(post)
+        }
+
+        adapterPost.authorClick = { post ->
+            Toast.makeText(context, post.author["authorId"], Toast.LENGTH_SHORT).show()
+            // TODO Show user profile
         }
     }
 
