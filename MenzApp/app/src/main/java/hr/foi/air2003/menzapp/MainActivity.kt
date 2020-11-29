@@ -84,4 +84,8 @@ class MainActivity : AppCompatActivity() {
         // Open fragment view inside of container
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
+
+    public fun showProfileFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+    }
 }

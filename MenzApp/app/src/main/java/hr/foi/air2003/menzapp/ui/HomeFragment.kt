@@ -1,6 +1,7 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.google.gson.Gson
+import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
@@ -20,6 +22,7 @@ import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
+
 
 class HomeFragment : Fragment(), FragmentsCommunicator {
     private lateinit var dateTimePicker: DateTimePicker
@@ -79,8 +82,11 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         adapterPost.authorClick = { post ->
-            Toast.makeText(context, post.author["authorId"], Toast.LENGTH_SHORT).show()
-            // TODO Show user profile
+            val bundle = Bundle()
+            var visitedProfileFragment = VisitedProfileFragment()
+            bundle.putString("authorId", post.author["authorId"])
+            visitedProfileFragment.arguments = bundle
+            (activity as MainActivity).showProfileFragment(visitedProfileFragment)
         }
     }
 
@@ -97,9 +103,9 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         liveData.observe(viewLifecycleOwner, {
             val posts: MutableList<Post> = mutableListOf()
             val data = it.data
-            if(data != null){
-                for(d in data){
-                    if(d.item.timestamp >= timestamp)
+            if (data != null) {
+                for (d in data) {
+                    if (d.item.timestamp >= timestamp)
                         posts.add(d.item)
                 }
 
