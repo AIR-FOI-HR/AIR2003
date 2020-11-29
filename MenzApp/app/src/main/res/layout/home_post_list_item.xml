@@ -16,6 +16,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvHomePostAuthorId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +30,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="31dp"
                 android:layout_weight="0.11"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="13dp"
@@ -91,7 +97,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvHomePostDescription"
+                android:id="@+id/tvProfilePostDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"

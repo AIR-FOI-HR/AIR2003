@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
+        android:layout_margin="20dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,7 +51,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvFullName"
+                            android:id="@+id/tvProfileFullName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black_typo"
@@ -61,7 +61,7 @@
                             android:text="Ana Horvat" />
 
                         <TextView
-                            android:id="@+id/tvSubscribers"
+                            android:id="@+id/tvProfileSubscribers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/grey_light"
@@ -107,7 +107,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvAboutMe"
+                    android:id="@+id/tvProfileAboutMe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black_typo"
@@ -126,15 +126,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="52dp">
+            android:layout_marginTop="35dp">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvMyPosts"
+                android:id="@+id/cvProfileMyPosts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp">
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:id="@+id/layoutPosts"
@@ -143,18 +142,18 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvMyPosts"
+                        android:id="@+id/tvProfileMyPosts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/raleway_bold"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/black_typo"
                         android:text="Moje objave"
                         android:layout_margin="7dp"
                         android:padding="5dp" />
 
                     <LinearLayout
-                        android:id="@+id/expandablePosts"
+                        android:id="@+id/expandableProfilePosts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -162,7 +161,9 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvProfilePosts"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:clipToPadding="false"/>
 
                     </LinearLayout>
 
@@ -171,15 +172,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cvFeedback"
+                android:id="@+id/cvProfileFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="5dp">
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                app:cardCornerRadius="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -192,12 +192,12 @@
                         android:layout_margin="7dp"
                         android:padding="5dp"
                         android:fontFamily="@font/raleway_bold"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textColor="@color/black_typo"
                         android:text="Ocjene i komentari" />
 
                     <LinearLayout
-                        android:id="@+id/expandableFeedbacks"
+                        android:id="@+id/expandableProfileFeedbacks"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -205,7 +205,9 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvProfileFeedbacks"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent"
+                            android:padding="10dp"
+                            android:clipToPadding="false"/>
 
                     </LinearLayout>
 

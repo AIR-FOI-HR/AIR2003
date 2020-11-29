@@ -12,7 +12,7 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
-import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostDescription
+import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
@@ -71,7 +71,7 @@ class NewPostFragment : DialogFragment() {
         val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
         tvDate.text = dateTime[0]
         tvTime.text = dateTime[1]
-        tvHomePostDescription.setText(post.description)
+        tvProfilePostDescription.setText(post.description)
         tvHomePostPeople.setText(post.numberOfPeople.toString())
     }
 
@@ -112,7 +112,7 @@ class NewPostFragment : DialogFragment() {
         val date = tvDate.text.toString()
         val time = tvTime.text.toString()
         val numberOfPeople = tvHomePostPeople.text.toString()
-        val description = tvHomePostDescription.text.toString()
+        val description = tvProfilePostDescription.text.toString()
 
         if (date.isEmpty()) {
             tvDate.error = "Molimo odaberite datum"
@@ -133,8 +133,8 @@ class NewPostFragment : DialogFragment() {
         }
 
         if (description.isEmpty()) {
-            tvHomePostDescription.error = "Molimo unesite opis"
-            tvHomePostDescription.requestFocus()
+            tvProfilePostDescription.error = "Molimo unesite opis"
+            tvProfilePostDescription.requestFocus()
             return
         }
 
