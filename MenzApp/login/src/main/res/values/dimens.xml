@@ -2,4 +2,5 @@
 <resources>
     <dimen name="dimension">5dp</dimen>
     <dimen name="button">20dp</dimen>
+    <dimen name="main_margin">10dp</dimen>
 </resources>
