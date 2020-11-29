@@ -25,13 +25,13 @@ class FeedbackLiveData(private val documentReference: DocumentReference) : LiveD
         if(snapshot != null && snapshot.exists()){
             val model = Feedback(
                 snapshot.id,
-                snapshot.getString("authorId")!!,
+                snapshot.getField<Map<String,String>>("author")!!,
                 snapshot.getString("recipientId")!!,
                 snapshot.getField<Int>("mark")!!,
                 snapshot.getString("feedback")!!
             )
 
-            setValue(FeedbackOrException(model, error))
+            value = FeedbackOrException(model, error)
         }
         else if(error != null){
             // TODO Handle error
