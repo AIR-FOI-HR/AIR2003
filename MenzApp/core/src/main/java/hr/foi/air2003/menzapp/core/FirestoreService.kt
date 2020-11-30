@@ -42,7 +42,7 @@ internal object FirestoreService {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }
 
-    fun update(collection: String, document: String, data: Map<String, Any>) {
+    fun update(collection: String, document: String, data: Map<String, *>) {
         db.collection(collection).document(document)
                 .update(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }

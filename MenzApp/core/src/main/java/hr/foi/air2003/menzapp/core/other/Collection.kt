@@ -6,5 +6,4 @@ internal object Collection {
     const val CHAT = "Chats"
     const val MESSAGE = "Messages"
     const val FEEDBACK = "Feedbacks"
-    const val SUBSCRIPTION = "Subscriptions"
 }
