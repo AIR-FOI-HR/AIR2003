@@ -2,9 +2,11 @@ package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -58,20 +60,22 @@ class VisitedProfileFragment : Fragment() {
 
         requireUserData()
 
+        btnSubscribe.setOnClickListener {
+            if(btnSubscribe.text == getString(R.string.subscribe)){
+                updateSubscription(true)
+                btnSubscribe.text = getString(R.string.unsubscribe)
+                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
+                btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_primary))
+            }else{
+                updateSubscription(false)
+                btnSubscribe.text = getString(R.string.subscribe)
+                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_transparent_circled)
+                btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            }
+        }
+
         btnBack.setOnClickListener {
             (activity as MainActivity).setCurrentFragment((targetFragment as HomeFragment))
-        }
-
-        btnSubscribe.setOnClickListener {
-            updateSubscription(true)
-            btnSubscribe.visibility = View.GONE
-            btnUnsubscribe.visibility = View.VISIBLE
-        }
-
-        btnUnsubscribe.setOnClickListener {
-            updateSubscription(false)
-            btnUnsubscribe.visibility = View.GONE
-            btnSubscribe.visibility = View.VISIBLE
         }
     }
 
@@ -129,8 +133,9 @@ class VisitedProfileFragment : Fragment() {
 
     private fun checkSubscription(visitedUser: User) {
         if (user.subscribedTo.contains(visitedUser.userId)) {
-            btnUnsubscribe.visibility = View.VISIBLE
-            btnSubscribe.visibility = View.GONE
+            btnSubscribe.text = getString(R.string.unsubscribe)
+            btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
+            btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_primary))
         }
     }
 

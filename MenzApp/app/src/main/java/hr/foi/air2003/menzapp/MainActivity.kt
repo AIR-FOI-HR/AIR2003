@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setCurrentFragment(fragment: Fragment) {
         // Open fragment view inside of container
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, fragment.tag).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commitAllowingStateLoss()
     }
 
     fun getCurrentUser() : User{
