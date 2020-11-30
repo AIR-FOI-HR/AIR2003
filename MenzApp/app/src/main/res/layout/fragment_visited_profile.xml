@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/green_primary"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
@@ -35,7 +35,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="end"
                     android:layout_marginTop="3dp"
-                    android:background="@drawable/ic_arrow_1" />
+                    android:background="@drawable/ic_baseline_arrow_back_24" />
 
             </LinearLayout>
 

@@ -51,10 +51,18 @@ class ProfileFragment : Fragment() {
 
         retrieveUserData(user)
 
+        /*
+        //test LogOut button
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(activity, SplashScreenActivity::class.java)
             (activity as MainActivity).startActivity(intent)
+        }*/
+
+        btnSettings.setOnClickListener {
+            val settingsFragment = SettingsFragment()
+            settingsFragment.setTargetFragment(this, 1)
+            (activity as MainActivity).setCurrentFragment(settingsFragment)
         }
     }
 
