@@ -1,22 +1,18 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
-import com.google.gson.Gson
 import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
@@ -24,20 +20,19 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
 
 
-class HomeFragment : Fragment(), FragmentsCommunicator {
+class HomeFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var viewModel: HomeViewModel
     private lateinit var adapterPost: HomePostRecyclerViewAdapter
     private lateinit var user: User
+    private lateinit var authorId: String
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        if(arguments != null)
-            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-
+        user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -58,13 +53,7 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         btnNewPost.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("post", "")
-            bundle.putString("user", arguments?.getString("currentUser"))
-
             var newPostFragment = NewPostFragment()
-            newPostFragment.setTargetFragment(this, 1)
-            newPostFragment.arguments = bundle
             newPostFragment.show(requireFragmentManager(), "New post")
         }
     }
@@ -82,16 +71,15 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         }
 
         adapterPost.authorClick = { post ->
-            val bundle = Bundle()
-            var visitedProfileFragment = VisitedProfileFragment()
-            bundle.putString("authorId", post.author["authorId"])
-            visitedProfileFragment.arguments = bundle
-            (activity as MainActivity).showProfileFragment(visitedProfileFragment)
+            val visitedProfileFragment = VisitedProfileFragment()
+            authorId = post.author["authorId"].toString()
+            visitedProfileFragment.setTargetFragment(this, 1)
+            (activity as MainActivity).setCurrentFragment(visitedProfileFragment)
         }
     }
 
     @SuppressLint("SimpleDateFormat")
-    override fun bindData(data: Any) {
+    fun bindData(data: Any) {
         updateFilter(data.toString())
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(data.toString())
@@ -131,5 +119,9 @@ class HomeFragment : Fragment(), FragmentsCommunicator {
         viewModel.updateUserRequests(post)
 
         // TODO implement listener on Post for author, when data on userRequests is changed, notify user
+    }
+
+    fun getAuthorId(): String {
+        return authorId
     }
 }

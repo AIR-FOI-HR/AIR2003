@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.ui.*
 import hr.foi.air2003.menzapp.login.LoginActivity
@@ -75,17 +74,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     public fun setCurrentFragment(fragment: Fragment) {
-        // Pass user data to fragments
-        val bundle = Bundle()
-        val json = Gson().toJson(user)
-        bundle.putString("currentUser", json)
-        fragment.arguments = bundle
-
         // Open fragment view inside of container
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
-    public fun showProfileFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+    fun getCurrentUser() : User{
+        return user
     }
 }

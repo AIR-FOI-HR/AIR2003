@@ -32,16 +32,14 @@ class VisitedProfileFragment : Fragment() {
     private lateinit var viewModel: VisitedProfileViewModel
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
-    private var authorId: String? = null
+    private lateinit var authorId: String
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        if(arguments != null)
-            authorId = arguments!!.getString("authorId")
-
+        authorId = (targetFragment as HomeFragment).getAuthorId()
         return inflater.inflate(R.layout.fragment_visited_profile, container, false)
     }
 

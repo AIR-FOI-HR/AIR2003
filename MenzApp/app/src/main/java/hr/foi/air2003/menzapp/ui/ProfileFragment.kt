@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
+import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.SplashScreenActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
@@ -29,15 +29,14 @@ class ProfileFragment : Fragment() {
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var user: User
+    private lateinit var post: Post
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        if(arguments != null)
-            user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-
+        user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -54,7 +53,7 @@ class ProfileFragment : Fragment() {
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(activity, SplashScreenActivity::class.java)
-            activity?.startActivity(intent)
+            (activity as MainActivity).startActivity(intent)
         }
     }
 
@@ -151,14 +150,14 @@ class ProfileFragment : Fragment() {
     }
 
     private fun editPost(post: Post) {
-        val bundle = Bundle()
-        val postJson = Gson().toJson(post)
-        bundle.putString("post", postJson)
-        bundle.putString("user", arguments?.getString("currentUser"))
-
+        this.post = post
         val newPostFragment = NewPostFragment()
         newPostFragment.setTargetFragment(this, 1)
-        newPostFragment.arguments = bundle
         newPostFragment.show(requireFragmentManager(), "Post")
+    }
+
+
+    fun getPost(): Post{
+        return this.post
     }
 }

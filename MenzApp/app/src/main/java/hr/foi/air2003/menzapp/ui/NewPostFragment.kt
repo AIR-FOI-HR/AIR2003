@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
+import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
@@ -28,17 +28,12 @@ class NewPostFragment : DialogFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Get post data and user data
-        if(arguments != null){
-            if(arguments!!.getString("post") != "")
-                post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
-            else
-                post = Post()
+        post = if(targetFragment != null)
+            (targetFragment as ProfileFragment).getPost()
+        else
+            Post()
 
-            if(!arguments!!.getString("currentUser").isNullOrEmpty())
-                user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-        }
-
+        user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.dialog_new_post, container, false)
     }
 
