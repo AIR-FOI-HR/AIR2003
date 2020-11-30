@@ -66,13 +66,12 @@ class VisitedProfileFragment : Fragment() {
             updateSubscription(true)
             btnSubscribe.visibility = View.GONE
             btnUnsubscribe.visibility = View.VISIBLE
-
         }
 
         btnUnsubscribe.setOnClickListener {
             updateSubscription(false)
-            btnUnsubscribe.visibility = View.VISIBLE
-            btnSubscribe.visibility = View.GONE
+            btnUnsubscribe.visibility = View.GONE
+            btnSubscribe.visibility = View.VISIBLE
         }
     }
 
