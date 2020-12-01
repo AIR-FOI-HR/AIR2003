@@ -1,90 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
 
     <LinearLayout
-        android:id="@+id/post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="17dp"
-        tools:ignore="MissingConstraints">
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvProfilePostTimestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time"
+                android:fontFamily="@font/raleway_medium"
+                android:textSize="16sp"
+                android:textColor="@color/black_typo"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/tvProfilePostPeople"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/number_of_people"
+                android:textSize="13sp"
+                android:textColor="@color/grey_light" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            >
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.5"
-                android:gravity="left">
-
-                <TextView
-                    android:id="@+id/tvPostDateTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="26.10.2020., 14:00"
-                    android:fontFamily="@font/raleway_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black_typo"
-                    android:layout_marginBottom="5dp" />
-
-                <TextView
-                    android:id="@+id/tvNumOfPeople"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Optimalan broj ljudi: 2"
-                    android:textSize="13dp"
-                    android:fontFamily="@font/raleway"
-                    android:textColor="@color/grey_light" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="0.5"
-                android:gravity="right"
-                >
-
-                <Button
-                    android:id="@+id/btnEditPost"
-                    android:layout_width="21dp"
-                    android:layout_height="23dp"
-                    android:gravity="right"
-                    android:background="@drawable/ic_edit_fill" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnEditPost"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_edit_fill" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:textColor="@color/black_typo"
-            android:fontFamily="@font/raleway"
-            android:textSize="13dp"
-            android:text="Tražim žensko društvo za menzu. Nije bitno kakvi ste, samo da ne želite ručati sami kao ja :D" />
-
-        <View
-            android:id="@+id/breakLinePost"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginVertical="10dp"
-            android:background="@drawable/txt_line"
-            android:orientation="vertical" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvProfilePostDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:textColor="@color/black_typo"
+        android:textSize="13sp"
+        android:text="@string/description" />
+
+    <View
+        android:id="@+id/breakLinePost"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginVertical="25dp"
+        android:background="@drawable/txt_line"
+        android:orientation="vertical" />
 
 </LinearLayout>

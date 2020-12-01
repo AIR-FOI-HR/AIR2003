@@ -1,21 +1,16 @@
 package hr.foi.air2003.menzapp.ui
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.communicators.FragmentsCommunicator
 import kotlinx.android.synthetic.main.popup_filter.*
-import java.lang.ClassCastException
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
-    private lateinit var fragmentsCommunicator: FragmentsCommunicator
     private lateinit var dateTimePicker : DateTimePicker
 
     override fun onCreateView(
@@ -43,19 +38,7 @@ class BottomFilterFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-
-        fragmentsCommunicator.bindData(dateTimePicker.getTimestampString())
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        try {
-            fragmentsCommunicator = targetFragment as FragmentsCommunicator
-        } catch (e: ClassCastException) {
-            // TODO Handle exception
-            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-        }
+        (targetFragment as HomeFragment).bindData(dateTimePicker.getTimestampString())
     }
 
     private fun setCurrentDateTime() {

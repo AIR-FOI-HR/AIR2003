@@ -7,7 +7,7 @@ import hr.foi.air2003.menzapp.core.other.QueryItem
 data class Post (
         @DocumentId
         var postId: String = "",
-        var author: Map<String, String> = mapOf(Pair("authorId", ""), Pair("fullName", "")),
+        var author: Map<String, String> = mapOf(Pair("authorId", ""), Pair("fullName", ""), Pair("profilePicture", "")),
         var timestamp: Timestamp = Timestamp.now(),
         var description: String = "",
         var numberOfPeople: Int = 0,

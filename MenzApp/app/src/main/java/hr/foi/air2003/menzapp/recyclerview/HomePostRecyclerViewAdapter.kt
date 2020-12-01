@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.home_post_list_item.view.*
 
 class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
     private val dateTimePicker = DateTimePicker()
+    var authorClick: ((Post)->Unit)? = null
+    var respondClick: ((Post)->Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.home_post_list_item, parent, false)
@@ -21,20 +24,26 @@ class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
 
         init {
             itemView.btnRespond.setOnClickListener {
-                itemClick?.invoke(items[adapterPosition])
+                respondClick?.invoke(items[adapterPosition])
                 itemView.btnRespond.visibility = View.GONE
 
                 // TODO Implement toggle button maybe
+            }
+
+            itemView.tvHomePostAuthorName.setOnClickListener {
+                authorClick?.invoke(items[adapterPosition])
             }
         }
 
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Post) {
+            // TODO Show user profile picture
+
             val dateTime = dateTimePicker.timestampToString(item.timestamp).split("/")
-            itemView.tvAuthorName.text = item.author["fullName"]
-            itemView.tvDateTime.text = "${dateTime[0]} ${dateTime[1]}"
-            itemView.tvNumberOfPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
-            itemView.tvDescription.text = item.description
+            itemView.tvHomePostAuthorName.text = item.author["fullName"]
+            itemView.tvHomePostTimestamp.text = "${dateTime[0]} ${dateTime[1]}"
+            itemView.tvHomePostPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
+            itemView.tvProfilePostDescription.text = item.description
         }
     }
 }

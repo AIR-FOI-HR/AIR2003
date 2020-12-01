@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
-import kotlinx.android.synthetic.main.home_post_list_item.view.*
-import kotlinx.android.synthetic.main.home_post_list_item.view.tvDescription
+import kotlinx.android.synthetic.main.home_post_list_item.view.tvProfilePostDescription
 import kotlinx.android.synthetic.main.profile_post_list_item.view.*
 
 class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
     private val dateTimePicker = DateTimePicker()
+    var editClick: ((Post)->Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.profile_post_list_item, parent, false)
@@ -23,16 +23,19 @@ class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
 
         init {
             itemView.btnEditPost.setOnClickListener {
-                itemClick?.invoke(items[adapterPosition])
+                editClick?.invoke(items[adapterPosition])
             }
         }
 
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Post) {
             val dateTime = dateTimePicker.timestampToString(item.timestamp).split("/")
-            itemView.tvPostDateTime.text = "${dateTime[0]} ${dateTime[1]}"
-            itemView.tvNumOfPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
-            itemView.tvDescription.text = item.description
+            itemView.tvProfilePostTimestamp.text = "${dateTime[0]} ${dateTime[1]}"
+            itemView.tvProfilePostPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
+            itemView.tvProfilePostDescription.text = item.description
+
+            if(items.indexOf(item) == items.lastIndex)
+                itemView.breakLinePost.visibility = View.GONE
         }
     }
 }

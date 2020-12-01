@@ -10,6 +10,10 @@
     <string name="edit_post_delete">OBRIŠI</string>
     <string name="edit_post_save">SPREMI</string>
     <string name="new_post_title">NOVA OBJAVA</string>
+    <string name="author_name">Author Name</string>
+    <string name="date_time">Date and time</string>
+    <string name="number_of_people">Number of people...</string>
+    <string name="description">Description that can be 3 lines long...</string>
 
 
 </resources>

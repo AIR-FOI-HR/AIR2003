@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.gson.Gson
+import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
-import kotlinx.android.synthetic.main.dialog_new_post.tvDescription
-import kotlinx.android.synthetic.main.dialog_new_post.tvNumberOfPeople
+import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
+import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
 
@@ -28,17 +28,12 @@ class NewPostFragment : DialogFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Get post data and user data
-        if(arguments != null){
-            if(arguments!!.getString("post") != "")
-                post = Gson().fromJson(arguments!!.getString("post"), Post::class.java)
-            else
-                post = Post()
+        post = if(targetFragment != null)
+            (targetFragment as ProfileFragment).getPost()
+        else
+            Post()
 
-            if(!arguments!!.getString("currentUser").isNullOrEmpty())
-                user = Gson().fromJson(arguments!!.getString("currentUser"), User::class.java)
-        }
-
+        user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.dialog_new_post, container, false)
     }
 
@@ -71,8 +66,8 @@ class NewPostFragment : DialogFragment() {
         val dateTime = dateTimePicker.timestampToString(post.timestamp).split("/")
         tvDate.text = dateTime[0]
         tvTime.text = dateTime[1]
-        tvDescription.setText(post.description)
-        tvNumberOfPeople.setText(post.numberOfPeople.toString())
+        tvProfilePostDescription.setText(post.description)
+        tvHomePostPeople.setText(post.numberOfPeople.toString())
     }
 
     private fun openTimePicker() {
@@ -111,8 +106,8 @@ class NewPostFragment : DialogFragment() {
     private fun checkPostInput(postId: String?) {
         val date = tvDate.text.toString()
         val time = tvTime.text.toString()
-        val numberOfPeople = tvNumberOfPeople.text.toString()
-        val description = tvDescription.text.toString()
+        val numberOfPeople = tvHomePostPeople.text.toString()
+        val description = tvProfilePostDescription.text.toString()
 
         if (date.isEmpty()) {
             tvDate.error = "Molimo odaberite datum"
@@ -127,14 +122,14 @@ class NewPostFragment : DialogFragment() {
         }
 
         if (numberOfPeople.isEmpty()) {
-            tvNumberOfPeople.error = "Molimo unesite broj osoba"
-            tvNumberOfPeople.requestFocus()
+            tvHomePostPeople.error = "Molimo unesite broj osoba"
+            tvHomePostPeople.requestFocus()
             return
         }
 
         if (description.isEmpty()) {
-            tvDescription.error = "Molimo unesite opis"
-            tvDescription.requestFocus()
+            tvProfilePostDescription.error = "Molimo unesite opis"
+            tvProfilePostDescription.requestFocus()
             return
         }
 

@@ -1,6 +1,5 @@
 package hr.foi.air2003.menzapp.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,33 +10,37 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.firebase.auth.FirebaseAuth
 import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
-import hr.foi.air2003.menzapp.SplashScreenActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
-import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.cvProfileFeedback
+import kotlinx.android.synthetic.main.fragment_profile.cvProfileMyPosts
+import kotlinx.android.synthetic.main.fragment_profile.expandableProfileFeedbacks
+import kotlinx.android.synthetic.main.fragment_profile.expandableProfilePosts
+import kotlinx.android.synthetic.main.fragment_profile.rvProfileFeedbacks
+import kotlinx.android.synthetic.main.fragment_profile.rvProfilePosts
+import kotlinx.android.synthetic.main.fragment_profile.tvProfileAboutMe
+import kotlinx.android.synthetic.main.fragment_profile.tvProfileFullName
+import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
-class ProfileFragment : Fragment() {
+class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: VisitedProfileViewModel
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
-    private lateinit var user: User
-    private lateinit var post: Post
+    private lateinit var authorId: String
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        user = (activity as MainActivity).getCurrentUser()
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        authorId = (targetFragment as HomeFragment).getAuthorId()
+        return inflater.inflate(R.layout.fragment_visited_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,15 +48,13 @@ class ProfileFragment : Fragment() {
         expandViewListener()
         createRecyclerViews()
 
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(VisitedProfileViewModel::class.java)
         dateTimePicker = DateTimePicker()
 
-        retrieveUserData(user)
+        retrieveUserData(authorId)
 
-        btnLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(activity, SplashScreenActivity::class.java)
-            (activity as MainActivity).startActivity(intent)
+        btnBack.setOnClickListener {
+            (activity as MainActivity).setCurrentFragment(HomeFragment())
         }
     }
 
@@ -70,10 +71,6 @@ class ProfileFragment : Fragment() {
         rvProfileFeedbacks.layoutManager = LinearLayoutManager(context)
         rvProfileFeedbacks.itemAnimator = DefaultItemAnimator()
         rvProfileFeedbacks.adapter = adapterFeedback
-
-        adapterPost.editClick = { post ->
-            editPost(post)
-        }
     }
 
     private fun expandViewListener() {
@@ -101,19 +98,32 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun retrieveUserData(user: User) {
-        //Populate user info with data from firestore
-        createUserLayout(user)
-
-        //Populate posts with data from firestore
-        createPostLayout(user.userId)
-
-        //Populate feedbacks with data from firestore
-        createFeedbackLayout(user.userId)
+    private fun retrieveUserData(authorId: String?) {
+        if (authorId != null) {
+            //Populate user info with data from firestore
+            createUserLayout(authorId)
+            //Populate posts with data from firestore
+            createPostLayout(authorId)
+            //Populate feedbacks with data from firestore
+            createFeedbackLayout(authorId)
+        }
     }
 
-    private fun createFeedbackLayout(userId: String) {
-        val liveData = viewModel.getFeedbacks(userId)
+    private fun createUserLayout(authorId: String) {
+        val liveData = viewModel.getUser(authorId)
+        liveData.observe(viewLifecycleOwner, {
+            val data = it.data
+            if (data != null) {
+                tvProfileFullName.text = data.fullName
+                tvProfileAboutMe.text = data.bio
+            }
+        })
+
+        // TODO Show user profile picture
+    }
+
+    private fun createFeedbackLayout(authorId: String) {
+        val liveData = viewModel.getFeedbacks(authorId)
         liveData.observe(viewLifecycleOwner, {
             val feedbacks: MutableList<Feedback> = mutableListOf()
             val data = it.data
@@ -127,37 +137,18 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun createPostLayout(userId: String) {
-        val liveData = viewModel.getPosts(userId)
+    private fun createPostLayout(authorId: String) {
+        val liveData = viewModel.getPosts(authorId)
         liveData.observe(viewLifecycleOwner, {
             val posts: MutableList<Post> = mutableListOf()
             val data = it.data
             if(data != null){
                 for(d in data){
-                        posts.add(d.item)
+                    posts.add(d.item)
                 }
 
                 adapterPost.addItems(posts)
             }
         })
-    }
-
-    private fun createUserLayout(user: User) {
-        tvProfileFullName.text = user.fullName
-        tvProfileAboutMe.text = user.bio
-
-        // TODO Show user profile picture
-    }
-
-    private fun editPost(post: Post) {
-        this.post = post
-        val newPostFragment = NewPostFragment()
-        newPostFragment.setTargetFragment(this, 1)
-        newPostFragment.show(requireFragmentManager(), "Post")
-    }
-
-
-    fun getPost(): Post{
-        return this.post
     }
 }
