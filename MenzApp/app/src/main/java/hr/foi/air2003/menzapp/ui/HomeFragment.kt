@@ -16,6 +16,7 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
 
@@ -47,13 +48,13 @@ class HomeFragment : Fragment() {
         filterPosts(currentDateTime)
 
         filterDateTime.setOnClickListener {
-            var bottomFragment = BottomFilterFragment()
+            val bottomFragment = BottomFilterFragment()
             bottomFragment.setTargetFragment(this, 1)
             bottomFragment.show(requireFragmentManager(), "Filter")
         }
 
         btnNewPost.setOnClickListener {
-            var newPostFragment = NewPostFragment()
+            val newPostFragment = NewPostFragment()
             newPostFragment.show(requireFragmentManager(), "New post")
         }
     }

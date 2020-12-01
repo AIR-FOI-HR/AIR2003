@@ -1,10 +1,13 @@
 package hr.foi.air2003.menzapp.core
 
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.Collection
 import hr.foi.air2003.menzapp.core.other.Operation
+import org.json.JSONArray
+import org.json.JSONObject
 
 class Repository {
     fun getUser(userId: String) : UserLiveData{
@@ -13,6 +16,14 @@ class Repository {
 
     fun createUser(userId: String, data: User){
         FirestoreService.postDocumentWithID(Collection.USER, userId, data)
+    }
+
+    fun updateUser(user: User){
+        val json = Gson().toJson(user)
+        val jsonObj = JSONObject(json)
+        val map = jsonObj.toMap()
+
+        FirestoreService.update(Collection.USER, user.userId, map)
     }
 
     fun getAllPosts(userId: String) : PostQueryLiveData {
@@ -36,14 +47,24 @@ class Repository {
     }
 
     fun updatePost(post: Post){
-        val data: HashMap<String, Any> = hashMapOf(
-            Pair("author", post.author),
-            Pair("timestamp", post.timestamp),
-            Pair("description", post.description),
-            Pair("numberOfPeople", post.numberOfPeople),
-            Pair("userRequests", post.userRequests)
-        )
+        val json = Gson().toJson(post)
+        val jsonObj = JSONObject(json)
+        val map = jsonObj.toMap()
 
-        FirestoreService.update(Collection.POST, post.postId, data)
+        FirestoreService.update(Collection.POST, post.postId, map)
+    }
+
+    private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
+        when (val value = this[it])
+        {
+            is JSONArray ->
+            {
+                val map = (0 until value.length()).associate { Pair(it.toString(), value[it]) }
+                JSONObject(map).toMap().values.toList()
+            }
+            is JSONObject -> value.toMap()
+            JSONObject.NULL -> null
+            else            -> value
+        }
     }
 }

@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -50,10 +51,18 @@ class ProfileFragment : Fragment() {
 
         retrieveUserData(user)
 
+        /*
+        //test LogOut button
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(activity, SplashScreenActivity::class.java)
             (activity as MainActivity).startActivity(intent)
+        }*/
+
+        btnSettings.setOnClickListener {
+            val settingsFragment = SettingsFragment()
+            settingsFragment.setTargetFragment(this, 1)
+            (activity as MainActivity).setCurrentFragment(settingsFragment)
         }
     }
 
@@ -142,9 +151,11 @@ class ProfileFragment : Fragment() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun createUserLayout(user: User) {
         tvProfileFullName.text = user.fullName
         tvProfileAboutMe.text = user.bio
+        tvProfileSubscribers.text = "Broj pretplatnika: ${user.subscribersCount}"
 
         // TODO Show user profile picture
     }

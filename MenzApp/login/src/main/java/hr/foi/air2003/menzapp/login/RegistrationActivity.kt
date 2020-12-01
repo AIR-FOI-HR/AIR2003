@@ -72,10 +72,7 @@ class RegistrationActivity : AppCompatActivity() {
         return User(
                 userId = auth.currentUser?.uid.toString(),
                 fullName = txtFullName.text.toString(),
-                email = txtEmail.text.toString(),
-                bio = "Ready to eat!",
-                profilePicture = "",
-                notificationsOn = true
+                email = txtEmail.text.toString()
         )
     }
 }

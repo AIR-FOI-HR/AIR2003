@@ -60,6 +60,10 @@ class NewPostFragment : DialogFragment() {
         btn_saveNewPost.setOnClickListener {
             checkPostInput(post.postId)
         }
+
+        btnCancelNewPost.setOnClickListener {
+            this.dismiss()
+        }
     }
 
     private fun loadPost(post: Post) {

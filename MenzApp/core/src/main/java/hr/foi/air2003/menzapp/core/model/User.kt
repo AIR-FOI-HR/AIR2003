@@ -9,5 +9,7 @@ data class User(
         var email: String = "",
         var bio: String = "",
         var profilePicture: String = "",
-        var notificationsOn: Boolean = true
+        var notificationsOn: Boolean = true,
+        var subscribersCount: Int = 0,
+        var subscribedTo: List<String> = listOf()
 )

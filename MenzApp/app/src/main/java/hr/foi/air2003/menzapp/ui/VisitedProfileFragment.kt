@@ -1,9 +1,12 @@
 package hr.foi.air2003.menzapp.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -15,6 +18,7 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_profile.cvProfileFeedback
@@ -33,6 +37,8 @@ class VisitedProfileFragment : Fragment() {
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var authorId: String
+    private lateinit var user: User
+    private lateinit var visitedUser: User
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,6 +46,7 @@ class VisitedProfileFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         authorId = (targetFragment as HomeFragment).getAuthorId()
+        user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_visited_profile, container, false)
     }
 
@@ -51,10 +58,24 @@ class VisitedProfileFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(VisitedProfileViewModel::class.java)
         dateTimePicker = DateTimePicker()
 
-        retrieveUserData(authorId)
+        requireUserData()
+
+        btnSubscribe.setOnClickListener {
+            if(btnSubscribe.text == getString(R.string.subscribe)){
+                updateSubscription(true)
+                btnSubscribe.text = getString(R.string.unsubscribe)
+                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
+                btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_primary))
+            }else{
+                updateSubscription(false)
+                btnSubscribe.text = getString(R.string.subscribe)
+                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_transparent_circled)
+                btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            }
+        }
 
         btnBack.setOnClickListener {
-            (activity as MainActivity).setCurrentFragment(HomeFragment())
+            (activity as MainActivity).setCurrentFragment((targetFragment as HomeFragment))
         }
     }
 
@@ -98,26 +119,40 @@ class VisitedProfileFragment : Fragment() {
         }
     }
 
-    private fun retrieveUserData(authorId: String?) {
-        if (authorId != null) {
-            //Populate user info with data from firestore
-            createUserLayout(authorId)
-            //Populate posts with data from firestore
-            createPostLayout(authorId)
-            //Populate feedbacks with data from firestore
-            createFeedbackLayout(authorId)
-        }
-    }
-
-    private fun createUserLayout(authorId: String) {
+    private fun requireUserData(){
         val liveData = viewModel.getUser(authorId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
-                tvProfileFullName.text = data.fullName
-                tvProfileAboutMe.text = data.bio
+            if(data != null){
+                visitedUser = data
+                retrieveUserData(visitedUser)
+                checkSubscription(visitedUser)
             }
         })
+    }
+
+    private fun checkSubscription(visitedUser: User) {
+        if (user.subscribedTo.contains(visitedUser.userId)) {
+            btnSubscribe.text = getString(R.string.unsubscribe)
+            btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
+            btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_primary))
+        }
+    }
+
+    private fun retrieveUserData(visitedUser: User) {
+        //Populate user info with data from firestore
+        createUserLayout(visitedUser)
+        //Populate posts with data from firestore
+        createPostLayout(visitedUser.userId)
+        //Populate feedbacks with data from firestore
+        createFeedbackLayout(visitedUser.userId)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun createUserLayout(visitedUser: User) {
+        tvProfileFullName.text = visitedUser.fullName
+        tvProfileAboutMe.text = visitedUser.bio
+        tvProfileSubscribers.text = "Broj pretplatnika: ${visitedUser.subscribersCount}"
 
         // TODO Show user profile picture
     }
@@ -150,5 +185,22 @@ class VisitedProfileFragment : Fragment() {
                 adapterPost.addItems(posts)
             }
         })
+    }
+
+    private fun updateSubscription(subscribe: Boolean) {
+        if(subscribe){
+            visitedUser.subscribersCount++
+            val subscription: MutableList<String> = user.subscribedTo as MutableList<String>
+            subscription.add(visitedUser.userId)
+            user.subscribedTo = subscription
+        }else{
+            visitedUser.subscribersCount--
+            val subscription: MutableList<String> = user.subscribedTo as MutableList<String>
+            subscription.remove(visitedUser.userId)
+            user.subscribedTo = subscription
+        }
+
+        viewModel.updateUser(user)
+        viewModel.updateUser(visitedUser)
     }
 }

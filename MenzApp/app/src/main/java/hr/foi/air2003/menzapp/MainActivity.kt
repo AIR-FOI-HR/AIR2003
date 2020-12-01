@@ -44,13 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        when (bottom_nav_bar.selectedItemId) {
-            R.id.ic_user -> setCurrentFragment(ProfileFragment())
-            R.id.ic_search -> setCurrentFragment(SearchFragment())
-            R.id.ic_food -> setCurrentFragment(MenuFragment())
-            R.id.ic_chat -> setCurrentFragment(ChatFragment())
-            R.id.ic_home -> setCurrentFragment(HomeFragment())
-        }
+        setCurrentFragment(getSelectedFragment())
     }
 
     private fun userLogin() {
@@ -70,12 +64,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadUserData(user: User){
         this.user = user
-        setCurrentFragment(HomeFragment())
+        setCurrentFragment(getSelectedFragment())
     }
 
-    public fun setCurrentFragment(fragment: Fragment) {
+    private fun getSelectedFragment() : Fragment{
+        return when (bottom_nav_bar.selectedItemId) {
+            R.id.ic_user -> ProfileFragment()
+            R.id.ic_search -> SearchFragment()
+            R.id.ic_food -> MenuFragment()
+            R.id.ic_chat -> ChatFragment()
+            R.id.ic_home -> HomeFragment()
+            else -> HomeFragment()
+        }
+    }
+
+    fun setCurrentFragment(fragment: Fragment) {
         // Open fragment view inside of container
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commitAllowingStateLoss()
     }
 
     fun getCurrentUser() : User{
