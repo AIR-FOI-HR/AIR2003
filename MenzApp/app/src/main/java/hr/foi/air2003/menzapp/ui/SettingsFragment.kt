@@ -1,7 +1,10 @@
 package hr.foi.air2003.menzapp.ui
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +20,9 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
     private lateinit var user: User
+    private lateinit var filePath: Uri
+    private lateinit var imgUri: Uri
+    private val viewModel = SettingsViewModel()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -37,6 +43,41 @@ class SettingsFragment : Fragment() {
         btnBackSettings.setOnClickListener {
             (activity as MainActivity).setCurrentFragment(ProfileFragment())
         }
+
+        btnNewProfilePhoto.setOnClickListener {
+            launchFileChooser()
+        }
+
+        btn_saveSettings.setOnClickListener {
+            user.bio = tvSettingsBio.text.toString()
+            user.fullName = tvSettingsFullName.text.toString()
+            user.profilePicture = filePath.toString()
+
+            viewModel.updateUser(user)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK && data != null){
+            filePath = data.data!!
+            val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, filePath)
+            ivSettingsProfilePhoto.setImageBitmap(bitmap)
+
+            viewModel.uploadImage(filePath).observe(viewLifecycleOwner, {
+                val uri = it.data
+                if(uri != null)
+                    imgUri = uri
+            })
+        }
+    }
+
+    private fun launchFileChooser() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Odaberi fotografiju"), 1)
     }
 
     private fun showPopup(view: View) {
@@ -50,7 +91,7 @@ class SettingsFragment : Fragment() {
                 }
                 R.id.headerMenuPasswordChange -> {
                     val newPasswordFragment = NewPasswordFragment()
-                    newPasswordFragment.show(requireFragmentManager(), "New post")
+                    newPasswordFragment.show(requireFragmentManager(), "New password")
                 }
                 R.id.headerMenuLogOut -> {
                     FirebaseAuth.getInstance().signOut()
@@ -61,7 +102,6 @@ class SettingsFragment : Fragment() {
             }
 
             true
-
         }
 
         popup.show()
