@@ -1,2 +1,0 @@
-hr/foi/air2003/core/BuildConfig.java
- hr.foi.air2003.core.BuildConfig

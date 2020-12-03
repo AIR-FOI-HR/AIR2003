@@ -7,14 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
 import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
-import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_password.*
-import kotlinx.android.synthetic.main.dialog_new_post.*
 
 class NewPasswordFragment : DialogFragment() {
 

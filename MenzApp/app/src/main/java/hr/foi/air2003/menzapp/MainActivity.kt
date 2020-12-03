@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        setCurrentFragment(getSelectedFragment())
+        requireUserData()
     }
 
     private fun userLogin() {
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setCurrentFragment(fragment: Fragment) {
         // Open fragment view inside of container
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commitAllowingStateLoss()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
     fun getCurrentUser() : User{

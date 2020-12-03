@@ -26,17 +26,18 @@ class UserLiveData(private val documentReference: DocumentReference) : LiveData<
 
         if (snapshot != null && snapshot.exists()) {
             val model = User(
-                    snapshot.id,
-                    snapshot.getString("fullName")!!,
-                    snapshot.getString("email")!!,
-                    snapshot.getString("bio")!!,
-                    snapshot.getString("profilePicture")!!,
-                    snapshot.getBoolean("notificationsOn")!!,
-                    snapshot.getField<Long>("subscribersCount")!!.toInt(), // snapshot.getField<Int>("subscribersCount")!! -> Why this won't work??
-                    snapshot.get("subscribedTo")!! as List<String> //snapshot.getField<List<String>>("subscribedTo")!! -> Why this won't work??
+                    userId = snapshot.id,
+                    fullName = snapshot.getString("fullName")!!,
+                    email = snapshot.getString("email")!!,
+                    bio = snapshot.getString("bio")!!,
+                    profilePicture = snapshot.getString("profilePicture")!!,
+                    notificationsOn = snapshot.getBoolean("notificationsOn")!!,
+                    subscribersCount = snapshot.getField<Long>("subscribersCount")!!.toInt(), // snapshot.getField<Int>("subscribersCount")!! -> Why this won't work??
+                    subscribedTo = snapshot.get("subscribedTo")!! as List<String> //snapshot.getField<List<String>>("subscribedTo")!! -> Why this won't work??
             )
 
             value = UserOrException(model, error)
+
         } else if (error != null) {
             // TODO Handle error
         }

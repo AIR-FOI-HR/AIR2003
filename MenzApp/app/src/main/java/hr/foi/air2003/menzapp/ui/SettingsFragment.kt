@@ -3,7 +3,6 @@ package hr.foi.air2003.menzapp.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,9 +13,7 @@ import hr.foi.air2003.menzapp.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.SplashScreenActivity
 import hr.foi.air2003.menzapp.core.model.User
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.*
-import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class SettingsFragment : Fragment() {
     private lateinit var user: User

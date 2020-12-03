@@ -24,12 +24,12 @@ class PostLiveData (private val documentReference: DocumentReference) : LiveData
     override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
         if(snapshot != null && snapshot.exists()){
             val model = Post(
-                snapshot.id,
-                snapshot.getField<Map<String, String>>("author")!!,
-                snapshot.getTimestamp("timestamp")!!,
-                snapshot.getString("description")!!,
-                snapshot.getField<Int>("numberOfPeople")!!,
-                snapshot.getField<List<String>>("userRequests")!!
+                postId = snapshot.id,
+                author = snapshot.getField<Map<String, String>>("author")!!,
+                timestamp = snapshot.getTimestamp("timestamp")!!,
+                description = snapshot.getString("description")!!,
+                numberOfPeople = snapshot.getField<Int>("numberOfPeople")!!,
+                userRequests = snapshot.getField<List<String>>("userRequests")!!
             )
 
             value = PostOrException(model, error)

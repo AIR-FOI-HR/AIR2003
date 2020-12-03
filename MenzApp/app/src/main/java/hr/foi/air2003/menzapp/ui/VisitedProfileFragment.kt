@@ -2,7 +2,6 @@ package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
