@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.other.QueryItem
 
-typealias FeedbackQueryResult = QueryResultOrException<Feedback, Exception>
+typealias FeedbackQueryResult = QueryResultOrException<Feedback, FirebaseFirestoreException>
 
 class FeedbackQueryLiveData(query: Query) : FirestoreQueryLiveData<FeedbackQueryResult>(query) {
 

@@ -5,7 +5,6 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.getField
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.DataOrException
-import java.lang.Exception
 
 typealias UserOrException = DataOrException<User, FirebaseFirestoreException>
 
