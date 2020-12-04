@@ -2,6 +2,8 @@ package hr.foi.air2003.menzapp.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_filter.*
@@ -35,7 +38,7 @@ class SettingsFragmentActivity : FragmentActivity() {
         }
 
         btnBackSettings.setOnClickListener {
-            finish()
+            this.onBackPressed()
         }
 
         btnNewProfilePhoto.setOnClickListener {
@@ -63,7 +66,8 @@ class SettingsFragmentActivity : FragmentActivity() {
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
             filePath = data.data!!
-            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, filePath)
+
+            val bitmap = ImageConverter.resizeBitmap(MediaStore.Images.Media.getBitmap(contentResolver, filePath), ivSettingsProfilePhoto)
             ivSettingsProfilePhoto.setImageBitmap(bitmap)
         }
     }

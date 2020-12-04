@@ -13,7 +13,7 @@ import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var viewModel: MainViewModel = MainViewModel()
+    private val viewModel: MainViewModel = MainViewModel()
     private var currentUser: FirebaseUser? = null
     private lateinit var user: User
 
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
     override fun onRestart() {
@@ -69,14 +70,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getSelectedFragment() : Fragment{
-        return when (bottom_nav_bar.selectedItemId) {
-            R.id.ic_user -> ProfileFragment()
-            R.id.ic_search -> SearchFragment()
-            R.id.ic_food -> MenuFragment()
-            R.id.ic_chat -> ChatFragment()
-            R.id.ic_home -> HomeFragment()
-            else -> HomeFragment()
-        }
+        return supportFragmentManager.findFragmentById(R.id.fragment_container) ?: HomeFragment()
     }
 
     fun setCurrentFragment(fragment: Fragment) {

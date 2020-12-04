@@ -52,7 +52,9 @@ class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
             val imgUri = item.author["profilePicture"]
             viewModel.getUserImage(imgUri!!)
                 .addOnSuccessListener { bytes ->
-                    itemView.ivHomePostImage.setImageBitmap(ImageConverter.convertBytesToBitmap(bytes))
+                    val bitmap = ImageConverter.convertBytesToBitmap(bytes)
+                    val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivHomePostImage)
+                    itemView.ivHomePostImage.setImageBitmap(resized)
                 }
         }
     }
