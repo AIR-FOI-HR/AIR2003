@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp
+package hr.foi.air2003.menzapp.activities
 
 import androidx.lifecycle.ViewModel
 import hr.foi.air2003.menzapp.core.Repository

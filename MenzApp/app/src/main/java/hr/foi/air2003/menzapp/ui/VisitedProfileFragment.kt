@@ -1,20 +1,24 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
+import android.media.Image
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import hr.foi.air2003.menzapp.MainActivity
+import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
+import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -40,9 +44,9 @@ class VisitedProfileFragment : Fragment() {
     private lateinit var visitedUser: User
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         authorId = (targetFragment as HomeFragment).getAuthorId()
         user = (activity as MainActivity).getCurrentUser()
@@ -60,15 +64,22 @@ class VisitedProfileFragment : Fragment() {
         requireUserData()
 
         btnSubscribe.setOnClickListener {
-            if(btnSubscribe.text == getString(R.string.subscribe)){
+            if (btnSubscribe.text == getString(R.string.subscribe)) {
                 updateSubscription(true)
                 btnSubscribe.text = getString(R.string.unsubscribe)
-                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
-                btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_primary))
-            }else{
+                btnSubscribe.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
+                btnSubscribe.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.green_primary
+                    )
+                )
+            } else {
                 updateSubscription(false)
                 btnSubscribe.text = getString(R.string.subscribe)
-                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_transparent_circled)
+                btnSubscribe.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.btn_transparent_circled)
                 btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             }
         }
@@ -118,11 +129,11 @@ class VisitedProfileFragment : Fragment() {
         }
     }
 
-    private fun requireUserData(){
+    private fun requireUserData() {
         val liveData = viewModel.getUser(authorId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if(data != null){
+            if (data != null) {
                 visitedUser = data
                 retrieveUserData(visitedUser)
                 checkSubscription(visitedUser)
@@ -133,8 +144,14 @@ class VisitedProfileFragment : Fragment() {
     private fun checkSubscription(visitedUser: User) {
         if (user.subscribedTo.contains(visitedUser.userId)) {
             btnSubscribe.text = getString(R.string.unsubscribe)
-            btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
-            btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_primary))
+            btnSubscribe.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.btn_fill_circled)
+            btnSubscribe.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.green_primary
+                )
+            )
         }
     }
 
@@ -153,7 +170,10 @@ class VisitedProfileFragment : Fragment() {
         tvProfileAboutMe.text = visitedUser.bio
         tvProfileSubscribers.text = "Broj pretplatnika: ${visitedUser.subscribersCount}"
 
-        // TODO Show user profile picture
+        viewModel.getProfilePicture(user.profilePicture)
+            .addOnSuccessListener { bytes ->
+                ivProfilePhoto.setImageBitmap(ImageConverter.convertBytesToBitmap(bytes))
+            }
     }
 
     private fun createFeedbackLayout(authorId: String) {
@@ -161,8 +181,8 @@ class VisitedProfileFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val feedbacks: MutableList<Feedback> = mutableListOf()
             val data = it.data
-            if(data != null){
-                for(d in data){
+            if (data != null) {
+                for (d in data) {
                     feedbacks.add(d.item)
                 }
 
@@ -176,8 +196,8 @@ class VisitedProfileFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val posts: MutableList<Post> = mutableListOf()
             val data = it.data
-            if(data != null){
-                for(d in data){
+            if (data != null) {
+                for (d in data) {
                     posts.add(d.item)
                 }
 
@@ -187,12 +207,12 @@ class VisitedProfileFragment : Fragment() {
     }
 
     private fun updateSubscription(subscribe: Boolean) {
-        if(subscribe){
+        if (subscribe) {
             visitedUser.subscribersCount++
             val subscription: MutableList<String> = user.subscribedTo as MutableList<String>
             subscription.add(visitedUser.userId)
             user.subscribedTo = subscription
-        }else{
+        } else {
             visitedUser.subscribersCount--
             val subscription: MutableList<String> = user.subscribedTo as MutableList<String>
             subscription.remove(visitedUser.userId)

@@ -4,15 +4,14 @@
 
     <item
         android:id="@+id/headerMenuCheckNotifications"
-        android:title="Obavijesti"
+        android:title="@string/obavijesti"
         android:checkable="true"
-        android:checked="true"
-        />
+        android:checked="true" />
     <item
         android:id="@+id/headerMenuPasswordChange"
-        android:title="Uredi lozinku" />
+        android:title="@string/uredi_lozinku" />
     <item
         android:id="@+id/headerMenuLogOut"
-        android:title="Odjava" />
+        android:title="@string/odjava" />
 
 </menu>

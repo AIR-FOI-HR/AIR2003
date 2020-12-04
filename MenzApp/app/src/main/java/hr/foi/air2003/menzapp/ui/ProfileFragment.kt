@@ -2,21 +2,25 @@ package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.firebase.auth.FirebaseAuth
-import hr.foi.air2003.menzapp.MainActivity
+import com.google.gson.Gson
+import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
-import hr.foi.air2003.menzapp.SplashScreenActivity
+import hr.foi.air2003.menzapp.activities.SettingsFragmentActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
+import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -51,18 +55,11 @@ class ProfileFragment : Fragment() {
 
         retrieveUserData(user)
 
-        /*
-        //test LogOut button
-        btnLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(activity, SplashScreenActivity::class.java)
-            (activity as MainActivity).startActivity(intent)
-        }*/
-
         btnSettings.setOnClickListener {
-            val settingsFragment = SettingsFragment()
-            settingsFragment.setTargetFragment(this, 1)
-            (activity as MainActivity).setCurrentFragment(settingsFragment)
+            val jsonUser = Gson().toJson(user)
+            val intent = Intent(context, SettingsFragmentActivity::class.java)
+            intent.putExtra("user", jsonUser)
+            startActivity(intent)
         }
     }
 
@@ -157,7 +154,10 @@ class ProfileFragment : Fragment() {
         tvProfileAboutMe.text = user.bio
         tvProfileSubscribers.text = "Broj pretplatnika: ${user.subscribersCount}"
 
-        // TODO Show user profile picture
+        viewModel.getProfilePhoto(user.profilePicture)
+            .addOnSuccessListener { bytes ->
+                ivProfilePhoto.setImageBitmap(ImageConverter.convertBytesToBitmap(bytes))
+            }
     }
 
     private fun editPost(post: Post) {

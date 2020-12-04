@@ -1,6 +1,8 @@
 package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
+import com.google.android.gms.tasks.Task
+import com.google.firebase.storage.FileDownloadTask
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
@@ -25,6 +27,14 @@ class Repository {
         val map = jsonObj.toMap()
 
         FirestoreService.update(Collection.USER, user.userId, map)
+    }
+
+    fun uploadImage(filePath: Uri) : Task<Uri> {
+        return FirestoreService.uploadImage(filePath)
+    }
+
+    fun retrieveImage(imgUri: String) : Task<ByteArray> {
+        return FirestoreService.retrieveImage(imgUri)
     }
 
     fun getAllPosts(userId: String) : PostQueryLiveData {
@@ -53,10 +63,6 @@ class Repository {
         val map = jsonObj.toMap()
 
         FirestoreService.update(Collection.POST, post.postId, map)
-    }
-
-    fun updateImage(filePath: Uri) : ImageUriLiveData{
-        return ImageUriLiveData(FirestoreService.uploadImage(filePath))
     }
 
     private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {

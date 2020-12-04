@@ -16,5 +16,8 @@
     <string name="description">Description that can be 3 lines long...</string>
     <string name="subscribe">Pretplati se</string>
     <string name="unsubscribe">Pretplaćeni ste</string>
+    <string name="obavijesti">Obavijesti</string>
+    <string name="uredi_lozinku">Uredi lozinku</string>
+    <string name="odjava">Odjava</string>
 
 </resources>

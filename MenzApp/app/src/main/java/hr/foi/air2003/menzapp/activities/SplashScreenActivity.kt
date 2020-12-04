@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp
+package hr.foi.air2003.menzapp.activities
 
 import android.content.Intent
 import android.os.Bundle

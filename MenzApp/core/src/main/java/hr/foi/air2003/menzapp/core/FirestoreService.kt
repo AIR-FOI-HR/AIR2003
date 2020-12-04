@@ -1,21 +1,20 @@
 package hr.foi.air2003.menzapp.core
 
 import android.content.ContentValues
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
+import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import hr.foi.air2003.menzapp.core.other.Operation
 import java.util.*
 
 internal object FirestoreService {
     private val db = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance().reference
+    private val storage = FirebaseStorage.getInstance()
 
     fun post(collection: String, item: Any) {
         db.collection(collection).document().set(item)
@@ -81,7 +80,7 @@ internal object FirestoreService {
 
     fun uploadImage(filePath: Uri) : Task<Uri>{
         val pathString = "photos/" + UUID.randomUUID().toString()
-        val ref = storage.child(pathString)
+        val ref = storage.reference.child(pathString)
         val uploadTask = ref.putFile(filePath)
 
         return uploadTask.continueWithTask(Continuation { task ->
@@ -92,5 +91,10 @@ internal object FirestoreService {
             }
             return@Continuation ref.downloadUrl
         })
+    }
+
+    fun retrieveImage(imgUri: String) : Task<ByteArray>{
+        val ref = storage.getReferenceFromUrl(imgUri)
+        return ref.getBytes(1024 * 1024)
     }
 }

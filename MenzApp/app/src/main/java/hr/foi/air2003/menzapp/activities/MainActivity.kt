@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp
+package hr.foi.air2003.menzapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.ui.*
 import hr.foi.air2003.menzapp.login.LoginActivity
