@@ -6,7 +6,7 @@ import hr.foi.air2003.menzapp.core.other.QueryItem
 data class Feedback(
         @DocumentId
         var feedbackId: String = "",
-        var author: Map<String, String> = mapOf(Pair("authorId", ""), Pair("fullName", ""), Pair("profilePicture", "")),
+        var authorId: String = "",
         var recipientId: String = "",
         var mark: Int = 0,
         var feedback: String = ""

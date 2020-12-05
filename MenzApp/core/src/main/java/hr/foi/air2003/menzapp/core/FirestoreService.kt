@@ -1,13 +1,11 @@
 package hr.foi.air2003.menzapp.core
 
 import android.content.ContentValues
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
-import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.FirebaseStorage
 import hr.foi.air2003.menzapp.core.other.Operation
 import java.util.*
@@ -16,8 +14,8 @@ internal object FirestoreService {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
 
-    fun post(collection: String, item: Any) {
-        db.collection(collection).document().set(item)
+    fun post(collection: String, data: Any) {
+        db.collection(collection).document().set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }

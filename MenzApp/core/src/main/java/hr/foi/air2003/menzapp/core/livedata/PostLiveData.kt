@@ -25,7 +25,7 @@ class PostLiveData (private val documentReference: DocumentReference) : LiveData
         if(snapshot != null && snapshot.exists()){
             val model = Post(
                 postId = snapshot.id,
-                author = snapshot.getField<Map<String, String>>("author")!!,
+                authorId = snapshot.getString("authorId")!!,
                 timestamp = snapshot.getTimestamp("timestamp")!!,
                 description = snapshot.getString("description")!!,
                 numberOfPeople = snapshot.getField<Int>("numberOfPeople")!!,

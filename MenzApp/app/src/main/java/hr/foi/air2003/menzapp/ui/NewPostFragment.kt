@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import hr.foi.air2003.menzapp.activities.MainActivity
@@ -138,7 +139,7 @@ class NewPostFragment : DialogFragment() {
         }
 
         val post = Post(
-                author = mapOf(Pair("authorId", user.userId), Pair("fullName", user.fullName)),
+                authorId = user.userId,
                 timestamp = dateTimePicker.getTimestamp(),
                 description = description,
                 numberOfPeople = numberOfPeople.toInt()

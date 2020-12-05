@@ -63,7 +63,7 @@ class ProfileFragment : Fragment() {
 
     private fun createRecyclerViews() {
         adapterPost = ProfilePostRecyclerViewAdapter()
-        adapterFeedback = ProfileFeedbackRecyclerViewAdapter()
+        adapterFeedback = ProfileFeedbackRecyclerViewAdapter(this)
 
         rvProfilePosts.hasFixedSize()
         rvProfilePosts.layoutManager = LinearLayoutManager(context)

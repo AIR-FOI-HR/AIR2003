@@ -6,7 +6,6 @@ import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.other.QueryItem
 
 typealias PostQueryResult = QueryResultOrException<Post, FirebaseFirestoreException>
-//typealias PostQueryResult = DataOrException<List<Post>, Exception>
 
 class PostQueryLiveData(query: Query) : FirestoreQueryLiveData<PostQueryResult>(query) {
     override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {

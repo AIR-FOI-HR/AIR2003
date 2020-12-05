@@ -80,7 +80,7 @@ class VisitedProfileFragment : Fragment() {
 
     private fun createRecyclerViews() {
         adapterPost = ProfilePostRecyclerViewAdapter()
-        adapterFeedback = ProfileFeedbackRecyclerViewAdapter()
+        adapterFeedback = ProfileFeedbackRecyclerViewAdapter(this)
 
         rvVisitedProfilePosts.hasFixedSize()
         rvVisitedProfilePosts.layoutManager = LinearLayoutManager(context)

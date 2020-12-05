@@ -2,7 +2,6 @@ package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.FileDownloadTask
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
@@ -38,11 +37,11 @@ class Repository {
     }
 
     fun getAllPosts(userId: String) : PostQueryLiveData {
-        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.NOT_EQUAL_TO, "author.authorId", userId))
+        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.NOT_EQUAL_TO, "authorId", userId))
     }
 
     fun getPostsByAuthor(authorId: String) : PostQueryLiveData {
-        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.EQUAL_TO, "author.authorId", authorId))
+        return PostQueryLiveData(FirestoreService.getAllWithQuery(Collection.POST, Operation.EQUAL_TO, "authorId", authorId))
     }
 
     fun getFeedbacksByRecipient(recipientId: String) : FeedbackQueryLiveData{

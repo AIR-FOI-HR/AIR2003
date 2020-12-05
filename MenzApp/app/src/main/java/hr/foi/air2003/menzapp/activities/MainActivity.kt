@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -20,15 +21,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         currentUser = FirebaseAuth.getInstance().currentUser
         if(currentUser === null) { userLogin() }
 
         requireUserData()
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         // Set current fragment when navigation icon is selected
         bottom_nav_bar.setOnNavigationItemSelectedListener {
@@ -41,12 +42,20 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
     }
 
     override fun onRestart() {
         super.onRestart()
         requireUserData()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQUEST_EXIT && resultCode == RESULT_OK){
+            startActivity(Intent(this, SplashScreenActivity::class.java))
+            finish()
+        }
     }
 
     private fun userLogin() {

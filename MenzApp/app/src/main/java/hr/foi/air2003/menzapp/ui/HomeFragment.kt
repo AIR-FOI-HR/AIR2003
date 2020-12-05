@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun createRecyclerView() {
-        adapterPost = HomePostRecyclerViewAdapter()
+        adapterPost = HomePostRecyclerViewAdapter(this)
 
         rvPostsLayout.hasFixedSize()
         rvPostsLayout.layoutManager = LinearLayoutManager(context)
@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
 
         adapterPost.authorClick = { post ->
             val visitedProfileFragment = VisitedProfileFragment()
-            authorId = post.author["authorId"].toString()
+            authorId = post.authorId
             visitedProfileFragment.setTargetFragment(this, 1)
             (activity as MainActivity).setCurrentFragment(visitedProfileFragment)
         }

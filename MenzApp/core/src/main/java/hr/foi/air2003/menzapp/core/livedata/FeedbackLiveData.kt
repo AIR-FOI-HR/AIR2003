@@ -25,7 +25,7 @@ class FeedbackLiveData(private val documentReference: DocumentReference) : LiveD
         if(snapshot != null && snapshot.exists()){
             val model = Feedback(
                 feedbackId = snapshot.id,
-                author = snapshot.getField<Map<String,String>>("author")!!,
+                authorId = snapshot.getString("authorId")!!,
                 recipientId = snapshot.getString("recipientId")!!,
                 mark = snapshot.getField<Int>("mark")!!,
                 feedback = snapshot.getString("feedback")!!

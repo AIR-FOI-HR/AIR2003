@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.livedata.PostQueryLiveData
+import hr.foi.air2003.menzapp.core.livedata.UserLiveData
 import hr.foi.air2003.menzapp.core.model.Post
 
 class HomeViewModel : ViewModel() {
@@ -18,7 +19,11 @@ class HomeViewModel : ViewModel() {
         repository.updateUserRequests(post)
     }
 
-    fun getUserImage(imgUri: String): Task<ByteArray> {
+    fun getUser(userId: String) : UserLiveData{
+        return repository.getUser(userId)
+    }
+
+    fun getUserImage(imgUri: String) : Task<ByteArray> {
         return repository.retrieveImage(imgUri)
     }
 }

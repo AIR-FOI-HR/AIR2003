@@ -2,8 +2,6 @@ package hr.foi.air2003.menzapp.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +16,9 @@ import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_filter.*
+
+const val REQUEST_EXIT = 0
+const val REQUEST_FILE_CHOOSER = 1
 
 class SettingsFragmentActivity : FragmentActivity() {
     private lateinit var user: User
@@ -38,7 +39,7 @@ class SettingsFragmentActivity : FragmentActivity() {
         }
 
         btnBackSettings.setOnClickListener {
-            this.onBackPressed()
+            super.onBackPressed()
         }
 
         btnNewProfilePhoto.setOnClickListener {
@@ -64,7 +65,7 @@ class SettingsFragmentActivity : FragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == REQUEST_FILE_CHOOSER && resultCode == Activity.RESULT_OK && data != null) {
             filePath = data.data!!
 
             val bitmap = ImageConverter.resizeBitmap(MediaStore.Images.Media.getBitmap(contentResolver, filePath), ivSettingsProfilePhoto)
@@ -76,7 +77,7 @@ class SettingsFragmentActivity : FragmentActivity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Odaberi fotografiju"), 1)
+        startActivityForResult(Intent.createChooser(intent, "Odaberi fotografiju"), REQUEST_FILE_CHOOSER)
     }
 
     private fun showPopup(view: View) {
@@ -103,7 +104,8 @@ class SettingsFragmentActivity : FragmentActivity() {
                 }
                 R.id.headerMenuLogOut -> {
                     FirebaseAuth.getInstance().signOut()
-                    startActivity(Intent(this, SplashScreenActivity::class.java))
+                    startActivityForResult(Intent(this, MainActivity::class.java), REQUEST_EXIT)
+                    finish()
                 }
             }
 
