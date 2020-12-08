@@ -13,6 +13,7 @@ import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
@@ -22,10 +23,10 @@ import java.text.SimpleDateFormat
 
 class HomeFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private lateinit var viewModel: HomeViewModel
     private lateinit var adapterPost: HomePostRecyclerViewAdapter
     private lateinit var user: User
     private lateinit var authorId: String
+    private val viewModel = SharedViewModel()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
         createRecyclerView()
 
         dateTimePicker = DateTimePicker()
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        //viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         val currentDateTime = Timestamp(System.currentTimeMillis() / 1000, 0)
         filterPosts(currentDateTime)

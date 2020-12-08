@@ -16,6 +16,7 @@ import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private lateinit var viewModel: VisitedProfileViewModel
+    private val viewModel = SharedViewModel()
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var authorId: String
@@ -47,7 +48,6 @@ class VisitedProfileFragment : Fragment() {
         expandViewListener()
         createRecyclerViews()
 
-        viewModel = ViewModelProvider(this).get(VisitedProfileViewModel::class.java)
         dateTimePicker = DateTimePicker()
 
         requireUserData()
@@ -159,7 +159,7 @@ class VisitedProfileFragment : Fragment() {
         tvVisitedProfileAboutMe.text = visitedUser.bio
         tvVisitedProfileSubscribers.text = "Broj pretplatnika: ${visitedUser.subscribersCount}"
 
-        viewModel.getProfilePicture(user.profilePicture)
+        viewModel.getImage(user.profilePicture)
             .addOnSuccessListener { bytes ->
                 val bitmap = ImageConverter.convertBytesToBitmap(bytes)
                 val resized = ImageConverter.resizeBitmap(bitmap, ivVisitedProfilePhoto)
@@ -183,7 +183,7 @@ class VisitedProfileFragment : Fragment() {
     }
 
     private fun createPostLayout(authorId: String) {
-        val liveData = viewModel.getPosts(authorId)
+        val liveData = viewModel.getPostsByAuthor(authorId)
         liveData.observe(viewLifecycleOwner, {
             val posts: MutableList<Post> = mutableListOf()
             val data = it.data

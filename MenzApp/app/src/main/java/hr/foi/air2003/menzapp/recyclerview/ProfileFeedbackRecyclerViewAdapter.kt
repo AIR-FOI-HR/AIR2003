@@ -7,12 +7,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.ImageConverter
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
-import hr.foi.air2003.menzapp.ui.ProfileViewModel
 import kotlinx.android.synthetic.main.profile_feedback_list_item.view.*
 
 class ProfileFeedbackRecyclerViewAdapter(private val fragment: Fragment) : GenericRecyclerViewAdaper<Feedback>(){
-    private val viewModel = ProfileViewModel()
+    private val viewModel = SharedViewModel()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Feedback> {
         val view = LayoutInflater.from(parent.context)
@@ -31,7 +31,7 @@ class ProfileFeedbackRecyclerViewAdapter(private val fragment: Fragment) : Gener
                     itemView.tvProfileUserName.text = user.fullName
 
                     val imgUri = user.profilePicture
-                    viewModel.getProfilePhoto(imgUri)
+                    viewModel.getImage(imgUri)
                             .addOnSuccessListener { bytes ->
                                 val bitmap = ImageConverter.convertBytesToBitmap(bytes)
                                 val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivProfileUserPhoto)

@@ -4,12 +4,12 @@ import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
@@ -20,7 +20,7 @@ import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private lateinit var viewModel: NewPostViewModel
+    private lateinit var viewModel: SharedViewModel
     private lateinit var post: Post
     private lateinit var user: User
 
@@ -43,7 +43,7 @@ class NewPostFragment : DialogFragment() {
         setDialogLayout()
 
         dateTimePicker = DateTimePicker()
-        viewModel = ViewModelProvider(this).get(NewPostViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         if (post.postId != "") {
             textNewPost.text = "UREDI OBJAVU"

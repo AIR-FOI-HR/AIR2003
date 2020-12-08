@@ -18,6 +18,7 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.SettingsFragmentActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -28,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class ProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private lateinit var viewModel: ProfileViewModel
+    private val viewModel = SharedViewModel()
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var user: User
@@ -48,7 +49,6 @@ class ProfileFragment : Fragment() {
         expandViewListener()
         createRecyclerViews()
 
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         dateTimePicker = DateTimePicker()
 
         retrieveUserData(user)
@@ -132,7 +132,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun createPostLayout(userId: String) {
-        val liveData = viewModel.getPosts(userId)
+        val liveData = viewModel.getPostsByAuthor(userId)
         liveData.observe(viewLifecycleOwner, {
             val posts: MutableList<Post> = mutableListOf()
             val data = it.data
@@ -152,7 +152,7 @@ class ProfileFragment : Fragment() {
         tvProfileAboutMe.text = user.bio
         tvProfileSubscribers.text = "Broj pretplatnika: ${user.subscribersCount}"
 
-        viewModel.getProfilePhoto(user.profilePicture)
+        viewModel.getImage(user.profilePicture)
             .addOnSuccessListener { bytes ->
                 val bitmap = ImageConverter.convertBytesToBitmap(bytes)
                 val resized = ImageConverter.resizeBitmap(bitmap, ivProfilePhoto)

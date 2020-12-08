@@ -4,17 +4,18 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.ui.HomeFragment
-import hr.foi.air2003.menzapp.ui.HomeViewModel
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
 
 class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericRecyclerViewAdaper<Post>(){
     private val dateTimePicker = DateTimePicker()
-    private val viewModel = HomeViewModel()
+    private val viewModel = SharedViewModel()
     var authorClick: ((Post)->Unit)? = null
     var respondClick: ((Post)->Unit)? = null
 
@@ -53,7 +54,7 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                     itemView.tvHomePostAuthorName.text = user.fullName
                     val imgUri = user.profilePicture
 
-                    viewModel.getUserImage(imgUri)
+                    viewModel.getImage(imgUri)
                             .addOnSuccessListener { bytes ->
                                 val bitmap = ImageConverter.convertBytesToBitmap(bytes)
                                 val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivHomePostImage)

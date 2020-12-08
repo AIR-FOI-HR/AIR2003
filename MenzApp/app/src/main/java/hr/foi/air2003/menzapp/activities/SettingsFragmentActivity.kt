@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.ImageConverter
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_filter.*
@@ -23,7 +24,7 @@ const val REQUEST_FILE_CHOOSER = 1
 class SettingsFragmentActivity : FragmentActivity() {
     private lateinit var user: User
     private lateinit var filePath: Uri
-    private val viewModel = SettingsViewModel()
+    private val viewModel = SharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

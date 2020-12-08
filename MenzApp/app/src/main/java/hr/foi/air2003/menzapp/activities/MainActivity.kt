@@ -2,19 +2,19 @@ package hr.foi.air2003.menzapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.ui.*
 import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: MainViewModel = MainViewModel()
+    private val viewModel: SharedViewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
     private lateinit var user: User
 
