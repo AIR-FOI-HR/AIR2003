@@ -25,5 +25,7 @@
     <string name="notification_author_name">Author Name</string>
     <string name="notification_text"> This is blank notification text for test purposes. </string>
     <string name="notification_date_time"> Date and Time </string>
+    <string name="notifications_my_profile"> Moj profil </string>
+    <string name="notification_time_passed"> Time passed </string>
 
 </resources>
