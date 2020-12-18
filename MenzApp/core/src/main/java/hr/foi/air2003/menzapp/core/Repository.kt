@@ -4,7 +4,6 @@ import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
-import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.Collection
@@ -68,6 +67,10 @@ class Repository {
     fun getChatsByParticipant(userId: String) : ChatQueryLiveData{
         val users = mutableListOf(userId)
         return ChatQueryLiveData(FirestoreService.getAllWithQuery(Collection.CHAT, Operation.IN, "participantsId", users))
+    }
+
+    fun getMessageById(messageId: String) : MessageLiveData{
+        return MessageLiveData(FirestoreService.getDocumentByID(Collection.MESSAGE, messageId))
     }
 
     private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {

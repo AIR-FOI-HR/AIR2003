@@ -8,6 +8,7 @@ data class Chat(
         var chatId: String = "",
         var chatName: String = "",
         var postId: String = "",
+        var lastMessage: String = "",
         var participantsId: List<String> = listOf()
 ) : QueryItem<Chat>{
         override val item: Chat

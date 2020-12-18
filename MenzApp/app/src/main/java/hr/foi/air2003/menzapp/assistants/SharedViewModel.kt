@@ -4,10 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import hr.foi.air2003.menzapp.core.Repository
-import hr.foi.air2003.menzapp.core.livedata.ChatQueryLiveData
-import hr.foi.air2003.menzapp.core.livedata.FeedbackQueryLiveData
-import hr.foi.air2003.menzapp.core.livedata.PostQueryLiveData
-import hr.foi.air2003.menzapp.core.livedata.UserLiveData
+import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 
@@ -56,5 +53,9 @@ class SharedViewModel : ViewModel() {
 
     fun getChat(userId: String) : ChatQueryLiveData {
         return repository.getChatsByParticipant(userId)
+    }
+
+    fun getMessage(messageId: String): MessageLiveData {
+        return repository.getMessageById(messageId)
     }
 }

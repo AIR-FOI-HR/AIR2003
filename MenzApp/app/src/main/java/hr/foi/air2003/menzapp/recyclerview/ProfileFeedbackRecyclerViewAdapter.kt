@@ -24,7 +24,8 @@ class ProfileFeedbackRecyclerViewAdapter(private val fragment: Fragment) : Gener
         override fun onBind(item: Feedback) {
             itemView.tvFeedbackDescription.text = item.feedback
 
-            viewModel.getUser(item.authorId).observe(fragment.viewLifecycleOwner, {
+            val liveData = viewModel.getUser(item.authorId)
+            liveData.observe(fragment.viewLifecycleOwner, {
                 val user = it.data
 
                 if(user != null){

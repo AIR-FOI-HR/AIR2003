@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ChatMessagesRecyclerViewAdapter
-import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_chat.*
 
 class ChatFragment : Fragment() {
     private lateinit var adapterChat: ChatMessagesRecyclerViewAdapter
@@ -36,18 +36,25 @@ class ChatFragment : Fragment() {
     }
 
     private fun getChat() {
-        // TODO Show list of chats
-        viewModel.getChat(user.userId).observe(viewLifecycleOwner, {
+        val liveData = viewModel.getChat(user.userId)
+        liveData.observe(viewLifecycleOwner, {
+            val chats: MutableList<Chat> = mutableListOf()
+            val data = it.data
+            if(data != null){
+                for (d in data)
+                    chats.add(d.item)
 
+                adapterChat.addItems(chats)
+            }
         })
     }
 
     private fun createRecyclerView() {
-        adapterChat = ChatMessagesRecyclerViewAdapter()
+        adapterChat = ChatMessagesRecyclerViewAdapter(this)
 
-        rvPostsLayout.hasFixedSize()
-        rvPostsLayout.layoutManager = LinearLayoutManager(context)
-        rvPostsLayout.itemAnimator = DefaultItemAnimator()
-        rvPostsLayout.adapter = adapterChat
+        rvAllMessages.hasFixedSize()
+        rvAllMessages.layoutManager = LinearLayoutManager(context)
+        rvAllMessages.itemAnimator = DefaultItemAnimator()
+        rvAllMessages.adapter = adapterChat
     }
 }
