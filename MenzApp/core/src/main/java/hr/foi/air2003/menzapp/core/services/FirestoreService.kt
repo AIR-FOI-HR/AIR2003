@@ -1,4 +1,4 @@
-package hr.foi.air2003.menzapp.core
+package hr.foi.air2003.menzapp.core.services
 
 import android.content.ContentValues
 import android.net.Uri

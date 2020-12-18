@@ -8,6 +8,7 @@ import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.Collection
 import hr.foi.air2003.menzapp.core.other.Operation
+import hr.foi.air2003.menzapp.core.services.FirestoreService
 import org.json.JSONArray
 import org.json.JSONObject
 
