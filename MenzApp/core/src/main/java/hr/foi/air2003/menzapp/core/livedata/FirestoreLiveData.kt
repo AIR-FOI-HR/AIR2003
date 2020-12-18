@@ -16,5 +16,5 @@ open class FirestoreLiveData<T>(private val documentReference: DocumentReference
         listenerRegistration?.remove()
     }
 
-    override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {}
+    override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {}
 }

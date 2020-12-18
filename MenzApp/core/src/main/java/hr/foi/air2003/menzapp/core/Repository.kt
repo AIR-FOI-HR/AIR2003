@@ -66,7 +66,7 @@ class Repository {
 
     fun getChatsByParticipant(userId: String) : ChatQueryLiveData{
         val users = mutableListOf(userId)
-        return ChatQueryLiveData(FirestoreService.getAllWithQuery(Collection.CHAT, Operation.IN, "participantsId", users))
+        return ChatQueryLiveData(FirestoreService.getAllWithQuery(Collection.CHAT, Operation.ARRAY_CONTAINS_ANY, "participantsId", users))
     }
 
     fun getMessageById(messageId: String) : MessageLiveData{

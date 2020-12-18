@@ -109,13 +109,8 @@ class DateTimePicker(
     fun timestampToShortString(timestamp: Timestamp): String {
         val cal = Calendar.getInstance()
         val currentTimestamp = Calendar.getInstance()
-
         currentTimestamp.timeInMillis = System.currentTimeMillis()
         cal.timeInMillis = timestamp.seconds * 1000
-
-        val d = cal.get(Calendar.DAY_OF_MONTH)
-        val m = cal.get(Calendar.MONTH)
-        val y = cal.get(Calendar.YEAR)
         val h = cal.get(Calendar.HOUR_OF_DAY)
         val min = cal.get(Calendar.MINUTE)
 

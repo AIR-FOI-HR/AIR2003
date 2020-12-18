@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 
 class ChatFragment : Fragment() {
     private lateinit var adapterChat: ChatMessagesRecyclerViewAdapter
-    private lateinit var user: User
+    lateinit var user: User
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(

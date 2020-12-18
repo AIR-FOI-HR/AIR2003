@@ -9,7 +9,21 @@ import hr.foi.air2003.menzapp.core.other.DataOrException
 typealias MessageOrException = DataOrException<Message, FirebaseFirestoreException>
 
 class MessageLiveData(private val documentReference: DocumentReference) : FirestoreLiveData<MessageOrException>(documentReference) {
-    override fun onEvent(value: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-        TODO("Not yet implemented")
+    override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
+        if(snapshot != null && snapshot.exists()){
+            val model = Message(
+                messageId = snapshot.id,
+                authorId = snapshot.getString("authorId")!!,
+                chatId = snapshot.getString("chatId")!!,
+                sentTimestamp = snapshot.getTimestamp("sentTimestamp")!!,
+                seenTimestamp = snapshot.getTimestamp("seenTimestamp")!!,
+                content = snapshot.getString("content")!!
+            )
+
+            value = MessageOrException(model, error)
+        }
+        else if(error != null){
+            // TODO Handle error
+        }
     }
 }
