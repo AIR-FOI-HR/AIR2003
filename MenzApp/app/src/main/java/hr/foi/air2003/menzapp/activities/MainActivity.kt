@@ -1,5 +1,8 @@
 package hr.foi.air2003.menzapp.activities
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.services.MenuService
 import hr.foi.air2003.menzapp.ui.*
 import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,10 +21,19 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: SharedViewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
     private lateinit var user: User
+    private lateinit var jobScheduler: JobScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Scheduling menu service
+        val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        val jobInfo = JobInfo.Builder(1, ComponentName(this, MenuService::class.java))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(24 * 3600000) // Not working
+                .build()
+        jobScheduler.schedule(jobInfo)
     }
 
     override fun onStart() {

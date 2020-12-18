@@ -2,16 +2,31 @@ package hr.foi.air2003.menzapp.core.services
 
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.content.SharedPreferences
 import hr.foi.air2003.menzapp.core.model.Menu
 import hr.foi.air2003.menzapp.core.other.Collection
 import org.jsoup.Jsoup
+import java.util.*
 
 
 class MenuService : JobService() {
     override fun onStartJob(params: JobParameters?): Boolean {
-        val thread = Thread { getMenuItems() }
-        thread.start()
-        return false
+        val cal = Calendar.getInstance()
+        val currentDay = cal.get(Calendar.DAY_OF_MONTH)
+        val settings = getSharedPreferences("PREFS", 0)
+        val lastDay = settings.getInt("day", 0)
+
+        if(currentDay != lastDay){
+            // Code runs once a day
+            val editor = settings.edit()
+            editor.putInt("day", currentDay)
+            editor.apply()
+
+            val thread = Thread { getMenuItems() }
+            thread.start()
+        }
+
+        return true
     }
 
     private fun getMenuItems() {
@@ -35,9 +50,9 @@ class MenuService : JobService() {
         }
 
         val model = Menu(
-            date = date,
-            lunch = lunch,
-            dinner = dinner,
+                date = date.toString(),
+                lunch = lunch,
+                dinner = dinner,
         )
 
         FirestoreService.post(Collection.MENU, model)
