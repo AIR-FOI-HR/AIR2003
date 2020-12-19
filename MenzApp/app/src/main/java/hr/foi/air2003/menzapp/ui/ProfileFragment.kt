@@ -29,11 +29,11 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 
 class ProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private val viewModel = SharedViewModel()
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var user: User
     private lateinit var post: Post
+    private val viewModel = SharedViewModel()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -81,7 +81,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun expandViewListener() {
-        expandableProfilePosts.visibility = View.GONE
+        expandableProfilePosts.visibility = View.VISIBLE
         expandableProfileFeedbacks.visibility = View.GONE
 
         cvProfileMyPosts.setOnClickListener {
