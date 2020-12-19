@@ -10,7 +10,7 @@ data class Chat(
         var postId: String = "",
         var lastMessage: String = "",
         var participantsId: List<String> = listOf()
-) : QueryItem<Chat>{
+) : QueryItem<Chat> {
         override val item: Chat
                 get() = this
         override val id: String

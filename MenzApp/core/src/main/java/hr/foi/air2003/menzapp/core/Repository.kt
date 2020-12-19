@@ -2,7 +2,6 @@ package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
-import com.google.firebase.Timestamp
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
@@ -23,11 +22,7 @@ class Repository {
     }
 
     fun updateUser(user: User){
-        val json = Gson().toJson(user)
-        val jsonObj = JSONObject(json)
-        val map = jsonObj.toMap()
-
-        FirestoreService.update(Collection.USER, user.userId, map)
+        FirestoreService.update(Collection.USER, user.userId, user)
     }
 
     fun uploadImage(filePath: Uri) : Task<Uri> {
@@ -59,11 +54,7 @@ class Repository {
     }
 
     fun updatePost(post: Post){
-        val json = Gson().toJson(post)
-        val jsonObj = JSONObject(json)
-        val map = jsonObj.toMap()
-
-        FirestoreService.update(Collection.POST, post.postId, map)
+        FirestoreService.update(Collection.POST, post.postId, post)
     }
 
     fun getChatsByParticipant(userId: String) : ChatQueryLiveData{
@@ -77,19 +68,5 @@ class Repository {
 
     fun getMenus(): MenuQueryLiveData{
         return MenuQueryLiveData(FirestoreService.getAll(Collection.MENU))
-    }
-
-    private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
-        when (val value = this[it])
-        {
-            is JSONArray ->
-            {
-                val map = (0 until value.length()).associate { Pair(it.toString(), value[it]) }
-                JSONObject(map).toMap().values.toList()
-            }
-            is JSONObject -> value.toMap()
-            JSONObject.NULL -> null
-            else            -> value
-        }
     }
 }

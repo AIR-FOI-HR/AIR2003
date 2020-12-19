@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import java.lang.Exception
 
 class NewPostFragment : DialogFragment() {
@@ -156,7 +157,7 @@ class NewPostFragment : DialogFragment() {
     private fun editPost(post: Post) {
         try {
             viewModel.updatePost(post)
-            rvPostsLayout.adapter?.notifyDataSetChanged()
+            targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
             notifyUser(true)
         }catch (e: Exception){
@@ -167,7 +168,7 @@ class NewPostFragment : DialogFragment() {
     private fun saveNewPost(post: Post) {
         try {
             viewModel.createPost(post)
-            rvPostsLayout.adapter?.notifyDataSetChanged()
+            targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
             notifyUser(true)
         } catch (e: Exception) {

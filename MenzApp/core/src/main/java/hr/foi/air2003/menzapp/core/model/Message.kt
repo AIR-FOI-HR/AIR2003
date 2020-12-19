@@ -12,7 +12,7 @@ data class Message(
         var sentTimestamp: Timestamp,
         var seenTimestamp: Timestamp,
         var content: String = ""
-) : QueryItem<Message>{
+) : QueryItem<Message> {
         override val item: Message
                 get() = this
         override val id: String

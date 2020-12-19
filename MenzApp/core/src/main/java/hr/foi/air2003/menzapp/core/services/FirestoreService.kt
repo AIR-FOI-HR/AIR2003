@@ -7,7 +7,10 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.other.Operation
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 
 internal object FirestoreService {
@@ -15,7 +18,7 @@ internal object FirestoreService {
     private val storage = FirebaseStorage.getInstance()
 
     fun post(collection: String, data: Any) {
-        db.collection(collection).add(data)
+        db.collection(collection).document().set(getMap(data))
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
@@ -43,14 +46,14 @@ internal object FirestoreService {
 
     fun postDocumentWithID(collection: String, document: String, data: Any) {
         db.collection(collection).document(document)
-                .set(data)
+                .set(getMap(data))
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }
 
-    fun update(collection: String, document: String, data: Map<String, *>) {
+    fun update(collection: String, document: String, data: Any) {
         db.collection(collection).document(document)
-                .update(data)
+                .update(getMap(data))
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
@@ -94,5 +97,25 @@ internal object FirestoreService {
     fun retrieveImage(imgUri: String) : Task<ByteArray>{
         val ref = storage.getReferenceFromUrl(imgUri)
         return ref.getBytes(1024 * 1024)
+    }
+
+    private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
+        when (val value = this[it])
+        {
+            is JSONArray ->
+            {
+                val map = (0 until value.length()).associate { Pair(it.toString(), value[it]) }
+                JSONObject(map).toMap().values.toList()
+            }
+            is JSONObject -> value.toMap()
+            JSONObject.NULL -> null
+            else            -> value
+        }
+    }
+
+    private fun getMap(data: Any): Map<String, *> {
+        val json = Gson().toJson(data)
+        val jsonObj = JSONObject(json)
+        return jsonObj.toMap()
     }
 }
