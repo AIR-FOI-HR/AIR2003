@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    tools:context=".fragments.BottomFilterFragment">
+    tools:context=".ui.BottomFilterFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <View
@@ -23,21 +22,22 @@
                 android:layout_height="10dp"
                 android:background="@drawable/filter_line"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="25dp">
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp">
 
                 <LinearLayout
                     android:id="@+id/layoutDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginRight="70dp"
-                    android:layout_marginLeft="50dp">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="start">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -45,8 +45,8 @@
                         android:paddingBottom="4dp"
                         android:textColor="@color/black_typo"
                         android:fontFamily="@font/raleway"
-                        android:textSize="16dp"
-                        android:text="Datum"/>
+                        android:textSize="16sp"
+                        android:text="Datum" />
 
                     <TextView
                         android:id="@+id/tvSelectedDate"
@@ -54,16 +54,18 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_typo"
                         android:fontFamily="@font/raleway_bold"
-                        android:textSize="17dp"
-                        android:text="7. studenog 2020."/>
+                        android:textSize="17sp"
+                        android:text="7. studenog 2020." />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layoutTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="end">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -71,8 +73,8 @@
                         android:paddingBottom="4dp"
                         android:textColor="@color/black_typo"
                         android:fontFamily="@font/raleway"
-                        android:textSize="16dp"
-                        android:text="Vrijeme"/>
+                        android:textSize="16sp"
+                        android:text="Vrijeme" />
 
                     <TextView
                         android:id="@+id/tvSelectedTime"
@@ -80,8 +82,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black_typo"
                         android:fontFamily="@font/raleway_bold"
-                        android:textSize="18dp"
-                        android:text="12:00"/>
+                        android:textSize="18sp"
+                        android:text="12:00" />
 
                 </LinearLayout>
 

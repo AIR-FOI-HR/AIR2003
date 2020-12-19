@@ -1,4 +1,4 @@
-include ':database'
+include ':core'
 include ':login'
 include ':app'
 rootProject.name = "MenzApp"

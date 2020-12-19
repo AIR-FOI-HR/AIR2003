@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.VisitedProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green_primary"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/green_primary"
+                android:layout_alignParentStart="true">
+
+                <Button
+                    android:id="@+id/btnBackSettings"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/ic_baseline_arrow_back_24" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnMore"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/ic_vertical_more"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvProfilePhoto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardElevation="3dp"
+                app:cardCornerRadius="50dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp">
+
+                <ImageView
+                    android:id="@+id/ivSettingsProfilePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_profile_photo" />
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnNewProfilePhoto"
+                    android:layout_width="110dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_settings"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:text="Uredi sliku profila"
+                    android:textAllCaps="false"
+                    android:textColor="@color/orange_secondary"
+                    android:textSize="11dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Ime i Prezime"
+            android:paddingBottom="5dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:textColor="@color/grey_dark"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/tvSettingsFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/txt_edit_background"
+            android:fontFamily="@font/raleway"
+            android:textColor="@color/black_typo"
+            android:padding="8dp"
+            android:textSize="15sp"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textSettingsDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_post_description"
+            android:paddingBottom="5dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:textColor="@color/grey_dark"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/tvSettingsBio"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/txt_edit_background"
+            android:fontFamily="@font/raleway"
+            android:textColor="@color/black_typo"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btn_saveSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/btn_filled_angled"
+                android:padding="10dp"
+                android:text="@string/edit_post_save"
+                android:fontFamily="@font/raleway_semibold"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

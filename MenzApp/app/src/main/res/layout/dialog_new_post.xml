@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:layout_margin="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textNewPost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/new_post_title"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:textColor="@color/black_typo"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="30dp"
+                    android:background="@color/grey_dark" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/btnCancelNewPost"
+                    android:layout_width="36dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/ic_x" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_post_date"
+            android:fontFamily="@font/raleway_semibold"
+            android:paddingBottom="5dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="20dp"
+            android:textColor="@color/grey_dark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/txt_edit_background"
+            android:fontFamily="@font/raleway"
+            android:textColor="@color/black_typo"
+            android:padding="8dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_post_time"
+            android:paddingBottom="5dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:textColor="@color/grey_dark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/txt_edit_background"
+            android:textColor="@color/black_typo"
+            android:fontFamily="@font/raleway"
+            android:padding="8dp"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textPersonCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_post_person_count"
+            android:paddingBottom="5dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:textColor="@color/grey_dark"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/tvHomePostPeople"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/txt_edit_background"
+            android:fontFamily="@font/raleway"
+            android:textColor="@color/black_typo"
+            android:padding="8dp"
+            android:textSize="15sp"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_post_description"
+            android:paddingBottom="5dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:textColor="@color/grey_dark"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/tvProfilePostDescription"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/txt_edit_background"
+            android:fontFamily="@font/raleway"
+            android:textColor="@color/black_typo"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btn_saveNewPost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_filled_angled"
+                android:padding="10dp"
+                android:text="@string/edit_post_save"
+                android:fontFamily="@font/raleway_semibold"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

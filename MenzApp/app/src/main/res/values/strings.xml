@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MenzApp</string>
 
-    <!-- DIALOG EDIT FEED -->
+    <!-- DIALOG EDIT FEED AND NEW POST-->
     <string name="edit_post_title">UREDI OBJAVU</string>
     <string name="edit_post_date">Datum</string>
     <string name="edit_post_time">Vrijeme</string>
@@ -9,4 +9,28 @@
     <string name="edit_post_description">Opis</string>
     <string name="edit_post_delete">OBRIŠI</string>
     <string name="edit_post_save">SPREMI</string>
+    <string name="new_post_title">NOVA OBJAVA</string>
+    <string name="author_name">Author Name</string>
+    <string name="date_time">Date and time</string>
+    <string name="number_of_people">Number of people...</string>
+    <string name="description">Description that can be 3 lines long...</string>
+    <string name="subscribe">Pretplati se</string>
+    <string name="unsubscribe">Pretplaćeni ste</string>
+    <string name="obavijesti">Obavijesti</string>
+    <string name="uredi_lozinku">Uredi lozinku</string>
+    <string name="odjava">Odjava</string>
+    <string name="poruke">Poruke</string>
+    <string name="jelovnik">Jelovnik</string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="notifications">OBAVIJESTI</string>
+    <string name="notification_author_name">Author Name</string>
+    <string name="notification_text"> This is blank notification text for test purposes. </string>
+    <string name="notification_date_time"> Date and Time </string>
+    <string name="notifications_my_profile"> Moj profil </string>
+    <string name="notification_time_passed"> Time passed </string>
+    <string name="notification_confirm"> POTVRDI </string>
+    <string name="notification_delete"> OBRIŠI </string>
+
+
 </resources>

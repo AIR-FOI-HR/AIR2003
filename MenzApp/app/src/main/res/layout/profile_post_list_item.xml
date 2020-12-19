@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvProfilePostTimestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time"
+                android:fontFamily="@font/raleway_medium"
+                android:textSize="16sp"
+                android:textColor="@color/black_typo"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/tvProfilePostPeople"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/number_of_people"
+                android:textSize="13sp"
+                android:textColor="@color/grey_light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnEditPost"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_edit_fill" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvProfilePostDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:textColor="@color/black_typo"
+        android:textSize="13sp"
+        android:text="@string/description" />
+
+    <View
+        android:id="@+id/breakLinePost"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginVertical="25dp"
+        android:background="@drawable/txt_line"
+        android:orientation="vertical" />
+
+</LinearLayout>
