@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: SharedViewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
     private lateinit var user: User
-    private lateinit var jobScheduler: JobScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

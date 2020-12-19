@@ -3,6 +3,7 @@ package hr.foi.air2003.menzapp.assistants
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
@@ -57,5 +58,9 @@ class SharedViewModel : ViewModel() {
 
     fun getMessage(messageId: String): MessageLiveData {
         return repository.getMessageById(messageId)
+    }
+
+    fun getMenus(): MenuQueryLiveData {
+        return repository.getMenus()
     }
 }

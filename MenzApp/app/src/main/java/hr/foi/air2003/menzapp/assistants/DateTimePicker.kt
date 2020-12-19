@@ -84,6 +84,12 @@ class DateTimePicker(
         return Timestamp(sdf!!.time / 1000, 0)
     }
 
+    fun dateToTimestamp(): Timestamp{
+        val timestamp = "$year-${month + 1}-$day"
+        val sdf = SimpleDateFormat("yyyy-MM-dd").parse(timestamp)
+        return Timestamp(sdf!!.time / 1000, 0)
+    }
+
     fun getTimestampString(): String {
         return "$year-${String.format("%02d", month + 1)}-${
             String.format(

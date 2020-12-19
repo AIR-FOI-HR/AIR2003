@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
@@ -72,6 +73,10 @@ class Repository {
 
     fun getMessageById(messageId: String) : MessageLiveData{
         return MessageLiveData(FirestoreService.getDocumentByID(Collection.MESSAGE, messageId))
+    }
+
+    fun getMenus(): MenuQueryLiveData{
+        return MenuQueryLiveData(FirestoreService.getAll(Collection.MENU))
     }
 
     private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {

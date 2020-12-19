@@ -3,23 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
 
     <TextView
         android:id="@+id/tvMenuName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Menu 1"
         android:fontFamily="@font/raleway_medium"
         android:textColor="@color/black_typo"
         android:textSize="14sp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="5dp"/>
 
     <TextView
         android:id="@+id/tvMenuDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bistra juha • Pohani file oslića • Pommes frites • Zelena salata • Voće"
         android:fontFamily="@font/raleway"
         android:textColor="@color/black_typo"
         android:textSize="13sp"/>

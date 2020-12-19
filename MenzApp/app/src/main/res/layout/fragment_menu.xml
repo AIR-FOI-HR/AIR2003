@@ -34,14 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp">
+            android:layout_marginTop="20dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvMenuLunch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="5dp">
+                app:cardCornerRadius="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,7 +56,6 @@
                         android:fontFamily="@font/raleway_bold"
                         android:textSize="14sp"
                         android:textColor="@color/black_typo"
-                        android:text="Ručak, 11.12.2020."
                         android:layout_margin="7dp"
                         android:padding="5dp" />
 
@@ -79,9 +79,10 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cvMenuDinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_margin="20dp"
                 app:cardCornerRadius="5dp">
 
                 <LinearLayout
@@ -97,8 +98,7 @@
                         android:padding="5dp"
                         android:fontFamily="@font/raleway_bold"
                         android:textSize="14sp"
-                        android:textColor="@color/black_typo"
-                        android:text="Večera, 11.12.2020." />
+                        android:textColor="@color/black_typo" />
 
                     <LinearLayout
                         android:id="@+id/expandableDinnerItems"
