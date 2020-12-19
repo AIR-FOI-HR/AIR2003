@@ -29,5 +29,8 @@
     <string name="notification_date_time"> Date and Time </string>
     <string name="notifications_my_profile"> Moj profil </string>
     <string name="notification_time_passed"> Time passed </string>
+    <string name="notification_confirm"> POTVRDI </string>
+    <string name="notification_delete"> OBRIŠI </string>
+
 
 </resources>
