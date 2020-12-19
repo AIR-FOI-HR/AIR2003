@@ -15,11 +15,14 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_filter.*
 
 const val REQUEST_EXIT = 0
 const val REQUEST_FILE_CHOOSER = 1
+const val REQUEST_SAVE = 2
 
 class SettingsFragmentActivity : FragmentActivity() {
     private lateinit var user: User
@@ -35,6 +38,8 @@ class SettingsFragmentActivity : FragmentActivity() {
     override fun onStart() {
         super.onStart()
 
+        // TODO Show current settings and delete profile picture
+
         btnMore.setOnClickListener {
             showPopup(btnMore)
         }
@@ -48,18 +53,14 @@ class SettingsFragmentActivity : FragmentActivity() {
         }
 
         btn_saveSettings.setOnClickListener {
-            val task = viewModel.uploadImage(filePath)
-
-            if(task.isSuccessful){
-                user.fullName = tvSettingsFullName.text.toString()
-                user.bio = tvSelectedDate.text.toString()
-                user.profilePicture = task.result.toString()
-
-                viewModel.updateUser(user)
-            }else if(task.exception != null){
-                // TODO Handle exception
-                Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
-            }
+            user.fullName = tvSettingsFullName.text.toString()
+            user.bio = tvSettingsBio.text.toString()
+            viewModel.uploadImage(filePath)
+                .addOnSuccessListener {uri ->
+                    user.profilePicture = uri.toString()
+                    viewModel.updateUser(user)
+                    finish()
+                }
         }
     }
 
