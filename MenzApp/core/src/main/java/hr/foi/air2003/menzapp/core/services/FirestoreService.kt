@@ -96,7 +96,7 @@ internal object FirestoreService {
 
     fun retrieveImage(imgUri: String) : Task<ByteArray>{
         val ref = storage.getReferenceFromUrl(imgUri)
-        return ref.getBytes(1024 * 1024)
+        return ref.getBytes(1024 * 1024 * 100) // TODO Compress image to max. 10MB
     }
 
     private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
