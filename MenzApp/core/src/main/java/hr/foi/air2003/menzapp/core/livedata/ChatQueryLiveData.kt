@@ -5,7 +5,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.Chat
-import hr.foi.air2003.menzapp.core.other.QueryItem
 
 typealias ChatQueryResult = QueryResultOrException<Chat, FirebaseFirestoreException>
 
@@ -13,7 +12,7 @@ class ChatQueryLiveData(query: Query) : FirestoreQueryLiveData<ChatQueryResult>(
 
     override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {
         val documents = snapshot?.documents
-        val chats: MutableList<QueryItem<Chat>> = mutableListOf()
+        val chats: MutableList<Chat> = mutableListOf()
 
         if(documents != null){
             for(doc in documents){

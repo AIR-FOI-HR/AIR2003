@@ -7,7 +7,7 @@ import hr.foi.air2003.menzapp.core.other.DataOrException
 
 typealias PostOrException = DataOrException<Post, FirebaseFirestoreException>
 
-class PostLiveData (private val documentReference: DocumentReference) : FirestoreLiveData<PostOrException>(documentReference) {
+class PostLiveData(private val documentReference: DocumentReference) : FirestoreLiveData<PostOrException>(documentReference) {
 
     override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
         if(snapshot != null && snapshot.exists()){

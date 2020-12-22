@@ -19,8 +19,8 @@ class UserLiveData(private val documentReference: DocumentReference) : Firestore
                     bio = snapshot.getString("bio")!!,
                     profilePicture = snapshot.getString("profilePicture")!!,
                     notificationsOn = snapshot.getBoolean("notificationsOn")!!,
-                    subscribersCount = snapshot.getField<Long>("subscribersCount")!!.toInt(), // snapshot.getField<Int>("subscribersCount")!! -> Why this won't work??
-                    subscribedTo = snapshot.get("subscribedTo")!! as List<String> //snapshot.getField<List<String>>("subscribedTo")!! -> Why this won't work??
+                    subscribersCount = snapshot.getField<Long>("subscribersCount")!!.toInt(), //snapshot.getField<Int>("subscribersCount")!!,
+                    subscribedTo = snapshot.get("subscribedTo")!! as List<String> //snapshot.getField<List<String>>("subscribedTo")!!
             )
 
             value = UserOrException(model, error)
@@ -28,6 +28,5 @@ class UserLiveData(private val documentReference: DocumentReference) : Firestore
         } else if (error != null) {
             // TODO Handle error
         }
-
     }
 }

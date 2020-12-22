@@ -62,12 +62,11 @@ class MenuFragment : Fragment() {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    if(d.item.timestamp == dt){
-                        val menu = d.item
-                        tvLunch.text = "Ručak, ${menu.date}"
-                        tvDinner.text = "Večera, ${menu.date}"
-                        adapterLunch.addItems(menu.lunch)
-                        adapterDinner.addItems(menu.dinner)
+                    if(d.timestamp == dt){
+                        tvLunch.text = "Ručak, ${d.date}"
+                        tvDinner.text = "Večera, ${d.date}"
+                        adapterLunch.addItems(d.lunch)
+                        adapterDinner.addItems(d.dinner)
                     }
                 }
             }

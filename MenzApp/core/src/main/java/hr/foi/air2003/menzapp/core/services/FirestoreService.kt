@@ -18,7 +18,7 @@ internal object FirestoreService {
     private val storage = FirebaseStorage.getInstance()
 
     fun post(collection: String, data: Any) {
-        db.collection(collection).document().set(getMap(data))
+        db.collection(collection).add(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
@@ -46,7 +46,7 @@ internal object FirestoreService {
 
     fun postDocumentWithID(collection: String, document: String, data: Any) {
         db.collection(collection).document(document)
-                .set(getMap(data))
+                .set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }

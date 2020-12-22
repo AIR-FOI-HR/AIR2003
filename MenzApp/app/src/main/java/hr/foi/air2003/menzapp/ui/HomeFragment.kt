@@ -93,8 +93,8 @@ class HomeFragment : Fragment() {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    if (d.item.timestamp >= timestamp)
-                        posts.add(d.item)
+                    if (d.timestamp >= timestamp)
+                        posts.add(d)
                 }
 
                 adapterPost.addItems(posts)

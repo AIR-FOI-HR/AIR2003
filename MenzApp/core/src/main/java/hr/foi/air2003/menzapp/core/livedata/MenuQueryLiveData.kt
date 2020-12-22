@@ -5,7 +5,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.Menu
-import hr.foi.air2003.menzapp.core.other.QueryItem
 
 typealias MenuQueryResult = QueryResultOrException<Menu, FirebaseFirestoreException>
 
@@ -13,7 +12,7 @@ class MenuQueryLiveData(private val query: Query) : FirestoreQueryLiveData<MenuQ
 
     override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {
         val documents = snapshot?.documents
-        val menus: MutableList<QueryItem<Menu>> = mutableListOf()
+        val menus: MutableList<Menu> = mutableListOf()
 
         if(documents != null){
             for(doc in documents){

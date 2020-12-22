@@ -173,7 +173,7 @@ class VisitedProfileFragment : Fragment() {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    feedbacks.add(d.item)
+                    feedbacks.add(d)
                 }
 
                 adapterFeedback.addItems(feedbacks)
@@ -188,7 +188,7 @@ class VisitedProfileFragment : Fragment() {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    posts.add(d.item)
+                    posts.add(d)
                 }
 
                 adapterPost.addItems(posts)

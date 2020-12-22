@@ -42,7 +42,7 @@ class ChatFragment : Fragment() {
             val data = it.data
             if(data != null){
                 for (d in data)
-                    chats.add(d.item)
+                    chats.add(d)
 
                 adapterChat.addItems(chats)
             }

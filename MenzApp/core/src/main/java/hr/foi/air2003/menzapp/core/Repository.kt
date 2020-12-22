@@ -2,15 +2,12 @@ package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
-import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.Collection
 import hr.foi.air2003.menzapp.core.other.Operation
 import hr.foi.air2003.menzapp.core.services.FirestoreService
-import org.json.JSONArray
-import org.json.JSONObject
 
 class Repository {
     fun getUser(userId: String) : UserLiveData{
