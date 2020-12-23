@@ -1,39 +1,38 @@
 package hr.foi.air2003.menzapp.activities
 
-import android.app.AlarmManager
-import android.app.PendingIntent
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
-import hr.foi.air2003.menzapp.core.services.MenuReciever
-import hr.foi.air2003.menzapp.core.services.MenuWorker
+import hr.foi.air2003.menzapp.core.services.MenuService
 import hr.foi.air2003.menzapp.ui.*
 import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: SharedViewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
     private lateinit var user: User
-    private lateinit var alarmManager: AlarmManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //setWorkRequest()
-        setMenuService()
+
+        // Scheduling menu service
+        val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        val jobInfo = JobInfo.Builder(1, ComponentName(this, MenuService::class.java))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPeriodic(24 * 3600000) // Not working
+                .build()
+        jobScheduler.schedule(jobInfo)
     }
 
     override fun onStart() {
@@ -84,37 +83,6 @@ class MainActivity : AppCompatActivity() {
                     loadUserData(data)
             })
         }
-    }
-
-    private fun setMenuService() {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        calendar.set(Calendar.HOUR_OF_DAY, 16)
-        calendar.set(Calendar.MINUTE, 36)
-        calendar.set(Calendar.SECOND, 0)
-
-        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(applicationContext, MenuReciever::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-    }
-
-    private fun setWorkRequest(){
-        val workManager = WorkManager.getInstance(applicationContext)
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val workRequest = PeriodicWorkRequest.Builder(MenuWorker::class.java, 2, TimeUnit.HOURS)
-            .setConstraints(constraints)
-            .build()
-
-        workManager.enqueue(workRequest)
     }
 
     private fun loadUserData(user: User){

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hr.foi.air2003.menzapp.core">
+
     <application>
-        <receiver android:name=".services.MenuReciever"/>
+        <service
+            android:name=".services.MenuService"
+            android:label="Menu service"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 </manifest>

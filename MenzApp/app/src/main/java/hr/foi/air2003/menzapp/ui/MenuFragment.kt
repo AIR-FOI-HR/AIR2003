@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Menu
 import hr.foi.air2003.menzapp.recyclerview.FoodMenuRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_menu.*
 
@@ -58,30 +56,21 @@ class MenuFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun retrieveMenus() {
-        val currentTimestamp = dateTimePicker.dateToTimestamp()
-        val dayBefore = Timestamp(currentTimestamp.seconds - 86400, 0)
-
+        val dt = dateTimePicker.dateToTimestamp()
         val liveData = viewModel.getMenus()
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    if(d.timestamp == currentTimestamp){
-                        populateMenus(d)
-                    }
-                    else if(d.timestamp == dayBefore){
-                        populateMenus(d)
+                    if(d.timestamp == dt){
+                        tvLunch.text = "Ručak, ${d.date}"
+                        tvDinner.text = "Večera, ${d.date}"
+                        adapterLunch.addItems(d.lunch)
+                        adapterDinner.addItems(d.dinner)
                     }
                 }
             }
         })
-    }
-
-    private fun populateMenus(menu: Menu) {
-        tvLunch.text = "Ručak, ${menu.date}"
-        tvDinner.text = "Večera, ${menu.date}"
-        adapterLunch.addItems(menu.lunch)
-        adapterDinner.addItems(menu.dinner)
     }
 
     private fun expandViewListener(){
