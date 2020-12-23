@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
     private fun setMenuService() {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
-        calendar.set(Calendar.HOUR_OF_DAY, 16)
-        calendar.set(Calendar.MINUTE, 36)
+        calendar.set(Calendar.HOUR_OF_DAY, 8)
+        calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
 
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
