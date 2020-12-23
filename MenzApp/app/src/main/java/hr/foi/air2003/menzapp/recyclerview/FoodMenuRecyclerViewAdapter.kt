@@ -18,11 +18,7 @@ class FoodMenuRecyclerViewAdapter : GenericRecyclerViewAdaper<String>() {
         @SuppressLint("SetTextI18n")
         override fun onBind(item: String) {
             val splitMenu = item.split("/")
-            println(splitMenu[0])
-
             itemView.tvMenuDescription.text = splitMenu[1]
-
-
             if(splitMenu[0] == "DODATNA JELA")
                 itemView.tvMenuName.text = splitMenu[0]
             else
