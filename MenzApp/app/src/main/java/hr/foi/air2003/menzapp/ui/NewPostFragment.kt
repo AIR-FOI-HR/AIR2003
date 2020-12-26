@@ -4,12 +4,14 @@ import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
@@ -169,11 +171,39 @@ class NewPostFragment : DialogFragment() {
         try {
             viewModel.createPost(post)
             targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
-            this.dismiss()
+
+            saveNewNotification(post)
+
             notifyUser(true)
+
+            this.dismiss()
+
         } catch (e: Exception) {
             notifyUser(false)
         }
+    }
+
+    private fun saveNewNotification(postInfo: Post){
+        val liveData = viewModel.getAllSubcribersByUser(postInfo.authorId)
+        liveData.observe(viewLifecycleOwner,{
+            val data = it.data
+            val users: MutableList<String> = mutableListOf()
+
+            if(data != null){
+                for(d in data){
+                    users.add(d.userId)
+                }
+                val notification = Notification(
+                    authorId = postInfo.authorId,
+                    content = "Nova objava!",
+                    isRequest = false,
+                    postId = postInfo.postId,
+                    timestamp = dateTimePicker.getTimestamp(),
+                    recipientsId = users
+                )
+                viewModel.createNotification(notification)
+            }
+        })
     }
 
     private fun notifyUser(success: Boolean) {

@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.livedata.*
+import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 
@@ -66,5 +67,13 @@ class SharedViewModel : ViewModel() {
 
     fun getAllNotifications(userId : String): NotificationQueryLiveData{
         return repository.getAllNotifications(userId)
+    }
+
+    fun getAllSubcribersByUser(userId : String): UserQueryLiveData{
+        return repository.getAllSubcribersByUser(userId)
+    }
+
+    fun createNotification(notification: Notification){
+        repository.createNotification(notification)
     }
 }

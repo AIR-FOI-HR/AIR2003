@@ -15,7 +15,6 @@ class NotificationQueryLiveData(query: Query) : FirestoreQueryLiveData<Notificat
             for(doc in documents){
                 val json = Gson().toJson(doc.data)
                 val notification = Gson().fromJson(json, Notification::class.java)
-                notification.notificationId = doc.id
                 notifications.add(notification)
             }
         }

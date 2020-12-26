@@ -3,6 +3,7 @@ package hr.foi.air2003.menzapp.core
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import hr.foi.air2003.menzapp.core.livedata.*
+import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.Collection
@@ -72,4 +73,12 @@ class Repository {
         return NotificationQueryLiveData(FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users))
     }
 
+    fun getAllSubcribersByUser(userId: String) : UserQueryLiveData{
+        val users = mutableListOf(userId)
+        return UserQueryLiveData(FirestoreService.getAllWithQuery(Collection.USER, Operation.ARRAY_CONTAINS_ANY, "subscribedTo", users))
+    }
+
+    fun createNotification(notification: Notification){
+        FirestoreService.post(Collection.NOTIFICATION, notification)
+    }
 }
