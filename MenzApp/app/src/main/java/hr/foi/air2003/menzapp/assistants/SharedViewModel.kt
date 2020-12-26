@@ -63,4 +63,8 @@ class SharedViewModel : ViewModel() {
     fun getMenus(): MenuQueryLiveData {
         return repository.getMenus()
     }
+
+    fun getAllNotifications(userId : String): NotificationQueryLiveData{
+        return repository.getAllNotifications(userId)
+    }
 }

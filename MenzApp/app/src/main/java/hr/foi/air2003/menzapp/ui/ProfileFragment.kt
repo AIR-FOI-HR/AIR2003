@@ -58,6 +58,12 @@ class ProfileFragment : Fragment() {
             intent.putExtra("user", jsonUser)
             startActivity(intent)
         }
+
+        btnNotifications.setOnClickListener {
+            val notificationFragment = NotificationFragment()
+            notificationFragment.setTargetFragment(this, 1)
+            (activity as MainActivity).setCurrentFragment(notificationFragment)
+        }
     }
 
     private fun createRecyclerViews() {

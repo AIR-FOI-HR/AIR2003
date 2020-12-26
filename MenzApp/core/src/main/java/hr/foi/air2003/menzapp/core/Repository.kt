@@ -66,4 +66,10 @@ class Repository {
     fun getMenus(): MenuQueryLiveData{
         return MenuQueryLiveData(FirestoreService.getAll(Collection.MENU))
     }
+
+    fun getAllNotifications(userId: String) : NotificationQueryLiveData {
+        val users = mutableListOf(userId)
+        return NotificationQueryLiveData(FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users))
+    }
+
 }

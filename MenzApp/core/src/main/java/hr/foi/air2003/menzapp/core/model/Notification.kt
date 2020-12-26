@@ -3,7 +3,7 @@ package hr.foi.air2003.menzapp.core.model
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 
-data class Notifications (
+data class Notification (
     @DocumentId
     var authorId: String = "",
     var content: String = "",
