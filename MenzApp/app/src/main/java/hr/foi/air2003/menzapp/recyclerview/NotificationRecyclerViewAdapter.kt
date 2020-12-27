@@ -4,20 +4,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.Notification
 import kotlinx.android.synthetic.main.notification_list_item.view.*
 
 class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericRecyclerViewAdaper<Notification>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
+    private var currentUser: FirebaseUser? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Notification> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.notification_list_item, parent, false)
+        currentUser = FirebaseAuth.getInstance().currentUser
         return NotificationViewHolder(view)
     }
 
@@ -50,6 +55,16 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericR
                                 val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivProfileUserPhoto)
                                 itemView.ivProfileUserPhoto.setImageBitmap(resized)
                             }
+
+                    itemView.btnConfirm.setOnClickListener {
+                        val chat = Chat(
+                                chatName = user.fullName,
+                                lastMessage = "Initial message",
+                                participantsId = listOf(item.authorId, currentUser?.uid.toString()),
+                                postId = item.postId
+                        )
+                        viewModel.createChat(chat)
+                    }
                 }
             })
         }
