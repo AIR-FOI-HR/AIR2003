@@ -70,7 +70,6 @@ class HomeFragment : Fragment() {
 
         adapterPost.respondClick = { post ->
             requestToJoin(post)
-            Toast.makeText(context, "DELA", Toast.LENGTH_SHORT).show()
         }
 
         adapterPost.authorClick = { post ->
