@@ -13,6 +13,7 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Chat
+import hr.foi.air2003.menzapp.core.model.Notifications
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.ui.HomeFragment
@@ -71,14 +72,17 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                             }
 
                     itemView.btnRespond.setOnClickListener {
-                        val chat = Chat(
-                            chatName = user.fullName,
-                            lastMessage = "Initial message",
-                            participantsId = listOf(item.authorId, currentUser?.uid.toString()),
-                            postId = item.postId
+                        val notification = Notifications(
+                                authorId = currentUser?.uid.toString(),
+                                content = "Novi zahtjev",
+                                isRequest = true,
+                                postId = item.postId,
+                                recipientsId = listOf(item.authorId) ,
+                                timestamp = dateTimePicker.getTimestamp(),
                         )
-                        viewModel.createChat(chat)
+                        viewModel.createNotificationRequest(notification)
                     }
+
                 }
             })
         }

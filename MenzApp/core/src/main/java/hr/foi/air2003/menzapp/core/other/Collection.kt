@@ -7,4 +7,5 @@ internal object Collection {
     const val MESSAGE = "Messages"
     const val FEEDBACK = "Feedbacks"
     const val MENU = "Menus"
+    const val NOTIFICATIONS = "Notifications"
 }

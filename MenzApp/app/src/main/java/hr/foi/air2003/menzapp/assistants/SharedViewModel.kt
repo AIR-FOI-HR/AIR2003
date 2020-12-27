@@ -7,6 +7,7 @@ import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.Chat
+import hr.foi.air2003.menzapp.core.model.Notifications
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 
@@ -35,6 +36,10 @@ class SharedViewModel : ViewModel() {
 
     fun createChat(chat: Chat){
         repository.createChat(chat)
+    }
+
+    fun createNotificationRequest(notification: Notifications){
+        repository.createNotification(notification)
     }
 
     fun updatePost(post: Post){

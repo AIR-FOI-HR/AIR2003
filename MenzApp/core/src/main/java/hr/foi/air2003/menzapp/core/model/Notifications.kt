@@ -5,10 +5,10 @@ import com.google.firebase.firestore.DocumentId
 
 data class Notifications (
     @DocumentId
+    var notificationId: String = "",
     var authorId: String = "",
     var content: String = "",
     var isRequest: Boolean = true,
-    var notificationId: String = "",
     var postId: String = "",
     var timestamp: Timestamp = Timestamp.now(),
     var recipientsId: List<String> = listOf()
