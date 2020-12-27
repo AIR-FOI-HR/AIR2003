@@ -49,7 +49,7 @@ class Repository {
     }
 
     fun createPost(post: Post){
-        FirestoreService.post(Collection.POST, post)
+        FirestoreService.postDocumentWithID(Collection.POST,post.postId, post)
     }
 
     fun createChat(chat: Chat){
@@ -78,7 +78,7 @@ class Repository {
         return NotificationQueryLiveData(FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users))
     }
 
-    fun getAllSubcribersByUser(userId: String) : UserQueryLiveData{
+    fun getAllSubscribersByUser(userId: String) : UserQueryLiveData{
         val users = mutableListOf(userId)
         return UserQueryLiveData(FirestoreService.getAllWithQuery(Collection.USER, Operation.ARRAY_CONTAINS_ANY, "subscribedTo", users))
     }

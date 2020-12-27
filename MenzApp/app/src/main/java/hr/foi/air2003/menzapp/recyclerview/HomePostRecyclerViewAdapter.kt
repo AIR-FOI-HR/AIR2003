@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
@@ -67,16 +68,30 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                                 itemView.ivHomePostImage.setImageBitmap(resized)
                             }
 
+                    var found = false
+
+                    for(map in item.userRequests){
+                        if(map.containsValue(currentUser?.uid.toString())) {
+                            found = true
+                        }
+                    }
+
+                    if (found){
+                        itemView.btnRespond.visibility = View.GONE
+                    }
+
+
                     itemView.btnRespond.setOnClickListener {
                         val notification = Notification(
                                 authorId = currentUser?.uid.toString(),
                                 content = "Novi zahtjev",
-                                isRequest = true,
+                                request = true,
                                 postId = item.postId,
                                 recipientsId = listOf(item.authorId) ,
-                                timestamp = dateTimePicker.getTimestamp(),
+                                timestamp = Timestamp(System.currentTimeMillis()/1000,0),
                         )
                         viewModel.createNotificationRequest(notification)
+                        itemView.btnRespond.visibility = View.GONE
                     }
 
                 }

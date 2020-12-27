@@ -30,7 +30,7 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericR
             itemView.tvNotificationTimestampTime.text = timeStamp[1]
             itemView.tvNotificationText.text = item.content
 
-            if (item.isRequest){
+            if (item.request){
                 itemView.btnConfirm.visibility = View.VISIBLE
                 itemView.btnIgnore.visibility = View.VISIBLE
             }

@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
+import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
+import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
@@ -202,6 +204,7 @@ class VisitedProfileFragment : Fragment() {
             val subscription: MutableList<String> = user.subscribedTo as MutableList<String>
             subscription.add(visitedUser.userId)
             user.subscribedTo = subscription
+            sendSubscriptionNotification()
         } else {
             visitedUser.subscribersCount--
             val subscription: MutableList<String> = user.subscribedTo as MutableList<String>
@@ -212,4 +215,21 @@ class VisitedProfileFragment : Fragment() {
         viewModel.updateUser(user)
         viewModel.updateUser(visitedUser)
     }
+
+    private fun sendSubscriptionNotification(){
+        val usersList: MutableList<String> = mutableListOf()
+        usersList.add(visitedUser.userId)
+
+        val notification = Notification(
+                authorId = user.userId,
+                content = "Nova pretplata!",
+                request = false,
+                postId = "subscription",
+                timestamp = Timestamp(System.currentTimeMillis()/1000,0),
+                recipientsId = usersList
+        )
+
+        viewModel.createNotification(notification)
+    }
+
 }

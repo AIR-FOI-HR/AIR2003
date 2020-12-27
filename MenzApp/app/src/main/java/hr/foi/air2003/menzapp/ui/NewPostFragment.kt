@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
@@ -17,9 +17,9 @@ import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import java.lang.Exception
+import java.util.UUID.randomUUID
 
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
@@ -169,11 +169,26 @@ class NewPostFragment : DialogFragment() {
 
     private fun saveNewPost(post: Post) {
         try {
+
+            val uuid = randomUUID().toString()
+            post.postId = uuid
+
+            val users = getAllSubscribers(post.authorId)
+
+
+            val notification = Notification(
+                    authorId = post.authorId,
+                    content = "Nova objava!",
+                    request = false,
+                    postId = post.postId,
+                    timestamp = Timestamp(System.currentTimeMillis()/1000,0),
+                    recipientsId = users
+            )
+
             viewModel.createPost(post)
+            viewModel.createNotification(notification)
+
             targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
-
-            saveNewNotification(post)
-
             notifyUser(true)
 
             this.dismiss()
@@ -183,27 +198,20 @@ class NewPostFragment : DialogFragment() {
         }
     }
 
-    private fun saveNewNotification(postInfo: Post){
-        val liveData = viewModel.getAllSubcribersByUser(postInfo.authorId)
+    private fun getAllSubscribers(authorId: String) : MutableList<String>{
+        val users: MutableList<String> = mutableListOf()
+
+        //TODO Fix getting all user subscribers
+        val liveData = viewModel.getAllSubscribersByUser(authorId)
         liveData.observe(viewLifecycleOwner,{
             val data = it.data
-            val users: MutableList<String> = mutableListOf()
-
             if(data != null){
                 for(d in data){
                     users.add(d.userId)
                 }
-                val notification = Notification(
-                    authorId = postInfo.authorId,
-                    content = "Nova objava!",
-                    isRequest = false,
-                    postId = postInfo.postId,
-                    timestamp = dateTimePicker.getTimestamp(),
-                    recipientsId = users
-                )
-                viewModel.createNotification(notification)
             }
         })
+        return users
     }
 
     private fun notifyUser(success: Boolean) {

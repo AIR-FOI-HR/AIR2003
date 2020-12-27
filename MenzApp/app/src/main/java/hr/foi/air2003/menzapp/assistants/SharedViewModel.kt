@@ -77,8 +77,8 @@ class SharedViewModel : ViewModel() {
         return repository.getAllNotifications(userId)
     }
 
-    fun getAllSubcribersByUser(userId : String): UserQueryLiveData{
-        return repository.getAllSubcribersByUser(userId)
+    fun getAllSubscribersByUser(userId : String): UserQueryLiveData{
+        return repository.getAllSubscribersByUser(userId)
     }
 
     fun createNotification(notification: Notification){

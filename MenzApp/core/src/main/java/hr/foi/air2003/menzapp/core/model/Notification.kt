@@ -8,7 +8,7 @@ data class Notification (
     var notificationId: String = "",
     var authorId: String = "",
     var content: String = "",
-    var isRequest: Boolean = true,
+    var request: Boolean = true,
     var postId: String = "",
     var timestamp: Timestamp = Timestamp.now(),
     var recipientsId: List<String> = listOf()
