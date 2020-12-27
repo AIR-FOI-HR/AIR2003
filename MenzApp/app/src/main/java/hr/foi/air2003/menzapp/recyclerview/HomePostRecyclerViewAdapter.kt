@@ -36,9 +36,6 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
         init {
             itemView.btnRespond.setOnClickListener {
                 respondClick?.invoke(items[adapterPosition])
-                itemView.btnRespond.visibility = View.GONE
-
-                // TODO Implement toggle button maybe
             }
 
             itemView.tvHomePostAuthorName.setOnClickListener {
@@ -79,21 +76,6 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                     if (found){
                         itemView.btnRespond.visibility = View.GONE
                     }
-
-
-                    itemView.btnRespond.setOnClickListener {
-                        val notification = Notification(
-                                authorId = currentUser?.uid.toString(),
-                                content = "Novi zahtjev",
-                                request = true,
-                                postId = item.postId,
-                                recipientsId = listOf(item.authorId) ,
-                                timestamp = Timestamp(System.currentTimeMillis()/1000,0),
-                        )
-                        viewModel.createNotificationRequest(notification)
-                        itemView.btnRespond.visibility = View.GONE
-                    }
-
                 }
             })
         }

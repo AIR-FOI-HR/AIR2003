@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
@@ -68,6 +70,7 @@ class HomeFragment : Fragment() {
 
         adapterPost.respondClick = { post ->
             requestToJoin(post)
+            Toast.makeText(context, "DELA", Toast.LENGTH_SHORT).show()
         }
 
         adapterPost.authorClick = { post ->
@@ -117,8 +120,17 @@ class HomeFragment : Fragment() {
         updatedUserRequests.add(mapOf(Pair("opened", true), Pair("userId", user.userId)))
         post.userRequests = updatedUserRequests
         viewModel.updateUserRequests(post)
+        rvPostsLayout.adapter?.notifyDataSetChanged()
 
-        // TODO implement listener on Post for author, when data on userRequests is changed, notify user
+        val notification = Notification(
+                authorId = user.userId,
+                content = "Novi zahtjev",
+                request = true,
+                postId = post.postId,
+                recipientsId = listOf(post.authorId) ,
+                timestamp = Timestamp(System.currentTimeMillis()/1000,0),
+        )
+        viewModel.createNotificationRequest(notification)
     }
 
     fun getAuthorId(): String {
