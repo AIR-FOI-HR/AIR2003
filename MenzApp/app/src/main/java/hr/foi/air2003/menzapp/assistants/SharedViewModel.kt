@@ -3,9 +3,9 @@ package hr.foi.air2003.menzapp.assistants
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
-import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.livedata.*
+import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -31,6 +31,14 @@ class SharedViewModel : ViewModel() {
 
     fun createPost(post: Post){
         repository.createPost(post)
+    }
+
+    fun createChat(chat: Chat){
+        repository.createChat(chat)
+    }
+
+    fun createNotificationRequest(notification: Notification){
+        repository.createNotification(notification)
     }
 
     fun updatePost(post: Post){

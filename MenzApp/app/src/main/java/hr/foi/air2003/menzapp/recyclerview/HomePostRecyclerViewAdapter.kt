@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.ui.HomeFragment
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
@@ -16,12 +18,15 @@ import kotlinx.android.synthetic.main.home_post_list_item.view.*
 class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericRecyclerViewAdaper<Post>() {
     private val dateTimePicker = DateTimePicker()
     private val viewModel = SharedViewModel()
+    private var currentUser: FirebaseUser? = null
     var authorClick: ((Post) -> Unit)? = null
     var respondClick: ((Post) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.home_post_list_item, parent, false)
+        currentUser = FirebaseAuth.getInstance().currentUser
         return HomeViewHolder(view)
     }
 
@@ -61,6 +66,19 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                                 val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivHomePostImage)
                                 itemView.ivHomePostImage.setImageBitmap(resized)
                             }
+
+                    itemView.btnRespond.setOnClickListener {
+                        val notification = Notification(
+                                authorId = currentUser?.uid.toString(),
+                                content = "Novi zahtjev",
+                                isRequest = true,
+                                postId = item.postId,
+                                recipientsId = listOf(item.authorId) ,
+                                timestamp = dateTimePicker.getTimestamp(),
+                        )
+                        viewModel.createNotificationRequest(notification)
+                    }
+
                 }
             })
         }

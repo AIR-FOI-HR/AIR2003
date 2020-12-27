@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentId
 
 data class Notification (
     @DocumentId
+    var notificationId: String = "",
     var authorId: String = "",
     var content: String = "",
     var isRequest: Boolean = true,

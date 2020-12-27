@@ -109,12 +109,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestToJoin(post: Post) {
-        val updatedUserRequests: MutableList<String> = mutableListOf()
+        val updatedUserRequests: MutableList<Map<String,Any>> = mutableListOf()
         if (post.userRequests.isNotEmpty()) {
-            post.userRequests.forEach { updatedUserRequests.add(it) }
+            updatedUserRequests.addAll(0, post.userRequests)
         }
 
-        updatedUserRequests.add(user.userId)
+        updatedUserRequests.add(mapOf(Pair("opened", true), Pair("userId", user.userId)))
         post.userRequests = updatedUserRequests
         viewModel.updateUserRequests(post)
 

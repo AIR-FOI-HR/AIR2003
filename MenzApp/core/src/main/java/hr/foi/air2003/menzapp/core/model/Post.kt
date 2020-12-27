@@ -10,5 +10,5 @@ data class Post (
         var timestamp: Timestamp = Timestamp.now(),
         var description: String = "",
         var numberOfPeople: Int = 0,
-        var userRequests: List<String> = listOf()
+        var userRequests: List<Map<String,Any>> = listOf()
 )

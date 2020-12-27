@@ -3,6 +3,7 @@ package hr.foi.air2003.menzapp.core
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import hr.foi.air2003.menzapp.core.livedata.*
+import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -49,6 +50,10 @@ class Repository {
 
     fun createPost(post: Post){
         FirestoreService.post(Collection.POST, post)
+    }
+
+    fun createChat(chat: Chat){
+        FirestoreService.post(Collection.CHAT, chat)
     }
 
     fun updatePost(post: Post){
