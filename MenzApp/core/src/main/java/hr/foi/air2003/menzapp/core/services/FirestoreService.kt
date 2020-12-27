@@ -17,7 +17,7 @@ internal object FirestoreService {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
 
-    fun post(collection: String, data: Any) {
+    fun create(collection: String, data: Any) {
         db.collection(collection).add(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Successfully added data!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
