@@ -17,7 +17,7 @@ class PostLiveData(private val documentReference: DocumentReference) : Firestore
                 timestamp = snapshot.getTimestamp("timestamp")!!,
                 description = snapshot.getString("description")!!,
                 numberOfPeople = snapshot.getField<Int>("numberOfPeople")!!,
-                userRequests = snapshot.getField<List<String>>("userRequests")!!
+                userRequests = snapshot.getField<List<Map<String,Any>>>("userRequests")!!
             )
 
             value = PostOrException(model, error)
