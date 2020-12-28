@@ -114,13 +114,16 @@ class DateTimePicker(
 
     fun timestampToShortString(timestamp: Timestamp): String {
         val cal = Calendar.getInstance()
-        val currentTimestamp = Calendar.getInstance()
-        currentTimestamp.timeInMillis = System.currentTimeMillis()
         cal.timeInMillis = timestamp.seconds * 1000
         val h = cal.get(Calendar.HOUR_OF_DAY)
         val min = cal.get(Calendar.MINUTE)
 
-        return if(cal.timeInMillis < currentTimestamp.get(Calendar.DAY_OF_WEEK)){
+        val currentTimestamp = Calendar.getInstance()
+        currentTimestamp.set(Calendar.HOUR_OF_DAY, 24)
+        currentTimestamp.set(Calendar.MINUTE, 0)
+        currentTimestamp.set(Calendar.SECOND, 0)
+
+        return if(cal < currentTimestamp){
             when(cal.get(Calendar.DAY_OF_WEEK)){
                 cal.get(Calendar.SUNDAY) -> days[0]
                 cal.get(Calendar.MONDAY) -> days[1]
