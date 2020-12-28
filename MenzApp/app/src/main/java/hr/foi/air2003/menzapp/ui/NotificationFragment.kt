@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.NotificationRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.*
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.btnNotifications
+import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
+import java.util.UUID.randomUUID
 
 class NotificationFragment : Fragment() {
 
@@ -35,7 +40,7 @@ class NotificationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createRecyclerViews()
 
-        retrieveUserData(user)
+        createNotificationLayout(user.userId)
 
         btnNotifications.setOnClickListener {
             val profileFragment = ProfileFragment()
@@ -52,11 +57,19 @@ class NotificationFragment : Fragment() {
         rvNotifications.layoutManager = LinearLayoutManager(context)
         rvNotifications.itemAnimator = DefaultItemAnimator()
         rvNotifications.adapter = adapterNotification
-    }
 
-    private fun retrieveUserData(user: User) {
-        //Populate posts with data from firestore
-        createNotificationLayout(user.userId)
+        adapterNotification.confirmClick = { notification ->
+            createChat(notification)
+            confirmRequest(notification)
+            rvNotifications.adapter?.notifyDataSetChanged()
+
+            (activity as MainActivity).setCurrentFragment(ChatFragment())
+        }
+
+        adapterNotification.deleteClick = { notification ->
+            deleteRequest(notification)
+            rvNotifications.adapter?.notifyDataSetChanged()
+        }
     }
 
     private fun createNotificationLayout(userId: String) {
@@ -74,4 +87,47 @@ class NotificationFragment : Fragment() {
         })
     }
 
+    private fun createChat(notification: Notification) {
+        val chat = Chat(
+                lastMessage = "Initial message",
+                participantsId = listOf(notification.authorId, user.userId),
+                postId = notification.postId
+        )
+
+        val liveData = viewModel.getUser(notification.authorId)
+        liveData.observe(viewLifecycleOwner, {
+            val user = it.data
+            if(user != null)
+                chat.chatName = user.fullName
+
+            viewModel.createChat(chat)
+        })
+    }
+
+    private fun confirmRequest(notification: Notification) {
+        notification.request = false
+        viewModel.updateNotification(notification)
+    }
+
+    private fun deleteRequest(notification: Notification) {
+        notification.request = false
+        viewModel.updateNotification(notification)
+
+        val liveData = viewModel.getPost(notification.postId)
+        liveData.observe(viewLifecycleOwner, {
+            val post = it.data
+            if (post != null) {
+                for(map in post.userRequests){
+                    if(map.containsValue(notification.authorId)){
+                        val requests: MutableList<Map<String,Any>> = mutableListOf()
+                        requests.addAll(0, post.userRequests)
+                        requests.remove(map)
+                        post.userRequests = requests
+                    }
+                }
+
+                viewModel.updatePost(post)
+            }
+        })
+    }
 }

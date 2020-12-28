@@ -53,7 +53,7 @@ internal object FirestoreService {
 
     fun update(collection: String, document: String, data: Any) {
         db.collection(collection).document(document)
-                .update(getMap(data))
+                .set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
@@ -97,25 +97,5 @@ internal object FirestoreService {
     fun retrieveImage(imgUri: String) : Task<ByteArray>{
         val ref = storage.getReferenceFromUrl(imgUri)
         return ref.getBytes(1024 * 1024 * 100) // TODO Compress image to max. 10MB
-    }
-
-    private fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
-        when (val value = this[it])
-        {
-            is JSONArray ->
-            {
-                val map = (0 until value.length()).associate { Pair(it.toString(), value[it]) }
-                JSONObject(map).toMap().values.toList()
-            }
-            is JSONObject -> value.toMap()
-            JSONObject.NULL -> null
-            else            -> value
-        }
-    }
-
-    private fun getMap(data: Any): Map<String, *> {
-        val json = Gson().toJson(data)
-        val jsonObj = JSONObject(json)
-        return jsonObj.toMap()
     }
 }

@@ -86,4 +86,12 @@ class Repository {
     fun createNotification(notification: Notification){
         FirestoreService.post(Collection.NOTIFICATION, notification)
     }
+
+    fun getPostById(postId: String): PostLiveData {
+        return PostLiveData(FirestoreService.getDocumentByID(Collection.POST, postId))
+    }
+
+    fun updateNotification(notification: Notification) {
+        FirestoreService.update(Collection.NOTIFICATION, notification.notificationId, notification)
+    }
 }

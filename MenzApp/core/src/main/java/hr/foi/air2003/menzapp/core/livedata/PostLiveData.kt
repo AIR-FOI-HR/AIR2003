@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.core.livedata
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.getField
 import hr.foi.air2003.menzapp.core.model.Post
@@ -17,7 +18,7 @@ class PostLiveData(private val documentReference: DocumentReference) : Firestore
                 timestamp = snapshot.getTimestamp("timestamp")!!,
                 description = snapshot.getString("description")!!,
                 numberOfPeople = snapshot.getField<Int>("numberOfPeople")!!,
-                userRequests = snapshot.getField<List<Map<String,Any>>>("userRequests")!!
+                userRequests = snapshot.get("userRequests")!! as List<Map<String, Any>>
             )
 
             value = PostOrException(model, error)

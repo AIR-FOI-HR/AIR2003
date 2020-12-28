@@ -4,40 +4,49 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.Notification
 import kotlinx.android.synthetic.main.notification_list_item.view.*
 
 class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericRecyclerViewAdaper<Notification>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
-    private var currentUser: FirebaseUser? = null
+    var confirmClick: ((Notification) -> Unit)? = null
+    var deleteClick: ((Notification) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Notification> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.notification_list_item, parent, false)
-        currentUser = FirebaseAuth.getInstance().currentUser
         return NotificationViewHolder(view)
     }
 
     inner class NotificationViewHolder(itemView: View) : GenericViewHolder<Notification>(itemView) {
 
-        override fun onBind(item: Notification) {
+        init {
+            itemView.btnConfirm.setOnClickListener {
+                confirmClick?.invoke(items[adapterPosition])
+            }
 
-            val timeStamp = dateTimePicker.timestampToString(item.timestamp).split("/")
-            itemView.tvNotificationTimestampDate.text = timeStamp[0]
-            itemView.tvNotificationTimestampTime.text = timeStamp[1]
+            itemView.btnIgnore.setOnClickListener {
+                deleteClick?.invoke(items[adapterPosition])
+            }
+        }
+
+        override fun onBind(item: Notification) {
+            val timestamp = dateTimePicker.timestampToString(item.timestamp).split("/")
+            itemView.tvNotificationTimestampDate.text = timestamp[0]
+            itemView.tvNotificationTimestampTime.text = timestamp[1]
             itemView.tvNotificationText.text = item.content
 
             if (item.request){
                 itemView.btnConfirm.visibility = View.VISIBLE
                 itemView.btnIgnore.visibility = View.VISIBLE
+            }else{
+                itemView.btnConfirm.visibility = View.GONE
+                itemView.btnIgnore.visibility = View.GONE
             }
 
             val liveData = viewModel.getUser(item.authorId)
@@ -55,19 +64,8 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericR
                                 val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivProfileUserPhoto)
                                 itemView.ivProfileUserPhoto.setImageBitmap(resized)
                             }
-
-                    itemView.btnConfirm.setOnClickListener {
-                        val chat = Chat(
-                                chatName = user.fullName,
-                                lastMessage = "Initial message",
-                                participantsId = listOf(item.authorId, currentUser?.uid.toString()),
-                                postId = item.postId
-                        )
-                        viewModel.createChat(chat)
-                    }
                 }
             })
         }
     }
-
 }

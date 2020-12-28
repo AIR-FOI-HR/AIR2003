@@ -84,4 +84,12 @@ class SharedViewModel : ViewModel() {
     fun createNotification(notification: Notification){
         repository.createNotification(notification)
     }
+
+    fun getPost(postId: String): PostLiveData {
+        return repository.getPostById(postId)
+    }
+
+    fun updateNotification(notification: Notification) {
+        repository.updateNotification(notification)
+    }
 }
