@@ -6,8 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -16,6 +16,7 @@ import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
 const val REQUEST_EXIT = 0
 const val REQUEST_FILE_CHOOSER = 1
@@ -78,38 +79,31 @@ class SettingsFragmentActivity : FragmentActivity() {
         startActivityForResult(Intent.createChooser(intent, "Odaberi fotografiju"), REQUEST_FILE_CHOOSER)
     }
 
-    private fun showPopup(view: View) {
-        val popup = PopupMenu(this, view)
-        popup.inflate(R.menu.header_menu_settings)
+    private fun showPopup(view: View){
+        val window = PopupWindow(this)
+        val layout = layoutInflater.inflate(R.layout.popup_menu_settings, null)
+        window.contentView = layout
+        window.isOutsideTouchable = true
+        window.showAsDropDown(view, 0, 30)
 
-        // TODO Set notification toggle base on user data
-
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.headerMenuCheckNotifications -> {
-                    // TODO Implement toggle button
-                    item.isChecked = !item.isChecked
-                    user.notificationsOn = item.isChecked
-                }
-                R.id.headerMenuPasswordChange -> {
-                    FirebaseAuth.getInstance().sendPasswordResetEmail(user.email)
-                        .addOnCompleteListener(this) { task ->
-                            if (task.isSuccessful) {
-                                // TODO Add some kind of popup to notify the mail is sent
-                                Toast.makeText(this, "Email poslan!", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                }
-                R.id.headerMenuLogOut -> {
-                    FirebaseAuth.getInstance().signOut()
-                    startActivityForResult(Intent(this, MainActivity::class.java), REQUEST_EXIT)
-                    finish()
-                }
-            }
-
-            true
+        window.contentView.btnToggleNotifications.setOnClickListener {
+            user.notificationsOn = window.contentView.btnToggleNotifications.isChecked
         }
 
-        popup.show()
+        window.contentView.tvChangePassword.setOnClickListener {
+            FirebaseAuth.getInstance().sendPasswordResetEmail(user.email)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // TODO Add some kind of popup to notify the mail is sent
+                            Toast.makeText(this, "Email poslan!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+        }
+
+        window.contentView.tvLogOut.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            startActivityForResult(Intent(this, MainActivity::class.java), REQUEST_EXIT)
+            finish()
+        }
     }
 }

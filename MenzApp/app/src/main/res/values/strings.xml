@@ -31,6 +31,8 @@
     <string name="notification_time_passed"> Time passed </string>
     <string name="notification_confirm"> POTVRDI </string>
     <string name="notification_delete"> OBRIŠI </string>
+    <string name="obavijesti_on">Uključili ste obavijesti!</string>
+    <string name="obavijesti_off">Isključili ste obavijesti</string>
 
 
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/obavijesti"
+            android:textSize="16sp"
+            android:textColor="@color/black_typo"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/btnToggleNotifications"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textOn="@string/obavijesti_on"
+            android:textOff="@string/obavijesti_off"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/uredi_lozinku"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/black_typo"/>
+
+    <TextView
+        android:id="@+id/tvLogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/odjava"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/black_typo"/>
+
+</LinearLayout>
