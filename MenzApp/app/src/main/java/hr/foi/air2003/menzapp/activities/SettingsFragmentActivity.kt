@@ -15,6 +15,7 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
@@ -35,7 +36,15 @@ class SettingsFragmentActivity : FragmentActivity() {
     override fun onStart() {
         super.onStart()
 
-        // TODO Show current settings and delete profile picture
+        tvSettingsFullName.setText(user.fullName)
+        tvSettingsBio.setText(user.bio)
+
+        viewModel.getImage(user.profilePicture)
+                .addOnSuccessListener { bytes ->
+                    val bitmap = ImageConverter.convertBytesToBitmap(bytes)
+                    val resized = ImageConverter.resizeBitmap(bitmap, ivSettingsProfilePhoto)
+                    ivSettingsProfilePhoto.setImageBitmap(resized)
+                }
 
         btnMore.setOnClickListener {
             showPopup(btnMore)
@@ -85,6 +94,8 @@ class SettingsFragmentActivity : FragmentActivity() {
         window.contentView = layout
         window.isOutsideTouchable = true
         window.showAsDropDown(view, 0, 30)
+
+       window.contentView.btnToggleNotifications.isChecked = user.notificationsOn
 
         window.contentView.btnToggleNotifications.setOnClickListener {
             user.notificationsOn = window.contentView.btnToggleNotifications.isChecked
