@@ -107,6 +107,16 @@ class NotificationFragment : Fragment() {
     private fun confirmRequest(notification: Notification) {
         notification.request = false
         viewModel.updateNotification(notification)
+
+        val newNotification = Notification(
+                authorId = user.userId,
+                content = "Prijava na zahtjev je prihvaćena",
+                request = false,
+                postId = notification.postId,
+                recipientsId = listOf(notification.authorId)
+        )
+
+        viewModel.createNotification(newNotification)
     }
 
     private fun deleteRequest(notification: Notification) {
