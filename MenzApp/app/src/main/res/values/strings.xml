@@ -21,6 +21,7 @@
     <string name="odjava">Odjava</string>
     <string name="poruke">Poruke</string>
     <string name="jelovnik">Jelovnik</string>
+    <string name="pretrazivanje">Pretraživanje</string>
 
     <!-- NOTIFICATIONS -->
     <string name="notifications">OBAVIJESTI</string>
