@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import java.lang.Exception
 import java.util.UUID.randomUUID
 
-class NewPostFragment : AppCompatDialogFragment() {
+class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var viewModel: SharedViewModel
     private lateinit var post: Post
