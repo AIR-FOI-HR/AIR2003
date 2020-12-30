@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import java.lang.Exception
 import java.util.UUID.randomUUID
 
-class NewPostFragment : DialogFragment() {
+class NewPostFragment : AppCompatDialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var viewModel: SharedViewModel
     private lateinit var post: Post
@@ -43,7 +43,6 @@ class NewPostFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDialogLayout()
 
         dateTimePicker = DateTimePicker()
         viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
@@ -68,6 +67,20 @@ class NewPostFragment : DialogFragment() {
         btnCancelNewPost.setOnClickListener {
             this.dismiss()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val window = dialog?.window
+        val size = Point()
+        window?.windowManager?.defaultDisplay?.getRealSize(size)
+
+        val width = size.x
+        val height = (size.y * 0.60).toInt()
+
+        window?.setLayout(width, height)
+        window?.setGravity(Gravity.CENTER)
     }
 
     private fun loadPost(post: Post) {
@@ -97,18 +110,6 @@ class NewPostFragment : DialogFragment() {
 
     private fun updateDate() {
         tvDate.text = dateTimePicker.getDateString()
-    }
-
-    private fun setDialogLayout() {
-        val window = dialog?.window
-        val size = Point()
-        window?.windowManager?.defaultDisplay?.getRealSize(size)
-
-        val width = (size.x * 0.90).toInt()
-        val height = (size.y * 0.75).toInt()
-
-        window?.setLayout(width, height)
-        window?.setGravity(Gravity.CENTER)
     }
 
     private fun checkPostInput(postId: String?) {
