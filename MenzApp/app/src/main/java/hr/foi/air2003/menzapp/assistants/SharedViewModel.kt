@@ -5,10 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.Task
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.livedata.*
-import hr.foi.air2003.menzapp.core.model.Chat
-import hr.foi.air2003.menzapp.core.model.Notification
-import hr.foi.air2003.menzapp.core.model.Post
-import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.model.*
 
 class SharedViewModel : ViewModel() {
     private val repository = Repository()
@@ -91,5 +88,17 @@ class SharedViewModel : ViewModel() {
 
     fun updateNotification(notification: Notification) {
         repository.updateNotification(notification)
+    }
+
+    fun createFeedback(feedback: Feedback) {
+        repository.createFeedback(feedback)
+    }
+
+    fun updateFeedback(feedback: Feedback) {
+        repository.updateFeedback(feedback)
+    }
+
+    fun deleteFeedback(feedback: Feedback) {
+        repository.deleteFeedback(feedback)
     }
 }

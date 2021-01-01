@@ -3,10 +3,7 @@ package hr.foi.air2003.menzapp.core
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import hr.foi.air2003.menzapp.core.livedata.*
-import hr.foi.air2003.menzapp.core.model.Chat
-import hr.foi.air2003.menzapp.core.model.Notification
-import hr.foi.air2003.menzapp.core.model.Post
-import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.model.*
 import hr.foi.air2003.menzapp.core.other.Collection
 import hr.foi.air2003.menzapp.core.other.Operation
 import hr.foi.air2003.menzapp.core.services.FirestoreService
@@ -93,5 +90,17 @@ class Repository {
 
     fun updateNotification(notification: Notification) {
         FirestoreService.update(Collection.NOTIFICATION, notification.notificationId, notification)
+    }
+
+    fun createFeedback(feedback: Feedback) {
+        FirestoreService.post(Collection.FEEDBACK, feedback)
+    }
+
+    fun updateFeedback(feedback: Feedback) {
+        FirestoreService.update(Collection.FEEDBACK, feedback.feedbackId, feedback)
+    }
+
+    fun deleteFeedback(feedback: Feedback) {
+        FirestoreService.deleteDocument(Collection.FEEDBACK, feedback.feedbackId)
     }
 }

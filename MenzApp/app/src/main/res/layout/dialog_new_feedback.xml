@@ -48,7 +48,7 @@
                 android:gravity="end">
 
                 <Button
-                    android:id="@+id/btnCancelNewPost"
+                    android:id="@+id/btnCancelFeedback"
                     android:layout_width="36dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="10dp"
@@ -58,7 +58,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -70,14 +69,15 @@
 
         <RatingBar
             android:id="@+id/rbScore"
-            style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:stepSize="1"
             android:numStars="5" />
 
         <TextView
-            android:id="@+id/textDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -88,7 +88,7 @@
             android:textSize="15sp" />
 
         <EditText
-            android:id="@+id/tvProfilePostDescription"
+            android:id="@+id/tvFeedbackDescription"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
@@ -119,7 +119,7 @@
                 android:visibility="gone"/>
 
             <Button
-                android:id="@+id/btn_saveNewPost"
+                android:id="@+id/btnSaveFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_filled_angled"

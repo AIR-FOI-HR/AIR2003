@@ -27,12 +27,12 @@ import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private val viewModel = SharedViewModel()
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var authorId: String
     private lateinit var user: User
     private lateinit var visitedUser: User
+    private val viewModel = SharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,9 +74,24 @@ class VisitedProfileFragment : Fragment() {
             }
         }
 
+        tvRateUser.setOnClickListener {
+            val newFeedbackFragment = NewFeedbackFragment()
+            newFeedbackFragment.setTargetFragment(this, 1)
+            newFeedbackFragment.show(requireFragmentManager(), "Feedback")
+            rvVisitedProfileFeedbacks.adapter?.notifyDataSetChanged()
+        }
+
         btnBack.setOnClickListener {
             (activity as MainActivity).setCurrentFragment((targetFragment as HomeFragment))
         }
+    }
+
+    fun getVisitedUser(): User{
+        return visitedUser
+    }
+
+    fun getCurrentUser(): User{
+        return user
     }
 
     private fun createRecyclerViews() {
