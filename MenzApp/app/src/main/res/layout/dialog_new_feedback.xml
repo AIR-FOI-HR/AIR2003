@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/new_post_title"
+                    android:text="NOVI KOMENTAR"
                     android:fontFamily="@font/raleway_semibold"
                     android:textColor="@color/black_typo"
                     android:textSize="17sp"
@@ -53,83 +53,34 @@
                     android:layout_height="35dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_x" />
-
             </LinearLayout>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textDate"
+            android:id="@+id/tvScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/edit_post_date"
+            android:text="Ocjena"
             android:fontFamily="@font/raleway_semibold"
             android:paddingBottom="5dp"
             android:textColor="@color/grey_dark"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/txt_edit_background"
-            android:fontFamily="@font/raleway"
-            android:textColor="@color/black_typo"
-            android:padding="8dp"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textTime"
+        <RatingBar
+            android:id="@+id/rbScore"
+            style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/edit_post_time"
-            android:paddingBottom="5dp"
-            android:fontFamily="@font/raleway_semibold"
-            android:textColor="@color/grey_dark"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/txt_edit_background"
-            android:textColor="@color/black_typo"
-            android:fontFamily="@font/raleway"
-            android:padding="8dp"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textPersonCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/edit_post_person_count"
-            android:paddingBottom="5dp"
-            android:fontFamily="@font/raleway_semibold"
-            android:textColor="@color/grey_dark"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/tvHomePostPeople"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/txt_edit_background"
-            android:fontFamily="@font/raleway"
-            android:textColor="@color/black_typo"
-            android:padding="8dp"
-            android:textSize="15sp"
-            android:inputType="number" />
+            android:stepSize="1"
+            android:numStars="5" />
 
         <TextView
             android:id="@+id/textDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/edit_post_description"
             android:paddingBottom="5dp"
             android:fontFamily="@font/raleway_semibold"
@@ -152,11 +103,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            android:gravity="end">
 
             <Button
-                android:id="@+id/btnDeletePost"
+                android:id="@+id/btnDeleteFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OBRIŠI"
@@ -182,6 +133,5 @@
 
 
     </LinearLayout>
-
 
 </RelativeLayout>
