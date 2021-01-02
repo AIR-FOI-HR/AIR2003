@@ -1,6 +1,7 @@
 package hr.foi.air2003.menzapp.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,7 +16,6 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
@@ -105,8 +105,7 @@ class SettingsFragmentActivity : FragmentActivity() {
             FirebaseAuth.getInstance().sendPasswordResetEmail(user.email)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            // TODO Add some kind of popup to notify the mail is sent
-                            Toast.makeText(this, "Email poslan!", Toast.LENGTH_SHORT).show()
+
                         }
                     }
         }

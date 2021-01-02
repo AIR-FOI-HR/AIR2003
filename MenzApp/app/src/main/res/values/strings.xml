@@ -34,5 +34,13 @@
     <string name="obavijesti_on">Uključili ste obavijesti!</string>
     <string name="obavijesti_off">Isključili ste obavijesti</string>
 
-
+    <!-- ALERT DIALOG -->
+    <string name="alert_ok">U redu</string>
+    <string name="alert_success">Uspješno</string>
+    <string name="alert_fail">Greška</string>
+    <string name="edit_post">UREDI OBJAVU</string>
+    <string name="alert_edit_post">Uspješno ste uredili objavu!</string>
+    <string name="alert_fail_edit_post">Greška prilikom uređivanja objave!</string>
+    <string name="alert_new_post">Uspješno ste kreirali novu objavu!</string>
+    <string name="alert_fail_new_post">Greška prilikom kreiranja nove objave!</string>
 </resources>

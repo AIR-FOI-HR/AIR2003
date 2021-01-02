@@ -4,16 +4,18 @@ import android.app.AlertDialog
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
+import kotlinx.android.synthetic.main.alert_dialog.*
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
@@ -23,9 +25,11 @@ import java.util.UUID.randomUUID
 
 class NewPostFragment : DialogFragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private lateinit var viewModel: SharedViewModel
     private lateinit var post: Post
     private lateinit var user: User
+    private lateinit var builder: AlertDialog.Builder
+    private var viewModel = SharedViewModel()
+    private var alertDialogBuilder = AlertDialogBuilder()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -43,12 +47,11 @@ class NewPostFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         dateTimePicker = DateTimePicker()
-        viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        builder = alertDialogBuilder.createAlertDialog(requireContext(), layoutInflater)
 
         if (post.postId != "") {
-            textNewPost.text = "UREDI OBJAVU"
+            textNewPost.text = getString(R.string.edit_post)
             loadPost(post)
         }
 
@@ -162,74 +165,76 @@ class NewPostFragment : DialogFragment() {
             viewModel.updatePost(post)
             targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
-            notifyUser(true)
+
+            tvAlertMessage.text = getString(R.string.alert_edit_post)
+            val dialog = builder.create()
+            dialog.show()
+            tvOkButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
         }catch (e: Exception){
-            notifyUser(false)
+            tvAlertTitle.text = getString(R.string.alert_fail)
+            tvAlertMessage.text = getString(R.string.alert_fail_edit_post)
+            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            val dialog = builder.create()
+            dialog.show()
+            tvOkButton.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 
     private fun saveNewPost(post: Post) {
         try {
-
             val uuid = randomUUID().toString()
             post.postId = uuid
-
-            val users = getAllSubscribers(post.authorId)
-
-
-            val notification = Notification(
-                    authorId = post.authorId,
-                    content = "Nova objava!",
-                    request = false,
-                    postId = post.postId,
-                    timestamp = Timestamp(System.currentTimeMillis()/1000,0),
-                    recipientsId = users
-            )
-
             viewModel.createPost(post)
-            viewModel.createNotification(notification)
-
+            createPostNotification(post)
             targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
-            notifyUser(true)
-
             this.dismiss()
 
+            tvAlertMessage.text = getString(R.string.alert_new_post)
+            val dialog = builder.create()
+            dialog.show()
+            tvOkButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
         } catch (e: Exception) {
-            notifyUser(false)
+            tvAlertTitle.text = getString(R.string.alert_fail)
+            tvAlertMessage.text = getString(R.string.alert_fail_new_post)
+            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            val dialog = builder.create()
+            dialog.show()
+            tvOkButton.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 
-    private fun getAllSubscribers(authorId: String) : MutableList<String>{
+    private fun createPostNotification(post: Post) {
         val users: MutableList<String> = mutableListOf()
 
-        //TODO Fix getting all user subscribers
-        val liveData = viewModel.getAllSubscribersByUser(authorId)
+        val liveData = viewModel.getAllSubscribersByUser(post.authorId)
         liveData.observe(viewLifecycleOwner,{
             val data = it.data
             if(data != null){
                 for(d in data){
                     users.add(d.userId)
                 }
+
+                val notification = Notification(
+                        authorId = post.authorId,
+                        content = "Nova objava!",
+                        request = false,
+                        postId = post.postId,
+                        timestamp = Timestamp(System.currentTimeMillis()/1000,0),
+                        recipientsId = users
+                )
+
+                viewModel.createNotification(notification)
             }
         })
-        return users
-    }
-
-    private fun notifyUser(success: Boolean) {
-        val builder = AlertDialog.Builder(context)
-
-        // TODO Create and show custom dialog
-        if (success) {
-            builder.setTitle("Uspjeh")
-            builder.setMessage("Objava je uspješno kreirana!")
-            builder.setPositiveButton("OK", null)
-        } else {
-            builder.setTitle("Greška")
-            builder.setMessage("Objava nije kreirana!")
-            builder.setPositiveButton("OK", null)
-        }
-
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 }

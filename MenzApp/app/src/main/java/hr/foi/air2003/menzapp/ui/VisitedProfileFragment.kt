@@ -27,12 +27,12 @@ import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
-    private val viewModel = SharedViewModel()
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private lateinit var authorId: String
     private lateinit var user: User
     private lateinit var visitedUser: User
+    private val viewModel = SharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -231,5 +231,4 @@ class VisitedProfileFragment : Fragment() {
 
         viewModel.createNotification(notification)
     }
-
 }
