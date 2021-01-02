@@ -74,9 +74,24 @@ class VisitedProfileFragment : Fragment() {
             }
         }
 
+        tvRateUser.setOnClickListener {
+            val newFeedbackFragment = NewFeedbackFragment()
+            newFeedbackFragment.setTargetFragment(this, 1)
+            newFeedbackFragment.show(requireFragmentManager(), "Feedback")
+            rvVisitedProfileFeedbacks.adapter?.notifyDataSetChanged()
+        }
+
         btnBack.setOnClickListener {
             (activity as MainActivity).setCurrentFragment((targetFragment as HomeFragment))
         }
+    }
+
+    fun getVisitedUser(): User{
+        return visitedUser
+    }
+
+    fun getCurrentUser(): User{
+        return user
     }
 
     private fun createRecyclerViews() {

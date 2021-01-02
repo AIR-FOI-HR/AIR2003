@@ -12,6 +12,7 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User

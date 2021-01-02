@@ -209,7 +209,7 @@
                             android:layout_margin="7dp"
                             android:padding="5dp"
                             android:fontFamily="@font/raleway_bold"
-                            android:textSize="14dp"
+                            android:textSize="14sp"
                             android:textColor="@color/black_typo"
                             android:text="Ocjene i komentari" />
 
@@ -218,6 +218,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvRateUser"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:layout_marginStart="7dp"
+                                android:textColor="@color/green_primary"
+                                android:textSize="14sp"
+                                android:text="Ocijeni korisnika"/>
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rvVisitedProfileFeedbacks"

@@ -69,7 +69,7 @@ internal object FirestoreService {
         db.collection(collection).document(document)
     }
 
-    fun deleteDocument(collection: String, document: String, data: Any) {
+    fun deleteDocument(collection: String, document: String) {
         db.collection(collection).document(document).delete()
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully deleted!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
