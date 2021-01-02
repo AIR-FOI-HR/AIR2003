@@ -53,15 +53,6 @@ class MainActivity : AppCompatActivity() {
         requireUserData()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == REQUEST_EXIT && resultCode == RESULT_OK){
-            startActivity(Intent(this, SplashScreenActivity::class.java))
-            finish()
-        }
-    }
-
     private fun requireUserData(){
         if(currentUser != null){
             val liveData = viewModel.getUser(currentUser!!.uid)

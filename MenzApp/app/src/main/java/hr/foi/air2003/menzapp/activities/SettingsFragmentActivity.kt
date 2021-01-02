@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.PopupWindow
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +21,6 @@ import kotlinx.android.synthetic.main.alert_dialog.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
-const val REQUEST_EXIT = 0
 const val REQUEST_FILE_CHOOSER = 1
 
 class SettingsFragmentActivity : FragmentActivity() {
@@ -132,8 +130,8 @@ class SettingsFragmentActivity : FragmentActivity() {
 
         window.contentView.tvLogOut.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            startActivityForResult(Intent(this, MainActivity::class.java), REQUEST_EXIT)
-            finish()
+            finishAffinity()
+            startActivity(Intent(this, SplashScreenActivity::class.java))
         }
     }
 }
