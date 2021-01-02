@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MenzApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.MenzApp" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:forceDarkAllowed">false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_primary</item>
         <item name="colorPrimaryVariant">@color/green_light</item>
@@ -22,4 +23,6 @@
     <style name="SplashScreenTheme" parent="Theme.MenzApp">
         <item name="android:windowBackground">@drawable/splash_screen_background</item>
     </style>
+
+    <!-- TODO Change style of alert dialog -->
 </resources>

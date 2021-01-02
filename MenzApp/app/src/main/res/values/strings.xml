@@ -35,5 +35,17 @@
     <string name="obavijesti_on">Uključili ste obavijesti!</string>
     <string name="obavijesti_off">Isključili ste obavijesti</string>
 
-
+    <!-- ALERT DIALOG -->
+    <string name="alert_ok">U redu</string>
+    <string name="alert_success">Uspješno</string>
+    <string name="alert_fail">Greška</string>
+    <string name="edit_post">UREDI OBJAVU</string>
+    <string name="alert_edit_post">Uspješno ste uredili objavu!</string>
+    <string name="alert_fail_edit_post">Greška prilikom uređivanja objave!</string>
+    <string name="alert_new_post">Uspješno ste kreirali novu objavu!</string>
+    <string name="alert_fail_new_post">Greška prilikom kreiranja nove objave!</string>
+    <string name="alert_success_join">Uspješno ste poslali zahtjev!</string>
+    <string name="alert_fail_join">Greška prilikom slanja zahtjeva!</string>
+    <string name="alert_email_sent">Na email adresu je poslan obrazac za izmjenu lozinke!</string>
+    <string name="alert_fail_email_sent">Greška prilikom slanja email poruke za izmjenu lozinke!</string>
 </resources>

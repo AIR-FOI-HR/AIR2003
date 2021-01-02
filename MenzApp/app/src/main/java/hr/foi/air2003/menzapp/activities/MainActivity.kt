@@ -20,8 +20,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val viewModel: SharedViewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
-    private lateinit var user: User
     private lateinit var alarmManager: AlarmManager
+    private var user = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         currentUser = FirebaseAuth.getInstance().currentUser
-        if(currentUser === null) { userLogin() }
-
         requireUserData()
 
         // Set current fragment when navigation icon is selected
@@ -55,26 +53,15 @@ class MainActivity : AppCompatActivity() {
         requireUserData()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode == REQUEST_EXIT && resultCode == RESULT_OK){
-            startActivity(Intent(this, SplashScreenActivity::class.java))
-            finish()
-        }
-    }
-
-    private fun userLogin() {
-        startActivity(Intent(this, LoginActivity::class.java))
-    }
-
     private fun requireUserData(){
         if(currentUser != null){
             val liveData = viewModel.getUser(currentUser!!.uid)
             liveData.observe(this, {
                 val data = it.data
-                if(data != null)
-                    loadUserData(data)
+                if (data != null) {
+                    user = data
+                    setCurrentFragment(getSelectedFragment())
+                }
             })
         }
     }
@@ -96,11 +83,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-    }
-
-    private fun loadUserData(user: User){
-        this.user = user
-        setCurrentFragment(getSelectedFragment())
     }
 
     private fun getSelectedFragment() : Fragment{

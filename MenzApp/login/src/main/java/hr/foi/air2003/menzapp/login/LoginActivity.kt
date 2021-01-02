@@ -95,7 +95,8 @@ class LoginActivity : AppCompatActivity() {
                         // if (auth.currentUser!!.isEmailVerified) {
                         // All good, login the user
                         updateUI(user)
-                        finish()
+                        super.onBackPressed()
+                        //finish()
                         //} else {
                         //auth.signOut()
                         // Display message that the user email is not verified
