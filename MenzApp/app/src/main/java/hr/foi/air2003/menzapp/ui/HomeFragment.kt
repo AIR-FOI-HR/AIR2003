@@ -1,24 +1,28 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
+import kotlinx.android.synthetic.main.alert_dialog.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.lang.Exception
 import java.text.SimpleDateFormat
 
 
@@ -27,6 +31,8 @@ class HomeFragment : Fragment() {
     private lateinit var adapterPost: HomePostRecyclerViewAdapter
     private lateinit var user: User
     private lateinit var authorId: String
+    private lateinit var builder: AlertDialog.Builder
+    private var alertDialogBuilder = AlertDialogBuilder()
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
@@ -44,6 +50,7 @@ class HomeFragment : Fragment() {
 
         dateTimePicker = DateTimePicker()
         //viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        builder = alertDialogBuilder.createAlertDialog(requireContext(), layoutInflater)
 
         val currentDateTime = Timestamp(System.currentTimeMillis() / 1000, 0)
         filterPosts(currentDateTime)
@@ -69,7 +76,26 @@ class HomeFragment : Fragment() {
         rvPostsLayout.adapter = adapterPost
 
         adapterPost.respondClick = { post ->
-            requestToJoin(post)
+            try {
+                requestToJoin(post)
+
+                tvAlertMessage.text = getString(R.string.alert_success_join)
+                val dialog = builder.create()
+                dialog.show()
+                tvOkButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+            }catch (e: Exception){
+                tvAlertTitle.text = getString(R.string.alert_fail)
+                tvAlertMessage.text = getString(R.string.alert_fail_join)
+                ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+                val dialog = builder.create()
+                dialog.show()
+                tvOkButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
         }
 
         adapterPost.authorClick = { post ->

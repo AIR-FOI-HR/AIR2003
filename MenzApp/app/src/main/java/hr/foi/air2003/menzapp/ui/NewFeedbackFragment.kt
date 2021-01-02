@@ -37,7 +37,6 @@ class NewFeedbackFragment : DialogFragment() {
         btnDeleteFeedback.setOnClickListener{
             viewModel.deleteFeedback(feedback)
             this.dismiss()
-            // TODO Alert dialog
         }
 
         btnSaveFeedback.setOnClickListener {
@@ -100,12 +99,10 @@ class NewFeedbackFragment : DialogFragment() {
     private fun editFeedback(feedback: Feedback) {
         viewModel.updateFeedback(feedback)
         this.dismiss()
-        //TODO Alert dialog
     }
 
     private fun saveFeedback(feedback: Feedback) {
         viewModel.createFeedback(feedback)
         this.dismiss()
-        //TODO Alert dialog
     }
 }

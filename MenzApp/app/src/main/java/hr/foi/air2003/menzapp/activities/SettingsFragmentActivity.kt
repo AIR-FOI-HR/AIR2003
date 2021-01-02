@@ -9,13 +9,16 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import kotlinx.android.synthetic.main.alert_dialog.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
@@ -25,12 +28,15 @@ const val REQUEST_FILE_CHOOSER = 1
 class SettingsFragmentActivity : FragmentActivity() {
     private lateinit var user: User
     private lateinit var filePath: Uri
+    private lateinit var builder: AlertDialog.Builder
     private val viewModel = SharedViewModel()
+    private var alertDialogBuilder = AlertDialogBuilder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_settings)
         user = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
+        builder = alertDialogBuilder.createAlertDialog(this, layoutInflater)
     }
 
     override fun onStart() {
@@ -105,7 +111,21 @@ class SettingsFragmentActivity : FragmentActivity() {
             FirebaseAuth.getInstance().sendPasswordResetEmail(user.email)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-
+                            tvAlertMessage.text = getString(R.string.alert_email_sent)
+                            val dialog = builder.create()
+                            dialog.show()
+                            tvOkButton.setOnClickListener {
+                                dialog.dismiss()
+                            }
+                        }else{
+                            tvAlertTitle.text = getString(R.string.alert_fail)
+                            tvAlertMessage.text = getString(R.string.alert_fail_email_sent)
+                            ivAlertIcon.background = ContextCompat.getDrawable(this, R.drawable.ic_warning)
+                            val dialog = builder.create()
+                            dialog.show()
+                            tvOkButton.setOnClickListener {
+                                dialog.dismiss()
+                            }
                         }
                     }
         }

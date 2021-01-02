@@ -43,4 +43,8 @@
     <string name="alert_fail_edit_post">Greška prilikom uređivanja objave!</string>
     <string name="alert_new_post">Uspješno ste kreirali novu objavu!</string>
     <string name="alert_fail_new_post">Greška prilikom kreiranja nove objave!</string>
+    <string name="alert_success_join">Uspješno ste poslali zahtjev!</string>
+    <string name="alert_fail_join">Greška prilikom slanja zahtjeva!</string>
+    <string name="alert_email_sent">Na email adresu je poslan obrazac za izmjenu lozinke!</string>
+    <string name="alert_fail_email_sent">Greška prilikom slanja email poruke za izmjenu lozinke!</string>
 </resources>
