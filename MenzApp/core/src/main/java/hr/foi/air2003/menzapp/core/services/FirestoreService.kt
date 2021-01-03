@@ -91,8 +91,10 @@ internal object FirestoreService {
         })
     }
 
-    fun retrieveImage(imgUri: String) : Task<ByteArray>{
-        val ref = storage.getReferenceFromUrl(imgUri)
-        return ref.getBytes(1024 * 1024 * 100) // TODO Compress image to max. 10MB
+    fun retrieveImage(imgUri: String) : Task<Uri>{
+        val imageReference = storage.getReferenceFromUrl(imgUri)
+        return imageReference.downloadUrl
+            .addOnSuccessListener { Log.d(ContentValues.TAG, "Image successfully retrieved!") }
+            .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error occured while retrieving image.", e) }
     }
 }

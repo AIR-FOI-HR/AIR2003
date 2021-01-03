@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import coil.api.load
+import coil.size.Scale
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.ImageConverter
@@ -34,10 +38,12 @@ class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) : Gene
                     val imgUri = user.profilePicture
 
                     viewModel.getImage(imgUri)
-                        .addOnSuccessListener { bytes ->
-                            val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                            val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivChatUserImage)
-                            itemView.ivChatUserImage.setImageBitmap(resized)
+                        .addOnSuccessListener { url ->
+                            //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
+                            //val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivChatUserImage)
+                            itemView.ivChatUserImage.load(url){
+                                scale(Scale.FIT)
+                            }
                         }
                 }
             })

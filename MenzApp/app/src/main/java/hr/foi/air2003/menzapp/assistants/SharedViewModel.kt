@@ -18,7 +18,7 @@ class SharedViewModel : ViewModel() {
         return repository.uploadImage(filePath)
     }
 
-    fun getImage(imgUri: String) : Task<ByteArray> {
+    fun getImage(imgUri: String) : Task<Uri> {
         return repository.retrieveImage(imgUri)
     }
 

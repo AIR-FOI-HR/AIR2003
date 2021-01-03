@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
+import coil.api.load
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
@@ -157,10 +158,10 @@ class ProfileFragment : Fragment() {
         tvProfileSubscribers.text = "Broj pretplatnika: ${user.subscribersCount}"
 
         viewModel.getImage(user.profilePicture)
-            .addOnSuccessListener { bytes ->
-                val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                val resized = ImageConverter.resizeBitmap(bitmap, ivProfilePhoto)
-                ivProfilePhoto.setImageBitmap(resized)
+            .addOnSuccessListener { url ->
+                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
+                //val resized = ImageConverter.resizeBitmap(bitmap, ivProfilePhoto)
+                ivProfilePhoto.load(url)
             }
     }
 

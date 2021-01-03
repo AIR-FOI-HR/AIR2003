@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import coil.api.load
+import coil.size.Scale
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -59,10 +63,12 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                     val imgUri = user.profilePicture
 
                     viewModel.getImage(imgUri)
-                            .addOnSuccessListener { bytes ->
-                                val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                                val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivHomePostImage)
-                                itemView.ivHomePostImage.setImageBitmap(resized)
+                            .addOnSuccessListener { url ->
+                                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
+                                //val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivHomePostImage)
+                                itemView.ivHomePostImage.load(url){
+                                    scale(Scale.FIT)
+                                }
                             }
 
                     var found = false
