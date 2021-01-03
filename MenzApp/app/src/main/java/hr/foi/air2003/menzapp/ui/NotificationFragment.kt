@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Chat
-import hr.foi.air2003.menzapp.core.model.Notification
-import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.model.*
 import hr.foi.air2003.menzapp.recyclerview.NotificationRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.*
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.btnNotifications
@@ -47,7 +45,6 @@ class NotificationFragment : Fragment() {
             profileFragment.setTargetFragment(this, 1)
             (activity as MainActivity).setCurrentFragment(profileFragment)
         }
-
     }
 
     private fun createRecyclerViews() {
@@ -99,7 +96,26 @@ class NotificationFragment : Fragment() {
             val user = it.data
             if(user != null)
                 chat.chatName = user.fullName
+            viewModel.createChat(chat)
+        })
+    }
 
+    private fun addUserToChat(notification: Notification) {
+        var chat = Chat(
+                postId = notification.postId,
+                lastMessage = "Initial message"
+        )
+
+        val liveData = viewModel.getChatByPostId(notification.postId)
+        liveData.observe(viewLifecycleOwner, {
+            val data = it.data
+            if (data != null){
+                for(d in data){
+                    chat.chatName = d.chatName + ", novi User"
+                    chat.participantsId = d.participantsId
+                }
+            }
+            //viewModel.updateChat(chat)
             viewModel.createChat(chat)
         })
     }

@@ -62,6 +62,14 @@ class Repository {
         return ChatQueryLiveData(FirestoreService.getAllWithQuery(Collection.CHAT, Operation.ARRAY_CONTAINS_ANY, "participantsId", users))
     }
 
+    fun getChatByPostId(postId: String) : ChatQueryLiveData {
+        return ChatQueryLiveData(FirestoreService.getAllWithQuery(Collection.CHAT, Operation.EQUAL_TO, "postId", postId))
+    }
+
+    fun updateChat(chat: Chat) {
+        FirestoreService.update(Collection.CHAT, chat.chatId, chat)
+    }
+
     fun getMessageById(messageId: String) : MessageLiveData{
         return MessageLiveData(FirestoreService.getDocumentByID(Collection.MESSAGE, messageId))
     }

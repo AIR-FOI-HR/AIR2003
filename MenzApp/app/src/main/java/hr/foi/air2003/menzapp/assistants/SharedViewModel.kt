@@ -62,6 +62,10 @@ class SharedViewModel : ViewModel() {
         return repository.getChatsByParticipant(userId)
     }
 
+    fun getChatByPostId(postId: String) : ChatQueryLiveData {
+        return repository.getChatByPostId(postId)
+    }
+
     fun getMessage(messageId: String): MessageLiveData {
         return repository.getMessageById(messageId)
     }
@@ -88,6 +92,10 @@ class SharedViewModel : ViewModel() {
 
     fun updateNotification(notification: Notification) {
         repository.updateNotification(notification)
+    }
+
+    fun updateChat(chat: Chat) {
+        repository.updateChat(chat)
     }
 
     fun createFeedback(feedback: Feedback) {
