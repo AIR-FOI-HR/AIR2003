@@ -52,9 +52,9 @@ class ChatFragment : Fragment() {
     private fun createRecyclerView() {
         adapterChat = ChatMessagesRecyclerViewAdapter(this)
 
-        rvAllMessages.hasFixedSize()
-        rvAllMessages.layoutManager = LinearLayoutManager(context)
-        rvAllMessages.itemAnimator = DefaultItemAnimator()
-        rvAllMessages.adapter = adapterChat
+        rvAllChats.hasFixedSize()
+        rvAllChats.layoutManager = LinearLayoutManager(context)
+        rvAllChats.itemAnimator = DefaultItemAnimator()
+        rvAllChats.adapter = adapterChat
     }
 }

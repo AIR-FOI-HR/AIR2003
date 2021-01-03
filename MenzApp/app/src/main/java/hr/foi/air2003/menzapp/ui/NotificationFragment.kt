@@ -47,7 +47,6 @@ class NotificationFragment : Fragment() {
             profileFragment.setTargetFragment(this, 1)
             (activity as MainActivity).setCurrentFragment(profileFragment)
         }
-
     }
 
     private fun createRecyclerViews() {

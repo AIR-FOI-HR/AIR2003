@@ -7,10 +7,7 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
-import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.other.Operation
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.*
 
 internal object FirestoreService {
