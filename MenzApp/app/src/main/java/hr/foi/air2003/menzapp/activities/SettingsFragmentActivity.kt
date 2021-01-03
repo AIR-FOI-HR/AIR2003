@@ -17,8 +17,8 @@ import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.alert_dialog.*
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
 const val REQUEST_FILE_CHOOSER = 1
@@ -32,7 +32,7 @@ class SettingsFragmentActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_settings)
+        setContentView(R.layout.activity_settings)
         user = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
         builder = alertDialogBuilder.createAlertDialog(this, layoutInflater)
     }
