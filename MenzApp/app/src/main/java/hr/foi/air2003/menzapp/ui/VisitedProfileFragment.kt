@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
+import coil.api.load
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
@@ -176,10 +177,10 @@ class VisitedProfileFragment : Fragment() {
         tvVisitedProfileSubscribers.text = "Broj pretplatnika: ${visitedUser.subscribersCount}"
 
         viewModel.getImage(user.profilePicture)
-            .addOnSuccessListener { bytes ->
-                val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                val resized = ImageConverter.resizeBitmap(bitmap, ivVisitedProfilePhoto)
-                ivVisitedProfilePhoto.setImageBitmap(resized)
+            .addOnSuccessListener { url ->
+                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
+                //val resized = ImageConverter.resizeBitmap(bitmap, ivVisitedProfilePhoto)
+                ivVisitedProfilePhoto.load(url)
             }
     }
 

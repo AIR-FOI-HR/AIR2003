@@ -25,7 +25,7 @@ class Repository {
         return FirestoreService.uploadImage(filePath)
     }
 
-    fun retrieveImage(imgUri: String) : Task<ByteArray> {
+    fun retrieveImage(imgUri: String) : Task<Uri> {
         return FirestoreService.retrieveImage(imgUri)
     }
 
