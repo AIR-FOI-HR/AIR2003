@@ -11,18 +11,16 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.R
-import hr.foi.air2003.menzapp.core.livedata.UserLiveData
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.other.Collection
 import hr.foi.air2003.menzapp.core.other.Operation
 
-class NotificationReceiver : BroadcastReceiver(){
+class NotificationReceiver: BroadcastReceiver(){
     private var context: Context? = null
     private lateinit var channel : NotificationChannel
     private var isChannelCreated = false
@@ -30,12 +28,11 @@ class NotificationReceiver : BroadcastReceiver(){
     private var currentUser: FirebaseUser? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Thread{ notifyUser() }
+        Thread{ notifyUser(context) }
             .start()
     }
 
-    private fun notifyUser(){
-
+    private fun notifyUser(context: Context?){
         getNotificationDetails().addSnapshotListener { snapshot, error ->
             val documents = snapshot?.documents
             val notifications: MutableList<Notification> = mutableListOf()
@@ -50,16 +47,16 @@ class NotificationReceiver : BroadcastReceiver(){
                     }
                 }
             }
-            createNotification(notifications)
+            createNotification(notifications, context)
         }
     }
 
-    private fun createNotification(notifications: MutableList<Notification>) {
+    private fun createNotification(notifications: MutableList<Notification>, context: Context?) {
         if (!isChannelCreated) {
-            createChannel()
+            createChannel(context)
         }
 
-        for (n in notifications){
+        for ((i, n) in notifications.withIndex()){
             val fullName: String = getUserFullName(n.authorId)
 
             val mBuilder = NotificationCompat.Builder(context!!, EVENT_CHANNEL_ID)
@@ -68,13 +65,12 @@ class NotificationReceiver : BroadcastReceiver(){
                     .setContentText(n.content)
             val notification = mBuilder.build()
             val notificationManagerCompat = NotificationManagerCompat.from(context!!)
-            notificationManagerCompat.notify(n.notificationId.toInt(), notification)
-
+            notificationManagerCompat.notify(i, notification)
             FirestoreService.updateField(Collection.NOTIFICATION, n.notificationId, "seen", true)
         }
     }
 
-    private fun createChannel() {
+    private fun createChannel(context: Context?) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             channel = NotificationChannel(EVENT_CHANNEL_ID, "MenzaApp", NotificationManager.IMPORTANCE_DEFAULT)
             channel.description = "A channel for MenzApp notification"
@@ -88,7 +84,8 @@ class NotificationReceiver : BroadcastReceiver(){
 
     private fun getNotificationDetails(): Query {
         currentUser = FirebaseAuth.getInstance().currentUser
-        return FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", currentUser!!.uid)
+        val users = listOf(currentUser!!.uid)
+        return FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users)
     }
 
     private fun getUserFullName(authorId: String): String {
