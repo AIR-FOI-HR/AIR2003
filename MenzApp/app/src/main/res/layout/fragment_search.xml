@@ -24,14 +24,13 @@
                 android:text="@string/pretrazivanje"
                 android:textColor="@color/white"
                 android:fontFamily="@font/raleway_semibold"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
         </LinearLayout>
 
         <SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            />
+            android:layout_margin="16dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSearchResults"
@@ -39,15 +38,6 @@
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
             android:clipToPadding="false"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Notifikacija"
-            android:id="@+id/btnProva"/>
-
     </LinearLayout>
-
-
 
 </androidx.core.widget.NestedScrollView>
