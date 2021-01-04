@@ -40,6 +40,12 @@
             android:paddingBottom="20dp"
             android:clipToPadding="false"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notifikacija"
+            android:id="@+id/btnProva"/>
+
     </LinearLayout>
 
 
