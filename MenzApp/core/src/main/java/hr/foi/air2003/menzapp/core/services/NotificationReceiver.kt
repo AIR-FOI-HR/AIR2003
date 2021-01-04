@@ -21,7 +21,6 @@ import hr.foi.air2003.menzapp.core.other.Collection
 import hr.foi.air2003.menzapp.core.other.Operation
 
 class NotificationReceiver: BroadcastReceiver(){
-    private var context: Context? = null
     private lateinit var channel : NotificationChannel
     private var isChannelCreated = false
     private val EVENT_CHANNEL_ID = "EVENT_CHANNEL_ID"
@@ -33,40 +32,49 @@ class NotificationReceiver: BroadcastReceiver(){
     }
 
     private fun notifyUser(context: Context?){
-        getNotificationDetails().addSnapshotListener { snapshot, error ->
-            val documents = snapshot?.documents
-            val notifications: MutableList<Notification> = mutableListOf()
 
-            if(documents != null){
-                for(doc in documents){
-                    if (!doc.getBoolean("seen")!!){
-                        val json = Gson().toJson(doc.data)
-                        val notification = Gson().fromJson(json, Notification::class.java)
-                        notification.notificationId = doc.id
-                        notifications.add(notification)
-                    }
-                }
-            }
-            createNotification(notifications, context)
-        }
-    }
-
-    private fun createNotification(notifications: MutableList<Notification>, context: Context?) {
+        currentUser = FirebaseAuth.getInstance().currentUser
+        val users = listOf(currentUser!!.uid)
         if (!isChannelCreated) {
             createChannel(context)
         }
 
-        for ((i, n) in notifications.withIndex()){
-            val fullName: String = getUserFullName(n.authorId)
+        FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users).addSnapshotListener { snapshot, error ->
+            val documents = snapshot?.documents
 
-            val mBuilder = NotificationCompat.Builder(context!!, EVENT_CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_logo_vector)
-                    .setContentTitle(fullName)
-                    .setContentText(n.content)
-            val notification = mBuilder.build()
-            val notificationManagerCompat = NotificationManagerCompat.from(context!!)
-            notificationManagerCompat.notify(i, notification)
-            FirestoreService.updateField(Collection.NOTIFICATION, n.notificationId, "seen", true)
+            if(documents != null){
+                for((i, doc) in documents.withIndex()){
+                    if (!doc.getBoolean("seen")!!){
+                        val json = Gson().toJson(doc.data)
+                        val n = Gson().fromJson(json, Notification::class.java)
+                        n.notificationId = doc.id
+
+                        FirestoreService.getDocumentByID(Collection.USER, n.authorId).addSnapshotListener { snapshot, error ->
+                            if (snapshot != null && snapshot.exists()) {
+                                val model = User(
+                                        userId = snapshot.id,
+                                        fullName = snapshot.getString("fullName")!!,
+                                        email = snapshot.getString("email")!!,
+                                        bio = snapshot.getString("bio")!!,
+                                        profilePicture = snapshot.getString("profilePicture")!!,
+                                        notificationsOn = snapshot.getBoolean("notificationsOn")!!,
+                                        subscribersCount = snapshot.getField<Long>("subscribersCount")!!.toInt(),
+                                        subscribedTo = snapshot.get("subscribedTo")!! as List<String>
+                                )
+
+                                val mBuilder = NotificationCompat.Builder(context!!, EVENT_CHANNEL_ID)
+                                        .setSmallIcon(R.drawable.ic_logo_vector)
+                                        .setContentTitle(model.fullName)
+                                        .setContentText(n.content)
+                                val notification = mBuilder.build()
+                                val notificationManagerCompat = NotificationManagerCompat.from(context!!)
+                                notificationManagerCompat.notify(i, notification)
+                                FirestoreService.updateField(Collection.NOTIFICATION, n.notificationId, "seen", true)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -81,33 +89,4 @@ class NotificationReceiver: BroadcastReceiver(){
             isChannelCreated = true
         }
     }
-
-    private fun getNotificationDetails(): Query {
-        currentUser = FirebaseAuth.getInstance().currentUser
-        val users = listOf(currentUser!!.uid)
-        return FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users)
-    }
-
-    private fun getUserFullName(authorId: String): String {
-        var fullName = "Default"
-
-        FirestoreService.getDocumentByID(Collection.USER, authorId).addSnapshotListener { snapshot, error ->
-
-        if (snapshot != null && snapshot.exists()) {
-            val model = User(
-                    userId = snapshot.id,
-                    fullName = snapshot.getString("fullName")!!,
-                    email = snapshot.getString("email")!!,
-                    bio = snapshot.getString("bio")!!,
-                    profilePicture = snapshot.getString("profilePicture")!!,
-                    notificationsOn = snapshot.getBoolean("notificationsOn")!!,
-                    subscribersCount = snapshot.getField<Long>("subscribersCount")!!.toInt(),
-                    subscribedTo = snapshot.get("subscribedTo")!! as List<String>
-                    )
-            fullName = model.fullName
-            }
-        }
-        return fullName
-    }
-
 }

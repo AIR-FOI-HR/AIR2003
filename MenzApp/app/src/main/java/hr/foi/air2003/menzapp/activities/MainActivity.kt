@@ -88,8 +88,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNotificationService() {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 17)
-        calendar.set(Calendar.MINUTE, 23)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
 
         val repeatingTime = 15 * 60 * 1000.toLong()
@@ -103,8 +103,7 @@ class MainActivity : AppCompatActivity() {
                 PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.timeInMillis, repeatingTime, pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.timeInMillis, repeatingTime, pendingIntent)
     }
 
     private fun getSelectedFragment() : Fragment{
