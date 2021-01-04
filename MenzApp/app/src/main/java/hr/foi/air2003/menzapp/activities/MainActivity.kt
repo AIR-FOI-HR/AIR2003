@@ -12,8 +12,8 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.core.services.MenuReciever
+import hr.foi.air2003.menzapp.core.services.NotificationReceiver
 import hr.foi.air2003.menzapp.ui.*
-import hr.foi.air2003.menzapp.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setMenuService()
+        setNotificationService()
     }
 
     override fun onStart() {
@@ -76,13 +77,34 @@ class MainActivity : AppCompatActivity() {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(applicationContext, MenuReciever::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+    }
+
+    private fun setNotificationService() {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.set(Calendar.HOUR_OF_DAY, 15)
+        calendar.set(Calendar.MINUTE, 34)
+        calendar.set(Calendar.SECOND, 0)
+
+        val repeatingTime = 15 * 60 * 1000.toLong()
+
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(applicationContext, NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.timeInMillis, repeatingTime, pendingIntent)
     }
 
     private fun getSelectedFragment() : Fragment{
