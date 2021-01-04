@@ -9,6 +9,7 @@ data class Notification (
     var authorId: String = "",
     var content: String = "",
     var request: Boolean = true,
+    var seen: Boolean = false,
     var postId: String = "",
     var timestamp: Timestamp = Timestamp.now(),
     var recipientsId: List<String> = listOf()

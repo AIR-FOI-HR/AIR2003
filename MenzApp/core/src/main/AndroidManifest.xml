@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hr.foi.air2003.menzapp.core">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
         <receiver android:name=".services.MenuReciever"/>
+        <receiver android:name=".services.NotificationReceiver"/>
     </application>
 </manifest>

@@ -21,6 +21,7 @@
     <string name="odjava">Odjava</string>
     <string name="poruke">Poruke</string>
     <string name="jelovnik">Jelovnik</string>
+    <string name="pretrazivanje">Pretraživanje</string>
 
     <!-- NOTIFICATIONS -->
     <string name="notifications">OBAVIJESTI</string>
@@ -47,4 +48,10 @@
     <string name="alert_fail_join">Greška prilikom slanja zahtjeva!</string>
     <string name="alert_email_sent">Na email adresu je poslan obrazac za izmjenu lozinke!</string>
     <string name="alert_fail_email_sent">Greška prilikom slanja email poruke za izmjenu lozinke!</string>
+
+    <!-- SEARCH -->
+    <string name="search">Pretraživanje</string>
+    <string name="search_name">Search name</string>
+    <string name="search_text"> This is blank search text for test purposes. </string>
+
 </resources>
