@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MenzApp</string>
 
+    <string name="facebook_app_id">3738270339529473</string>
+    <string name="fb_login_protocol_scheme">fb3738270339529473</string>
+
     <!-- DIALOG EDIT FEED AND NEW POST-->
     <string name="edit_post_title">UREDI OBJAVU</string>
     <string name="edit_post_date">Datum</string>
