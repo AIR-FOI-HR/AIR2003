@@ -7,12 +7,14 @@ import coil.api.load
 import coil.size.Scale
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
+import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
 import kotlinx.android.synthetic.main.search_list_item.view.*
 
 class SearchUserRecyclerViewAdapter : GenericRecyclerViewAdaper<User>() {
     private var viewModel = SharedViewModel()
+    var userClick: ((User) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<User> {
         val view = LayoutInflater.from(parent.context)
@@ -21,6 +23,13 @@ class SearchUserRecyclerViewAdapter : GenericRecyclerViewAdaper<User>() {
     }
 
     inner class SearchUserViewHolder(itemView: View) : GenericViewHolder<User>(itemView){
+
+        init{
+            itemView.searchUser.setOnClickListener {
+                userClick?.invoke(items[adapterPosition])
+            }
+        }
+
         override fun onBind(item: User) {
             itemView.tvSearchUserName.text = item.fullName
             itemView.tvSearchUserDescription.text = item.bio

@@ -17,8 +17,9 @@ import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
     private lateinit var adapterUser: SearchUserRecyclerViewAdapter
-    private val viewModel = SharedViewModel()
     private lateinit var user: User
+    private lateinit var visitedUser: User
+    private val viewModel = SharedViewModel()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -67,5 +68,16 @@ class SearchFragment : Fragment() {
         rvSearchResults.layoutManager = LinearLayoutManager(context)
         rvSearchResults.itemAnimator = DefaultItemAnimator()
         rvSearchResults.adapter = adapterUser
+
+        adapterUser.userClick = { user ->
+            val visitedProfileFragment = VisitedProfileFragment()
+            visitedUser = user
+            visitedProfileFragment.setTargetFragment(this, 2)
+            (activity as MainActivity).setCurrentFragment(visitedProfileFragment)
+        }
+    }
+
+    fun getVisitedUser(): User {
+        return visitedUser
     }
 }

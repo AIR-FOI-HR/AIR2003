@@ -30,8 +30,9 @@ class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
-    private lateinit var authorId: String
+    private var authorId: String? = null
     private lateinit var user: User
+    private lateinit var parent: Fragment
     private lateinit var visitedUser: User
     private val viewModel = SharedViewModel()
 
@@ -40,7 +41,15 @@ class VisitedProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        authorId = (targetFragment as HomeFragment).getAuthorId()
+        if(targetRequestCode == 1){
+            parent = targetFragment as HomeFragment
+            authorId = (parent as HomeFragment).getAuthorId()
+        }
+        else if (targetRequestCode == 2){
+            parent = targetFragment as SearchFragment
+            visitedUser = (parent as SearchFragment).getVisitedUser()
+        }
+
         user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_visited_profile, container, false)
     }
@@ -83,7 +92,7 @@ class VisitedProfileFragment : Fragment() {
         }
 
         btnBack.setOnClickListener {
-            (activity as MainActivity).setCurrentFragment((targetFragment as HomeFragment))
+            (activity as MainActivity).setCurrentFragment(parent)
         }
     }
 
@@ -136,15 +145,20 @@ class VisitedProfileFragment : Fragment() {
     }
 
     private fun requireUserData() {
-        val liveData = viewModel.getUser(authorId)
-        liveData.observe(viewLifecycleOwner, {
-            val data = it.data
-            if (data != null) {
-                visitedUser = data
-                retrieveUserData(visitedUser)
-                checkSubscription(visitedUser)
-            }
-        })
+        if(authorId != null){
+            val liveData = viewModel.getUser(authorId!!)
+            liveData.observe(viewLifecycleOwner, {
+                val data = it.data
+                if (data != null) {
+                    visitedUser = data
+                    retrieveUserData(visitedUser)
+                    checkSubscription(visitedUser)
+                }
+            })
+        }else{
+            retrieveUserData(visitedUser)
+            checkSubscription(visitedUser)
+        }
     }
 
     private fun checkSubscription(visitedUser: User) {
