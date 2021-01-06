@@ -109,4 +109,8 @@ class SharedViewModel : ViewModel() {
     fun deleteFeedback(feedback: Feedback) {
         repository.deleteFeedback(feedback)
     }
+
+    fun searchUsers(text: String) : UserQueryLiveData {
+        return repository.getUsersBySearch(text)
+    }
 }

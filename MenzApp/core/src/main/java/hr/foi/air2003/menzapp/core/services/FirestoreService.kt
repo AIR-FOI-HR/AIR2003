@@ -76,6 +76,12 @@ internal object FirestoreService {
         return db.collection(collection).document(document)
     }
 
+    fun searchData(collection: String, field: String, text: String) : Query{
+        return db.collection(collection).orderBy(field)
+            .startAt(text)
+            .endAt("$text\uf8ff")
+    }
+
     fun uploadImage(filePath: Uri) : Task<Uri>{
         val pathString = "photos/" + UUID.randomUUID().toString()
         val ref = storage.reference.child(pathString)

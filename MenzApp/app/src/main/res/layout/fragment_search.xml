@@ -28,9 +28,12 @@
         </LinearLayout>
 
         <SearchView
+            android:id="@+id/svSearchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:iconifiedByDefault="false"
+            android:background="@drawable/message_background_grey"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSearchResults"

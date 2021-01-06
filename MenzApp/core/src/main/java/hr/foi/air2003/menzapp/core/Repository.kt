@@ -111,4 +111,8 @@ class Repository {
     fun deleteFeedback(feedback: Feedback) {
         FirestoreService.deleteDocument(Collection.FEEDBACK, feedback.feedbackId)
     }
+
+    fun getUsersBySearch(text: String) : UserQueryLiveData{
+        return UserQueryLiveData(FirestoreService.searchData(Collection.USER, "fullName", text))
+    }
 }
