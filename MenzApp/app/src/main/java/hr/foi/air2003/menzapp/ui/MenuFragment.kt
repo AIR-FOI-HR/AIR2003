@@ -66,17 +66,22 @@ class MenuFragment : Fragment() {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    if(d.timestamp == currentTimestamp){
+                    if(d.timestamp == currentTimestamp && d.lunch.isNotEmpty()){
                         populateMenus(d)
                     }
-                    else if(d.timestamp == dayBefore){
+                    else if(d.timestamp == dayBefore && d.lunch.isNotEmpty()){
                         populateMenus(d)
+                    }
+                    else{
+                        populateMenus(d)
+                        break
                     }
                 }
             }
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun populateMenus(menu: Menu) {
         tvLunch.text = "Ručak, ${menu.date}"
         tvDinner.text = "Večera, ${menu.date}"
