@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setMenuService()
-        setNotificationService()
+        //setNotificationService()
     }
 
     override fun onStart() {
@@ -62,6 +62,9 @@ class MainActivity : AppCompatActivity() {
                 if (data != null) {
                     user = data
                     setCurrentFragment(getSelectedFragment())
+                    if(user.notificationsOn){
+                        setNotificationService()
+                    }
                 }
             })
         }
