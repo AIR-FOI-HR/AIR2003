@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.foi.air2003.menzapp.R
@@ -15,9 +14,6 @@ import hr.foi.air2003.menzapp.core.model.*
 import hr.foi.air2003.menzapp.recyclerview.NotificationRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.*
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.btnNotifications
-import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
-import java.util.UUID.randomUUID
 
 class NotificationFragment : Fragment() {
 
@@ -26,9 +22,9 @@ class NotificationFragment : Fragment() {
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_dialog_notifications, container, false)
@@ -74,8 +70,8 @@ class NotificationFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val notifications: MutableList<Notification> = mutableListOf()
             val data = it.data
-            if(data != null){
-                for(d in data){
+            if (data != null) {
+                for (d in data) {
                     notifications.add(d)
                 }
 
@@ -86,15 +82,15 @@ class NotificationFragment : Fragment() {
 
     private fun createChat(notification: Notification) {
         val chat = Chat(
-                lastMessage = "Initial message",
-                participantsId = listOf(notification.authorId, user.userId),
-                postId = notification.postId
+            lastMessage = "Initial message",
+            participantsId = listOf(notification.authorId, user.userId),
+            postId = notification.postId
         )
 
         val liveData = viewModel.getUser(notification.authorId)
         liveData.observe(viewLifecycleOwner, {
             val user = it.data
-            if(user != null)
+            if (user != null)
                 chat.chatName = user.fullName
             viewModel.createChat(chat)
         })
@@ -102,15 +98,15 @@ class NotificationFragment : Fragment() {
 
     private fun addUserToChat(notification: Notification) {
         var chat = Chat(
-                postId = notification.postId,
-                lastMessage = "Initial message"
+            postId = notification.postId,
+            lastMessage = "Initial message"
         )
 
         val liveData = viewModel.getChatByPostId(notification.postId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null){
-                for(d in data){
+            if (data != null) {
+                for (d in data) {
                     chat.chatName = d.chatName + ", novi User"
                     chat.participantsId = d.participantsId
                 }
@@ -125,11 +121,11 @@ class NotificationFragment : Fragment() {
         viewModel.updateNotification(notification)
 
         val newNotification = Notification(
-                authorId = user.userId,
-                content = "Prijava na zahtjev je prihvaćena",
-                request = false,
-                postId = notification.postId,
-                recipientsId = listOf(notification.authorId)
+            authorId = user.userId,
+            content = "Prijava na zahtjev je prihvaćena",
+            request = false,
+            postId = notification.postId,
+            recipientsId = listOf(notification.authorId)
         )
 
         viewModel.createNotification(newNotification)
@@ -143,9 +139,9 @@ class NotificationFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val post = it.data
             if (post != null) {
-                for(map in post.userRequests){
-                    if(map.containsValue(notification.authorId)){
-                        val requests: MutableList<Map<String,Any>> = mutableListOf()
+                for (map in post.userRequests) {
+                    if (map.containsValue(notification.authorId)) {
+                        val requests: MutableList<Map<String, Any>> = mutableListOf()
                         requests.addAll(0, post.userRequests)
                         requests.remove(map)
                         post.userRequests = requests

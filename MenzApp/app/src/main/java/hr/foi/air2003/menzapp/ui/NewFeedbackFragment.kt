@@ -19,7 +19,11 @@ class NewFeedbackFragment : DialogFragment() {
     private lateinit var feedback: Feedback
     private val viewModel = SharedViewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         visitedUser = (targetFragment as VisitedProfileFragment).getVisitedUser()
         currentUser = (targetFragment as VisitedProfileFragment).getCurrentUser()
         feedback = Feedback()
@@ -30,11 +34,11 @@ class NewFeedbackFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         requireFeedbackData()
 
-        btnCancelFeedback.setOnClickListener{
+        btnCancelFeedback.setOnClickListener {
             this.dismiss()
         }
 
-        btnDeleteFeedback.setOnClickListener{
+        btnDeleteFeedback.setOnClickListener {
             viewModel.deleteFeedback(feedback)
             this.dismiss()
         }
@@ -62,9 +66,9 @@ class NewFeedbackFragment : DialogFragment() {
         val liveData = viewModel.getFeedbacks(visitedUser.userId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if(data != null){
-                for(d in data){
-                    if(d.authorId == currentUser.userId){
+            if (data != null) {
+                for (d in data) {
+                    if (d.authorId == currentUser.userId) {
                         feedback = d
                         rbScore.rating = d.mark.toFloat()
                         tvFeedbackDescription.setText(d.feedback)
@@ -79,7 +83,7 @@ class NewFeedbackFragment : DialogFragment() {
         val rating = rbScore.rating
         val description = tvFeedbackDescription.text.toString()
 
-        if(description.isEmpty()){
+        if (description.isEmpty()) {
             tvFeedbackDescription.error = "Molimo unesite opis"
             tvFeedbackDescription.requestFocus()
             return
@@ -90,7 +94,7 @@ class NewFeedbackFragment : DialogFragment() {
         feedback.mark = rating.toInt()
         feedback.feedback = description
 
-        if(feedback.feedbackId == "")
+        if (feedback.feedbackId == "")
             saveFeedback(feedback)
         else
             editFeedback(feedback)

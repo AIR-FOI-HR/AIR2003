@@ -16,7 +16,6 @@ import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Notification
@@ -41,11 +40,10 @@ class VisitedProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if(targetRequestCode == 1){
+        if (targetRequestCode == 1) {
             parent = targetFragment as HomeFragment
             authorId = (parent as HomeFragment).getAuthorId()
-        }
-        else if (targetRequestCode == 2){
+        } else if (targetRequestCode == 2) {
             parent = targetFragment as SearchFragment
             visitedUser = (parent as SearchFragment).getVisitedUser()
         }
@@ -96,11 +94,11 @@ class VisitedProfileFragment : Fragment() {
         }
     }
 
-    fun getVisitedUser(): User{
+    fun getVisitedUser(): User {
         return visitedUser
     }
 
-    fun getCurrentUser(): User{
+    fun getCurrentUser(): User {
         return user
     }
 
@@ -145,7 +143,7 @@ class VisitedProfileFragment : Fragment() {
     }
 
     private fun requireUserData() {
-        if(authorId != null){
+        if (authorId != null) {
             val liveData = viewModel.getUser(authorId!!)
             liveData.observe(viewLifecycleOwner, {
                 val data = it.data
@@ -155,7 +153,7 @@ class VisitedProfileFragment : Fragment() {
                     checkSubscription(visitedUser)
                 }
             })
-        }else{
+        } else {
             retrieveUserData(visitedUser)
             checkSubscription(visitedUser)
         }
@@ -192,8 +190,6 @@ class VisitedProfileFragment : Fragment() {
 
         viewModel.getImage(user.profilePicture)
             .addOnSuccessListener { url ->
-                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                //val resized = ImageConverter.resizeBitmap(bitmap, ivVisitedProfilePhoto)
                 ivVisitedProfilePhoto.load(url)
             }
     }
@@ -246,17 +242,17 @@ class VisitedProfileFragment : Fragment() {
         viewModel.updateUser(visitedUser)
     }
 
-    private fun sendSubscriptionNotification(){
+    private fun sendSubscriptionNotification() {
         val usersList: MutableList<String> = mutableListOf()
         usersList.add(visitedUser.userId)
 
         val notification = Notification(
-                authorId = user.userId,
-                content = "Nova pretplata!",
-                request = false,
-                postId = "subscription",
-                timestamp = Timestamp(System.currentTimeMillis()/1000,0),
-                recipientsId = usersList
+            authorId = user.userId,
+            content = "Nova pretplata!",
+            request = false,
+            postId = "subscription",
+            timestamp = Timestamp(System.currentTimeMillis() / 1000, 0),
+            recipientsId = usersList
         )
 
         viewModel.createNotification(notification)

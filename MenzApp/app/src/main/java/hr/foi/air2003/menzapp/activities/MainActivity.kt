@@ -6,11 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
 import hr.foi.air2003.menzapp.core.services.MenuReciever
 import hr.foi.air2003.menzapp.core.services.NotificationReceiver
 import hr.foi.air2003.menzapp.ui.*
@@ -27,13 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setMenuService()
-        //setNotificationService()
     }
 
     override fun onStart() {
         super.onStart()
 
-        currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser = FirebaseAuthService.getCurrentUser()
         requireUserData()
 
         // Set current fragment when navigation icon is selected

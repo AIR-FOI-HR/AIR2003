@@ -3,26 +3,22 @@ package hr.foi.air2003.menzapp.core.livedata
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.Message
 import hr.foi.air2003.menzapp.core.other.DataOrException
 
 typealias MessageOrException = DataOrException<Message, FirebaseFirestoreException>
 
-class MessageLiveData(private val documentReference: DocumentReference) : FirestoreLiveData<MessageOrException>(documentReference) {
+class MessageLiveData(documentReference: DocumentReference) :
+    FirestoreLiveData<MessageOrException>(documentReference) {
     override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
-        if(snapshot != null && snapshot.exists()){
-            val model = Message(
-                messageId = snapshot.id,
-                authorId = snapshot.getString("authorId")!!,
-                chatId = snapshot.getString("chatId")!!,
-                sentTimestamp = snapshot.getTimestamp("sentTimestamp")!!,
-                seenTimestamp = snapshot.getTimestamp("seenTimestamp")!!,
-                content = snapshot.getString("content")!!
-            )
+        if (snapshot != null && snapshot.exists()) {
+            val json = Gson().toJson(snapshot)
+            val message = Gson().fromJson(json, Message::class.java)
+            message.messageId = snapshot.id
 
-            value = MessageOrException(model, error)
-        }
-        else if(error != null){
+            value = MessageOrException(message, error)
+        } else if (error != null) {
             // TODO Handle error
         }
     }

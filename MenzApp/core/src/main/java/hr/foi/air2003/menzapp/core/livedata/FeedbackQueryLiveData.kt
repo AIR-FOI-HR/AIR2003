@@ -12,8 +12,8 @@ class FeedbackQueryLiveData(query: Query) : FirestoreQueryLiveData<FeedbackQuery
         val documents = snapshot?.documents
         val feedbacks: MutableList<Feedback> = mutableListOf()
 
-        if(documents != null){
-            for(doc in documents){
+        if (documents != null) {
+            for (doc in documents) {
                 val json = Gson().toJson(doc.data)
                 val feedback = Gson().fromJson(json, Feedback::class.java)
                 feedback.feedbackId = doc.id

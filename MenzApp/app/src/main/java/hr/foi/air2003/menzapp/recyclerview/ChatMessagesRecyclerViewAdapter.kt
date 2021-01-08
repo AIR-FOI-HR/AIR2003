@@ -6,27 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import coil.api.load
 import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.ui.ChatFragment
 import kotlinx.android.synthetic.main.chat_message_list_item.view.*
 
-class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyclerViewAdaper<Chat>() {
+class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) :
+    GenericRecyclerViewAdaper<Chat>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Chat> {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.chat_message_list_item, parent, false)
+            .inflate(R.layout.chat_message_list_item, parent, false)
         return ChatViewHolder(view)
     }
 
-    inner class ChatViewHolder(itemView: View) : GenericViewHolder<Chat>(itemView){
+    inner class ChatViewHolder(itemView: View) : GenericViewHolder<Chat>(itemView) {
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Chat) {
             itemView.tvChatUsername.text = item.chatName
@@ -39,9 +37,7 @@ class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) : Gene
 
                     viewModel.getImage(imgUri)
                         .addOnSuccessListener { url ->
-                            //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                            //val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivChatUserImage)
-                            itemView.ivChatUserImage.load(url){
+                            itemView.ivChatUserImage.load(url) {
                                 scale(Scale.FIT)
                             }
                         }

@@ -6,24 +6,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import coil.api.load
 import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Notification
 import kotlinx.android.synthetic.main.notification_list_item.view.*
 
-class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericRecyclerViewAdaper<Notification>() {
+class NotificationRecyclerViewAdapter(private val fragment: Fragment) :
+    GenericRecyclerViewAdaper<Notification>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
     var confirmClick: ((Notification) -> Unit)? = null
     var deleteClick: ((Notification) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Notification> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): GenericViewHolder<Notification> {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.notification_list_item, parent, false)
+            .inflate(R.layout.notification_list_item, parent, false)
         return NotificationViewHolder(view)
     }
 
@@ -45,10 +46,10 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericR
             itemView.tvNotificationTimestampTime.text = timestamp[1]
             itemView.tvNotificationText.text = item.content
 
-            if (item.request){
+            if (item.request) {
                 itemView.btnConfirm.visibility = View.VISIBLE
                 itemView.btnIgnore.visibility = View.VISIBLE
-            }else{
+            } else {
                 itemView.btnConfirm.visibility = View.GONE
                 itemView.btnIgnore.visibility = View.GONE
             }
@@ -63,13 +64,11 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) : GenericR
 
                     val imgUri = user.profilePicture
                     viewModel.getImage(imgUri)
-                            .addOnSuccessListener { url ->
-                                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                                //val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivProfileUserPhoto)
-                                itemView.ivProfileUserPhoto.load(url){
-                                    scale(Scale.FIT)
-                                }
+                        .addOnSuccessListener { url ->
+                            itemView.ivProfileUserPhoto.load(url) {
+                                scale(Scale.FIT)
                             }
+                        }
                 }
             })
         }

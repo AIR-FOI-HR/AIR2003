@@ -10,16 +10,16 @@ import hr.foi.air2003.menzapp.core.model.Post
 import kotlinx.android.synthetic.main.home_post_list_item.view.tvProfilePostDescription
 import kotlinx.android.synthetic.main.profile_post_list_item.view.*
 
-class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
+class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
     private val dateTimePicker = DateTimePicker()
-    var editClick: ((Post)->Unit)? = null
+    var editClick: ((Post) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.profile_post_list_item, parent, false)
+            .inflate(R.layout.profile_post_list_item, parent, false)
         return ProfilePostViewHolder(view)
     }
 
-    inner class ProfilePostViewHolder(itemView: View) : GenericViewHolder<Post>(itemView){
+    inner class ProfilePostViewHolder(itemView: View) : GenericViewHolder<Post>(itemView) {
 
         init {
             itemView.btnEditPost.setOnClickListener {
@@ -34,7 +34,7 @@ class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>(){
             itemView.tvProfilePostPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
             itemView.tvProfilePostDescription.text = item.description
 
-            if(items.indexOf(item) == items.lastIndex)
+            if (items.indexOf(item) == items.lastIndex)
                 itemView.breakLinePost.visibility = View.GONE
         }
     }
