@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.activities.PrivateChatActivity
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.User
-import hr.foi.air2003.menzapp.recyclerview.ChatMessagesRecyclerViewAdapter
+import hr.foi.air2003.menzapp.recyclerview.ChatRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_chat.*
 
 class ChatFragment : Fragment() {
-    private lateinit var adapterChat: ChatMessagesRecyclerViewAdapter
+    private lateinit var adapterChat: ChatRecyclerViewAdapter
     lateinit var user: User
     private val viewModel = SharedViewModel()
 
@@ -52,7 +53,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun createRecyclerView() {
-        adapterChat = ChatMessagesRecyclerViewAdapter(this)
+        adapterChat = ChatRecyclerViewAdapter(this)
 
         rvAllChats.hasFixedSize()
         rvAllChats.layoutManager = LinearLayoutManager(context)
@@ -61,6 +62,10 @@ class ChatFragment : Fragment() {
 
         adapterChat.chatClick = { chat ->
             val intent = Intent(context, PrivateChatActivity::class.java)
+            val jsonChat = Gson().toJson(chat)
+            val jsonUser = Gson().toJson(user)
+            intent.putExtra("chat", jsonChat)
+            intent.putExtra("user", jsonUser)
             startActivity(intent)
         }
     }

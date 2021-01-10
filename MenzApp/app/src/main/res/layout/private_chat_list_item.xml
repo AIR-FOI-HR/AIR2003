@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:maxWidth="250dp"
             android:textSize="14sp"
-            android:text="ubiaubfouabfouoqigfe"
             android:textColor="@color/white" />
     </LinearLayout>
 

@@ -119,4 +119,8 @@ class Repository {
     fun getAllUsers(): UserQueryLiveData {
         return UserQueryLiveData(FirestoreService.getAll(Collection.USER))
     }
+
+    fun getAllMessages(chatId: String): MessageQueryLiveData {
+        return MessageQueryLiveData(FirestoreService.getAllWithQuery(Collection.MESSAGE, Operation.EQUAL_TO, "chatId", chatId))
+    }
 }

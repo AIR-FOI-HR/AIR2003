@@ -11,7 +11,7 @@ import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.ui.ChatFragment
 import kotlinx.android.synthetic.main.chat_message_list_item.view.*
 
-class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyclerViewAdaper<Chat>() {
+class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyclerViewAdaper<Chat>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
     var chatClick: ((Chat) -> Unit)? = null
