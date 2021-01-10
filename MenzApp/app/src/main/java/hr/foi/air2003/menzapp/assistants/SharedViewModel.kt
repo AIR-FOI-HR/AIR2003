@@ -113,4 +113,8 @@ class SharedViewModel : ViewModel() {
     fun searchUsers(text: String) : UserQueryLiveData {
         return repository.getUsersBySearch(text)
     }
+
+    fun getAllUsers() : UserQueryLiveData {
+        return repository.getAllUsers()
+    }
 }

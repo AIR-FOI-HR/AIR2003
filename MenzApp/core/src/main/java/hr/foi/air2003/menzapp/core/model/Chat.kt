@@ -5,7 +5,6 @@ import com.google.firebase.firestore.DocumentId
 data class Chat(
         @DocumentId
         var chatId: String = "",
-        var chatName: String = "",
         var postId: String = "",
         var lastMessage: String = "",
         var participantsId: List<String> = listOf()

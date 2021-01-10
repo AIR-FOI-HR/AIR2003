@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.MainActivity
+import hr.foi.air2003.menzapp.activities.PrivateChatActivity
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.User
@@ -56,5 +58,10 @@ class ChatFragment : Fragment() {
         rvAllChats.layoutManager = LinearLayoutManager(context)
         rvAllChats.itemAnimator = DefaultItemAnimator()
         rvAllChats.adapter = adapterChat
+
+        adapterChat.chatClick = { chat ->
+            val intent = Intent(context, PrivateChatActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

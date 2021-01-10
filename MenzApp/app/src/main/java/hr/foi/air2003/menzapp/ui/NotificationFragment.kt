@@ -83,13 +83,7 @@ class NotificationFragment : Fragment() {
                 postId = notification.postId
         )
 
-        val liveData = viewModel.getUser(notification.authorId)
-        liveData.observe(viewLifecycleOwner, {
-            val user = it.data
-            if(user != null)
-                chat.chatName = user.fullName
-            viewModel.createChat(chat)
-        })
+        viewModel.createChat(chat)
     }
 
     private fun addUserToChat(notification: Notification) {
@@ -104,7 +98,6 @@ class NotificationFragment : Fragment() {
                     val users = d.participantsId as MutableList
                     users.add(user.userId)
                     chat.participantsId = users
-                    chat.chatName = "${d.chatName}, ${user.fullName}"
                 }
                 viewModel.updateChat(chat)
             } else {

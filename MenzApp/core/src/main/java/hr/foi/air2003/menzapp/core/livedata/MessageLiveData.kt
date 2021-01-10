@@ -16,7 +16,7 @@ class MessageLiveData(private val documentReference: DocumentReference) : Firest
                 authorId = snapshot.getString("authorId")!!,
                 chatId = snapshot.getString("chatId")!!,
                 sentTimestamp = snapshot.getTimestamp("sentTimestamp")!!,
-                seenTimestamp = snapshot.getTimestamp("seenTimestamp")!!,
+                seen = snapshot.getBoolean("seen")!!,
                 content = snapshot.getString("content")!!
             )
 

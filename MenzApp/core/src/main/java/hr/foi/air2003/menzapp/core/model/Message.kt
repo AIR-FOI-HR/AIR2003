@@ -9,6 +9,6 @@ data class Message(
         var authorId: String = "",
         var chatId: String = "",
         var sentTimestamp: Timestamp,
-        var seenTimestamp: Timestamp,
+        var seen: Boolean = false,
         var content: String = ""
 )

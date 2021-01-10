@@ -4,13 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import coil.api.load
-import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.ui.ChatFragment
@@ -19,6 +14,7 @@ import kotlinx.android.synthetic.main.chat_message_list_item.view.*
 class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyclerViewAdaper<Chat>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
+    var chatClick: ((Chat) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Chat> {
         val view = LayoutInflater.from(parent.context)
@@ -27,24 +23,27 @@ class ChatMessagesRecyclerViewAdapter(private val fragment: ChatFragment) : Gene
     }
 
     inner class ChatViewHolder(itemView: View) : GenericViewHolder<Chat>(itemView){
+
+        init {
+            itemView.chatLayout.setOnClickListener {
+                chatClick?.invoke(items[adapterPosition])
+            }
+        }
+
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Chat) {
-            itemView.tvChatUsername.text = item.chatName
-
-            val userLiveData = viewModel.getUser(item.participantsId[1])
-            userLiveData.observe(fragment.viewLifecycleOwner, {
-                val user = it.data
-                if (user != null) {
-                    val imgUri = user.profilePicture
-
-                    viewModel.getImage(imgUri)
-                        .addOnSuccessListener { url ->
-                            //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                            //val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivChatUserImage)
-                            itemView.ivChatUserImage.load(url){
-                                scale(Scale.FIT)
-                            }
+            val usersLiveData = viewModel.getAllUsers()
+            var chatName = ""
+            usersLiveData.observe(fragment.viewLifecycleOwner, {
+                val data = it.data
+                if (data != null) {
+                    for (user in data) {
+                        if (item.participantsId.contains(user.userId)) {
+                            chatName += "${user.fullName}, "
                         }
+                    }
+
+                    itemView.tvChatName.text = chatName
                 }
             })
 

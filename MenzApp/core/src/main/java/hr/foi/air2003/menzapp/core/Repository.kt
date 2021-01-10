@@ -115,4 +115,8 @@ class Repository {
     fun getUsersBySearch(text: String) : UserQueryLiveData{
         return UserQueryLiveData(FirestoreService.searchData(Collection.USER, "fullName", text))
     }
+
+    fun getAllUsers(): UserQueryLiveData {
+        return UserQueryLiveData(FirestoreService.getAll(Collection.USER))
+    }
 }
