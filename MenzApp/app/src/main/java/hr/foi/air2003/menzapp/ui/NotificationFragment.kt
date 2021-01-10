@@ -100,15 +100,15 @@ class NotificationFragment : Fragment() {
             val data = it.data
             if (data != null) {
                 for (d in data) {
+                    chat = d
                     val users = d.participantsId as MutableList
                     users.add(user.userId)
-                    chat = d
                     chat.participantsId = users
-                    chat.chatName = "Test"
+                    chat.chatName = "${d.chatName}, ${user.fullName}"
                 }
                 viewModel.updateChat(chat)
             } else {
-                viewModel.createChat(chat)
+                createChat(notification)
             }
 
             confirmRequest(notification)
