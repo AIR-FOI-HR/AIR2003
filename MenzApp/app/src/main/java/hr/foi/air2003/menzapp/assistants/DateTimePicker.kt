@@ -79,12 +79,18 @@ class DateTimePicker(
 
     @SuppressLint("SimpleDateFormat")
     fun getTimestamp(): Timestamp {
-        val timestamp = "$year-${month + 1}-$day ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
+        val timestamp = "$year-${month + 1}-$day ${String.format("%02d", hour)}:${
+            String.format(
+                "%02d",
+                minute
+            )
+        }"
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timestamp)
         return Timestamp(sdf!!.time / 1000, 0)
     }
 
-    fun dateToTimestamp(): Timestamp{
+    @SuppressLint("SimpleDateFormat")
+    fun dateToTimestamp(): Timestamp {
         val timestamp = "$year-${month + 1}-$day"
         val sdf = SimpleDateFormat("yyyy-MM-dd").parse(timestamp)
         return Timestamp(sdf!!.time / 1000, 0)
@@ -109,7 +115,12 @@ class DateTimePicker(
         val h = cal.get(Calendar.HOUR_OF_DAY)
         val min = cal.get(Calendar.MINUTE)
 
-        return "${String.format("%02d", d)}. ${months[m]} $y./${String.format("%02d",h)}:${String.format("%02d", min)}"
+        return "${String.format("%02d", d)}. ${months[m]} $y./${
+            String.format(
+                "%02d",
+                h
+            )
+        }:${String.format("%02d", min)}"
     }
 
     fun timestampToShortString(timestamp: Timestamp): String {
@@ -123,8 +134,8 @@ class DateTimePicker(
         currentTimestamp.set(Calendar.MINUTE, 0)
         currentTimestamp.set(Calendar.SECOND, 0)
 
-        return if(cal < currentTimestamp){
-            when(cal.get(Calendar.DAY_OF_WEEK)){
+        return if (cal < currentTimestamp) {
+            when (cal.get(Calendar.DAY_OF_WEEK)) {
                 cal.get(Calendar.SUNDAY) -> days[0]
                 cal.get(Calendar.MONDAY) -> days[1]
                 cal.get(Calendar.TUESDAY) -> days[2]
@@ -134,7 +145,7 @@ class DateTimePicker(
                 cal.get(Calendar.SATURDAY) -> days[6]
                 else -> ""
             }
-        }else
-            "${String.format("%02d",h)}:${String.format("%02d", min)}"
+        } else
+            "${String.format("%02d", h)}:${String.format("%02d", min)}"
     }
 }

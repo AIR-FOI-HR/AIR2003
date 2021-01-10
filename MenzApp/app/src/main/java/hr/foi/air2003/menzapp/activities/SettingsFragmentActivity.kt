@@ -12,8 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import coil.api.load
 import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
@@ -49,8 +47,6 @@ class SettingsFragmentActivity : FragmentActivity() {
 
         viewModel.getImage(user.profilePicture)
                 .addOnSuccessListener { url ->
-                    //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                    //val resized = ImageConverter.resizeBitmap(bitmap, ivSettingsProfilePhoto)
                     ivSettingsProfilePhoto.load(url){
                         scale(Scale.FIT)
                     }

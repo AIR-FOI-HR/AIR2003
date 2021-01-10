@@ -23,9 +23,9 @@ class ChatFragment : Fragment() {
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_chat, container, false)
@@ -42,7 +42,7 @@ class ChatFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val chats: MutableList<Chat> = mutableListOf()
             val data = it.data
-            if(data != null){
+            if (data != null) {
                 for (d in data)
                     chats.add(d)
 

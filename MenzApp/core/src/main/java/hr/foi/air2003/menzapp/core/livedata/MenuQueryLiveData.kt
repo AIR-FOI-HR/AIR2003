@@ -14,8 +14,8 @@ class MenuQueryLiveData(private val query: Query) : FirestoreQueryLiveData<MenuQ
         val documents = snapshot?.documents
         val menus: MutableList<Menu> = mutableListOf()
 
-        if(documents != null){
-            for(doc in documents){
+        if (documents != null) {
+            for (doc in documents) {
                 val json = Gson().toJson(doc.data)
                 val menu = Gson().fromJson(json, Menu::class.java)
                 menu.menuId = doc.id

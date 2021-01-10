@@ -12,7 +12,6 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
@@ -33,11 +32,11 @@ class NewPostFragment : DialogFragment() {
     private var alertDialogBuilder = AlertDialogBuilder()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        post = if(targetFragment != null)
+        post = if (targetFragment != null)
             (targetFragment as ProfileFragment).getPost()
         else
             Post()
@@ -147,15 +146,15 @@ class NewPostFragment : DialogFragment() {
         }
 
         val post = Post(
-                authorId = user.userId,
-                timestamp = dateTimePicker.getTimestamp(),
-                description = description,
-                numberOfPeople = numberOfPeople.toInt()
+            authorId = user.userId,
+            timestamp = dateTimePicker.getTimestamp(),
+            description = description,
+            numberOfPeople = numberOfPeople.toInt()
         )
 
-        if(postId.isNullOrEmpty()){
+        if (postId.isNullOrEmpty()) {
             saveNewPost(post)
-        }else{
+        } else {
             post.postId = postId
             editPost(post)
         }
@@ -174,10 +173,11 @@ class NewPostFragment : DialogFragment() {
                 dialog.dismiss()
             }
 
-        }catch (e: Exception){
+        } catch (e: Exception) {
             tvAlertTitle.text = getString(R.string.alert_fail)
             tvAlertMessage.text = getString(R.string.alert_fail_edit_post)
-            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            ivAlertIcon.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
             val dialog = builder.create()
             dialog.show()
             tvOkButton.setOnClickListener {
@@ -205,7 +205,8 @@ class NewPostFragment : DialogFragment() {
         } catch (e: Exception) {
             tvAlertTitle.text = getString(R.string.alert_fail)
             tvAlertMessage.text = getString(R.string.alert_fail_new_post)
-            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            ivAlertIcon.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
             val dialog = builder.create()
             dialog.show()
             tvOkButton.setOnClickListener {
@@ -218,20 +219,20 @@ class NewPostFragment : DialogFragment() {
         val users: MutableList<String> = mutableListOf()
 
         val liveData = viewModel.getAllSubscribersByUser(post.authorId)
-        liveData.observe(viewLifecycleOwner,{
+        liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if(data != null){
-                for(d in data){
+            if (data != null) {
+                for (d in data) {
                     users.add(d.userId)
                 }
 
                 val notification = Notification(
-                        authorId = post.authorId,
-                        content = "Nova objava!",
-                        request = false,
-                        postId = post.postId,
-                        timestamp = Timestamp(System.currentTimeMillis()/1000,0),
-                        recipientsId = users
+                    authorId = post.authorId,
+                    content = "Nova objava!",
+                    request = false,
+                    postId = post.postId,
+                    timestamp = Timestamp(System.currentTimeMillis() / 1000, 0),
+                    recipientsId = users
                 )
 
                 viewModel.createNotification(notification)

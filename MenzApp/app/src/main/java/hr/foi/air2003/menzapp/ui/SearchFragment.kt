@@ -22,9 +22,9 @@ class SearchFragment : Fragment() {
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -34,7 +34,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createRecyclerView()
 
-        svSearchText.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        svSearchText.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 getUsers(query)
                 return true
@@ -48,11 +48,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun getUsers(query: String?) {
-        if(!query.isNullOrEmpty()){
+        if (!query.isNullOrEmpty()) {
             val liveData = viewModel.searchUsers(query)
             liveData.observe(viewLifecycleOwner, {
                 val data = it.data
-                if(data != null){
+                if (data != null) {
                     val users: MutableList<User> = data as MutableList<User>
                     users.remove(user)
                     adapterUser.addItems(users)

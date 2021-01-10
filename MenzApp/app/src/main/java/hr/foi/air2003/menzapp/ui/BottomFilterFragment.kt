@@ -11,12 +11,12 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import kotlinx.android.synthetic.main.popup_filter.*
 
 class BottomFilterFragment : BottomSheetDialogFragment() {
-    private lateinit var dateTimePicker : DateTimePicker
+    private lateinit var dateTimePicker: DateTimePicker
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.popup_filter, container, false)
     }

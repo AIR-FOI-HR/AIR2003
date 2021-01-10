@@ -20,7 +20,6 @@ internal object FirestoreService {
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error adding data to document", e) }
     }
 
-    // TODO Update function to support real time change detection
     fun getAll(collection: String): CollectionReference {
         return db.collection(collection)
     }

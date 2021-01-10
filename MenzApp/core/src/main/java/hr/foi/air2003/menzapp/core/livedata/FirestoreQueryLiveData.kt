@@ -6,7 +6,8 @@ import hr.foi.air2003.menzapp.core.other.DataOrException
 
 typealias QueryResultOrException<T, E> = DataOrException<List<T>, E>
 
-open class FirestoreQueryLiveData<T>(private val query: Query) : LiveData<T>(), EventListener<QuerySnapshot> {
+open class FirestoreQueryLiveData<T>(private val query: Query) : LiveData<T>(),
+    EventListener<QuerySnapshot> {
     private var listenerRegistration: ListenerRegistration? = null
 
     override fun onActive() {
@@ -19,5 +20,5 @@ open class FirestoreQueryLiveData<T>(private val query: Query) : LiveData<T>(), 
         listenerRegistration?.remove()
     }
 
-    override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) { }
+    override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {}
 }

@@ -14,8 +14,8 @@ class ChatQueryLiveData(query: Query) : FirestoreQueryLiveData<ChatQueryResult>(
         val documents = snapshot?.documents
         val chats: MutableList<Chat> = mutableListOf()
 
-        if(documents != null){
-            for(doc in documents){
+        if (documents != null) {
+            for (doc in documents) {
                 val json = Gson().toJson(doc.data)
                 val chat = Gson().fromJson(json, Chat::class.java)
                 chat.chatId = doc.id
