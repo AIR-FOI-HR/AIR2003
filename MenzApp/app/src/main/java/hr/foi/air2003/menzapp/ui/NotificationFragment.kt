@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.liveData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.foi.air2003.menzapp.R
@@ -15,9 +14,6 @@ import hr.foi.air2003.menzapp.core.model.*
 import hr.foi.air2003.menzapp.recyclerview.NotificationRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.*
 import kotlinx.android.synthetic.main.fragment_dialog_notifications.btnNotifications
-import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
-import java.util.UUID.randomUUID
 
 class NotificationFragment : Fragment() {
 
@@ -56,11 +52,7 @@ class NotificationFragment : Fragment() {
         rvNotifications.adapter = adapterNotification
 
         adapterNotification.confirmClick = { notification ->
-            createChat(notification)
-            confirmRequest(notification)
-            rvNotifications.adapter?.notifyDataSetChanged()
-
-            (activity as MainActivity).setCurrentFragment(ChatFragment())
+            addUserToChat(notification)
         }
 
         adapterNotification.deleteClick = { notification ->
@@ -101,22 +93,26 @@ class NotificationFragment : Fragment() {
     }
 
     private fun addUserToChat(notification: Notification) {
-        var chat = Chat(
-                postId = notification.postId,
-                lastMessage = "Initial message"
-        )
+        var chat = Chat()
 
         val liveData = viewModel.getChatByPostId(notification.postId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null){
-                for(d in data){
-                    chat.chatName = d.chatName + ", novi User"
-                    chat.participantsId = d.participantsId
+            if (data != null) {
+                for (d in data) {
+                    val users = d.participantsId as MutableList
+                    users.add(user.userId)
+                    chat = d
+                    chat.participantsId = users
+                    chat.chatName = "Test"
                 }
+                viewModel.updateChat(chat)
+            } else {
+                viewModel.createChat(chat)
             }
-            //viewModel.updateChat(chat)
-            viewModel.createChat(chat)
+
+            confirmRequest(notification)
+            (activity as MainActivity).setCurrentFragment(ChatFragment())
         })
     }
 
