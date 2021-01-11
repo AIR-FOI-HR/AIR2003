@@ -1,9 +1,12 @@
 package hr.foi.air2003.menzapp.recyclerview
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
@@ -38,12 +41,13 @@ class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyc
                 val data = it.data
                 if (data != null) {
                     for (user in data) {
-                        if (item.participantsId.contains(user.userId)) {
+                        if (item.participantsId.contains(user.userId) && user.userId != fragment.user.userId) {
                             chatName += "${user.fullName}, "
+                            println(user.fullName)
                         }
                     }
 
-                    itemView.tvChatName.text = chatName
+                    itemView.tvChatName.text = chatName.substring(0, chatName.length - 2)
                 }
             })
 
@@ -56,8 +60,12 @@ class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyc
 
                     if (message.authorId == fragment.user.userId)
                         itemView.tvChatMessage.text = "Vi: ${message.content}"
-                    else
+                    else {
                         itemView.tvChatMessage.text = message.content
+
+                        if(!message.seen)
+                            itemView.tvChatMessage.typeface = ResourcesCompat.getFont(fragment.requireContext(), R.font.raleway_semibold)
+                    }
                 }
             })
         }

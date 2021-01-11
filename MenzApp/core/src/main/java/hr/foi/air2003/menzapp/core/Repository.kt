@@ -123,4 +123,8 @@ class Repository {
     fun getAllMessages(chatId: String): MessageQueryLiveData {
         return MessageQueryLiveData(FirestoreService.getAllWithQuery(Collection.MESSAGE, Operation.EQUAL_TO, "chatId", chatId))
     }
+
+    fun sendMessage(message: Message) {
+        FirestoreService.post(Collection.MESSAGE, message)
+    }
 }

@@ -148,4 +148,17 @@ class DateTimePicker(
         } else
             "${String.format("%02d", h)}:${String.format("%02d", min)}"
     }
+
+    fun getMessageTimestamp(timestamp: Timestamp): String {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = timestamp.seconds * 1000
+
+        val d = cal.get(Calendar.DAY_OF_MONTH)
+        val m = cal.get(Calendar.MONTH) + 1
+        val y = cal.get(Calendar.SHORT) - 2000
+        val h = cal.get(Calendar.HOUR_OF_DAY)
+        val min = cal.get(Calendar.MINUTE)
+
+        return "${String.format("%02d", d)}/${String.format("%02d", m)}/$y ${String.format("%02d", h)}:${String.format("%02d", min)}"
+    }
 }

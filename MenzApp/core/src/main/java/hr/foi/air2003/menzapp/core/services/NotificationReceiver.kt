@@ -32,64 +32,54 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun notifyUser(context: Context?) {
-
         currentUser = FirebaseAuth.getInstance().currentUser
         val users = listOf(currentUser!!.uid)
         if (!isChannelCreated) {
             createChannel(context)
         }
 
-        FirestoreService.getAllWithQuery(
-            Collection.NOTIFICATION,
-            Operation.ARRAY_CONTAINS_ANY,
-            "recipientsId",
-            users
-        ).addSnapshotListener { snapshot, error ->
-            val documents = snapshot?.documents
+        FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users)
+                .addSnapshotListener { snapshot, error ->
+                    val documents = snapshot?.documents
 
-            if (documents != null) {
-                for ((i, doc) in documents.withIndex()) {
-                    if (!doc.getBoolean("seen")!!) {
-                        val json = Gson().toJson(doc.data)
-                        val n = Gson().fromJson(json, Notification::class.java)
-                        n.notificationId = doc.id
+                    if (documents != null) {
+                        for ((i, doc) in documents.withIndex()) {
+                            if (!doc.getBoolean("seen")!!) {
+                                val json = Gson().toJson(doc.data)
+                                val n = Gson().fromJson(json, Notification::class.java)
+                                n.notificationId = doc.id
 
-                        FirestoreService.getDocumentByID(Collection.USER, n.authorId)
-                            .addSnapshotListener { snapshot, error ->
-                                if (snapshot != null && snapshot.exists()) {
-                                    val model = User(
-                                        userId = snapshot.id,
-                                        fullName = snapshot.getString("fullName")!!,
-                                        email = snapshot.getString("email")!!,
-                                        bio = snapshot.getString("bio")!!,
-                                        profilePicture = snapshot.getString("profilePicture")!!,
-                                        notificationsOn = snapshot.getBoolean("notificationsOn")!!,
-                                        subscribersCount = snapshot.getField<Long>("subscribersCount")!!
-                                            .toInt(),
-                                        subscribedTo = snapshot.get("subscribedTo")!! as List<String>
-                                    )
+                                FirestoreService.getDocumentByID(Collection.USER, n.authorId)
+                                    .addSnapshotListener { snapshot, error ->
+                                        if (snapshot != null && snapshot.exists()) {
+                                            val model = User(
+                                                userId = snapshot.id,
+                                                fullName = snapshot.getString("fullName")!!,
+                                                email = snapshot.getString("email")!!,
+                                                bio = snapshot.getString("bio")!!,
+                                                profilePicture = snapshot.getString("profilePicture")!!,
+                                                notificationsOn = snapshot.getBoolean("notificationsOn")!!,
+                                                subscribersCount = snapshot.getField<Long>("subscribersCount")!!
+                                                    .toInt(),
+                                                subscribedTo = snapshot.get("subscribedTo")!! as List<String>
+                                            )
 
-                                    val mBuilder =
-                                        NotificationCompat.Builder(context!!, EVENT_CHANNEL_ID)
-                                            .setSmallIcon(R.drawable.ic_logo_vector)
-                                            .setContentTitle(model.fullName)
-                                            .setContentText(n.content)
-                                    val notification = mBuilder.build()
-                                    val notificationManagerCompat =
-                                        NotificationManagerCompat.from(context)
-                                    notificationManagerCompat.notify(i, notification)
-                                    FirestoreService.updateField(
-                                        Collection.NOTIFICATION,
-                                        n.notificationId,
-                                        "seen",
-                                        true
-                                    )
-                                }
+                                            val mBuilder = NotificationCompat.Builder(context!!, EVENT_CHANNEL_ID)
+                                                    .setSmallIcon(R.drawable.ic_logo_vector)
+                                                    .setContentTitle(model.fullName)
+                                                    .setContentText(n.content)
+                                            val notification = mBuilder.build()
+                                            val notificationManagerCompat = NotificationManagerCompat.from(context)
+                                            notificationManagerCompat.notify(i, notification)
+                                            FirestoreService.updateField(Collection.NOTIFICATION, n.notificationId, "seen", true)
+                                        }
+                                    }
                             }
+                        }
                     }
-                }
-            }
         }
+
+        //TODO Implement notifications for messages
     }
 
     private fun createChannel(context: Context?) {

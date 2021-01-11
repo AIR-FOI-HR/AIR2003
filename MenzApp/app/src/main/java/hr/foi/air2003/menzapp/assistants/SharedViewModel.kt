@@ -121,4 +121,8 @@ class SharedViewModel : ViewModel() {
     fun getAllMessages(chatId: String): MessageQueryLiveData {
         return repository.getAllMessages(chatId)
     }
+
+    fun sendMessage(message: Message) {
+        repository.sendMessage(message)
+    }
 }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/barPrivateChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -48,15 +49,20 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/llMessages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:layout_above="@+id/layoutSendMessage"
+        android:layout_below="@+id/barPrivateChat">
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
+            android:id="@+id/svScrollMessages"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scrollbars="none">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAllMessages"
@@ -64,34 +70,37 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"/>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutSendMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/tvTextMessage"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp"
-            android:weightSum="1">
+            android:layout_marginEnd="15dp"
+            android:layout_weight="0.99"
+            android:background="@color/grey_background"
+            android:padding="10dp"
+            android:hint="Napišite poruku..."
+            android:textColor="@color/black_typo"
+            android:textSize="14sp" />
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="0.99"
-                android:background="@color/grey_background"
-                android:padding="10dp"
-                android:text="Napišite poruku..."
-                android:textColor="@color/black_typo"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btnSendMessage"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/ic_send_message"
-                android:backgroundTint="@color/green_primary" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnSendMessage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/ic_send_message"
+            android:backgroundTint="@color/green_primary" />
 
     </LinearLayout>
 
