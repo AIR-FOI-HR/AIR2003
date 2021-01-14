@@ -54,4 +54,11 @@
     <string name="search_name">Search name</string>
     <string name="search_text"> This is blank search text for test purposes. </string>
 
+    <!-- CHECK INTERNET -->
+    <string name="cancel_internet">Izađi</string>
+    <string name="check_internet">Provjeri vezu</string>
+    <string name="no_internet">Nema internetske veze! </string>
+    <string name="no_internet_check"> Molimo pokušajte ponovno!</string>
+
+
 </resources>
