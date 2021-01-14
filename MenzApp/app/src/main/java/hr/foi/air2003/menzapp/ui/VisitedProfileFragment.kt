@@ -197,13 +197,9 @@ class VisitedProfileFragment : Fragment() {
     private fun createFeedbackLayout(authorId: String) {
         val liveData = viewModel.getFeedbacks(authorId)
         liveData.observe(viewLifecycleOwner, {
-            val feedbacks: MutableList<Feedback> = mutableListOf()
             val data = it.data
             if (data != null) {
-                for (d in data) {
-                    feedbacks.add(d)
-                }
-
+                val feedbacks = data.sortedByDescending { feedback -> feedback.mark }
                 adapterFeedback.addItems(feedbacks)
             }
         })
@@ -212,13 +208,9 @@ class VisitedProfileFragment : Fragment() {
     private fun createPostLayout(authorId: String) {
         val liveData = viewModel.getPostsByAuthor(authorId)
         liveData.observe(viewLifecycleOwner, {
-            val posts: MutableList<Post> = mutableListOf()
             val data = it.data
             if (data != null) {
-                for (d in data) {
-                    posts.add(d)
-                }
-
+                val posts = data.sortedByDescending { post -> post.timestamp }
                 adapterPost.addItems(posts)
             }
         })

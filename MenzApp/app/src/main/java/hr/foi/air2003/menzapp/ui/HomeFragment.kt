@@ -88,8 +88,7 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) {
                 tvAlertTitle.text = getString(R.string.alert_fail)
                 tvAlertMessage.text = getString(R.string.alert_fail_join)
-                ivAlertIcon.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+                ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
                 val dialog = builder.create()
                 dialog.show()
                 tvOkButton.setOnClickListener {
@@ -124,8 +123,8 @@ class HomeFragment : Fragment() {
                     if (d.timestamp >= timestamp)
                         posts.add(d)
                 }
-
-                adapterPost.addItems(posts)
+                val sorted = posts.sortedByDescending { post -> post.timestamp }
+                adapterPost.addItems(sorted)
             }
         })
     }
@@ -134,11 +133,7 @@ class HomeFragment : Fragment() {
     private fun updateFilter(data: String) {
         val dataSplit = data.split("-")
         tvSelectedDateTime?.text = "${
-            dataSplit[2].substring(
-                0,
-                2
-            )
-        }.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2)}"
+            dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2)}"
     }
 
     private fun requestToJoin(post: Post) {

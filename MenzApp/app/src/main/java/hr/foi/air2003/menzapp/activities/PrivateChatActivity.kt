@@ -101,8 +101,10 @@ class PrivateChatActivity : FragmentActivity() {
         val livedata = viewModel.getAllMessages(chat.chatId)
         livedata.observe(this, {
             val data = it.data
-            if(data != null)
-                adapterMessages.addItems(data)
+            if (data != null) {
+                val sorted = data.sortedBy { message -> message.sentTimestamp }
+                adapterMessages.addItems(sorted)
+            }
         })
     }
 
@@ -114,6 +116,10 @@ class PrivateChatActivity : FragmentActivity() {
                 content = tvTextMessage.text.toString()
         )
 
+        chat.lastMessage = message.messageId
+        chat.timestamp = message.sentTimestamp
+
         viewModel.sendMessage(message)
+        viewModel.updateChat(chat)
     }
 }

@@ -176,8 +176,7 @@ class NewPostFragment : DialogFragment() {
         } catch (e: Exception) {
             tvAlertTitle.text = getString(R.string.alert_fail)
             tvAlertMessage.text = getString(R.string.alert_fail_edit_post)
-            ivAlertIcon.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
             val dialog = builder.create()
             dialog.show()
             tvOkButton.setOnClickListener {
@@ -205,8 +204,7 @@ class NewPostFragment : DialogFragment() {
         } catch (e: Exception) {
             tvAlertTitle.text = getString(R.string.alert_fail)
             tvAlertMessage.text = getString(R.string.alert_fail_new_post)
-            ivAlertIcon.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
             val dialog = builder.create()
             dialog.show()
             tvOkButton.setOnClickListener {

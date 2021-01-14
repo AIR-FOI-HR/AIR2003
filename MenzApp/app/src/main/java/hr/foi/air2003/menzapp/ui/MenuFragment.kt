@@ -65,13 +65,14 @@ class MenuFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
             if (data != null) {
-                for (d in data) {
-                    if (d.timestamp == currentTimestamp && d.lunch.isNotEmpty()) {
-                        populateMenus(d)
-                    } else if (d.timestamp == dayBefore && d.lunch.isNotEmpty()) {
-                        populateMenus(d)
+                val menus = data.sortedByDescending { menu -> menu.timestamp }
+                for (menu in menus) {
+                    if (menu.timestamp == currentTimestamp && menu.lunch.isNotEmpty()) {
+                        populateMenus(menu)
+                    } else if (menu.timestamp == dayBefore && menu.lunch.isNotEmpty()) {
+                        populateMenus(menu)
                     } else {
-                        populateMenus(d)
+                        populateMenus(menu)
                         break
                     }
                 }

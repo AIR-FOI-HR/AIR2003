@@ -18,7 +18,6 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.SettingsFragmentActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
@@ -123,13 +122,9 @@ class ProfileFragment : Fragment() {
     private fun createFeedbackLayout(userId: String) {
         val liveData = viewModel.getFeedbacks(userId)
         liveData.observe(viewLifecycleOwner, {
-            val feedbacks: MutableList<Feedback> = mutableListOf()
             val data = it.data
             if (data != null) {
-                for (d in data) {
-                    feedbacks.add(d)
-                }
-
+                val feedbacks = data.sortedByDescending { feedback -> feedback.mark }
                 adapterFeedback.addItems(feedbacks)
             }
         })
@@ -138,13 +133,9 @@ class ProfileFragment : Fragment() {
     private fun createPostLayout(userId: String) {
         val liveData = viewModel.getPostsByAuthor(userId)
         liveData.observe(viewLifecycleOwner, {
-            val posts: MutableList<Post> = mutableListOf()
             val data = it.data
             if (data != null) {
-                for (d in data) {
-                    posts.add(d)
-                }
-
+                val posts = data.sortedByDescending { post -> post.timestamp }
                 adapterPost.addItems(posts)
             }
         })
