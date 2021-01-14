@@ -117,7 +117,7 @@ class PrivateChatActivity : FragmentActivity() {
         )
 
         chat.lastMessage = message.messageId
-        //chat.timestamp = message.sentTimestamp
+        chat.timestamp = message.sentTimestamp
 
         viewModel.sendMessage(message)
         viewModel.updateChat(chat)
