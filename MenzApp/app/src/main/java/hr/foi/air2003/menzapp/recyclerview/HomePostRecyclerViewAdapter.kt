@@ -6,21 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import coil.api.load
 import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.ui.HomeFragment
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
 
-class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericRecyclerViewAdaper<Post>() {
+class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) :
+    GenericRecyclerViewAdaper<Post>() {
     private val dateTimePicker = DateTimePicker()
     private val viewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
@@ -30,7 +26,7 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.home_post_list_item, parent, false)
+            .inflate(R.layout.home_post_list_item, parent, false)
         currentUser = FirebaseAuth.getInstance().currentUser
         return HomeViewHolder(view)
     }
@@ -63,23 +59,21 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) : GenericR
                     val imgUri = user.profilePicture
 
                     viewModel.getImage(imgUri)
-                            .addOnSuccessListener { url ->
-                                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                                //val resized = ImageConverter.resizeBitmap(bitmap, itemView.ivHomePostImage)
-                                itemView.ivHomePostImage.load(url){
-                                    scale(Scale.FIT)
-                                }
+                        .addOnSuccessListener { url ->
+                            itemView.ivHomePostImage.load(url) {
+                                scale(Scale.FIT)
                             }
+                        }
 
                     var found = false
 
-                    for(map in item.userRequests){
-                        if(map.containsValue(currentUser?.uid.toString())) {
+                    for (map in item.userRequests) {
+                        if (map.containsValue(currentUser?.uid.toString())) {
                             found = true
                         }
                     }
 
-                    if (found){
+                    if (found) {
                         itemView.btnRespond.visibility = View.GONE
                     }
                 }

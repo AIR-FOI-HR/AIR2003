@@ -11,8 +11,8 @@ class PostQueryLiveData(query: Query) : FirestoreQueryLiveData<PostQueryResult>(
         val documents = snapshot?.documents
         val posts: MutableList<Post> = mutableListOf()
 
-        if(documents != null){
-            for(doc in documents){
+        if (documents != null) {
+            for (doc in documents) {
                 val json = Gson().toJson(doc.data)
                 val post = Gson().fromJson(json, Post::class.java)
                 post.postId = doc.id

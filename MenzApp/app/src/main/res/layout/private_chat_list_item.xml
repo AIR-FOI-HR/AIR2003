@@ -6,6 +6,14 @@
     android:orientation="vertical"
     android:paddingBottom="15dp">
 
+    <TextView
+        android:id="@+id/tvMessageUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:padding="10dp"
+        android:textColor="@color/grey_dark"/>
+
     <LinearLayout
         android:id="@+id/llMessageLayout"
         android:layout_width="wrap_content"
@@ -26,13 +34,24 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvMessageTimestamp"
+    <LinearLayout
+        android:id="@+id/llTimestampLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="end"
-        android:layout_marginTop="5dp"
-        android:textSize="14sp"
-        android:textColor="@color/grey_light" />
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvMessageTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="2dp"
+            android:textSize="12sp"
+            android:textColor="@color/grey_light" />
+
+    </LinearLayout>
 
 </LinearLayout>

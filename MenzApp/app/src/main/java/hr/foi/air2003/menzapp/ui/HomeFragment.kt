@@ -36,9 +36,9 @@ class HomeFragment : Fragment() {
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -49,7 +49,6 @@ class HomeFragment : Fragment() {
         createRecyclerView()
 
         dateTimePicker = DateTimePicker()
-        //viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         builder = alertDialogBuilder.createAlertDialog(requireContext(), layoutInflater)
 
         val currentDateTime = Timestamp(System.currentTimeMillis() / 1000, 0)
@@ -86,7 +85,7 @@ class HomeFragment : Fragment() {
                     dialog.dismiss()
                 }
 
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 tvAlertTitle.text = getString(R.string.alert_fail)
                 tvAlertMessage.text = getString(R.string.alert_fail_join)
                 ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
@@ -124,8 +123,8 @@ class HomeFragment : Fragment() {
                     if (d.timestamp >= timestamp)
                         posts.add(d)
                 }
-
-                adapterPost.addItems(posts)
+                val sorted = posts.sortedByDescending { post -> post.timestamp }
+                adapterPost.addItems(sorted)
             }
         })
     }
@@ -133,11 +132,12 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateFilter(data: String) {
         val dataSplit = data.split("-")
-        tvSelectedDateTime?.text = "${dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2)}"
+        tvSelectedDateTime?.text = "${
+            dataSplit[2].substring(0, 2)}.${dataSplit[1]}.${dataSplit[0]}. ${dataSplit[2].substring(2)}"
     }
 
     private fun requestToJoin(post: Post) {
-        val updatedUserRequests: MutableList<Map<String,Any>> = mutableListOf()
+        val updatedUserRequests: MutableList<Map<String, Any>> = mutableListOf()
         if (post.userRequests.isNotEmpty()) {
             updatedUserRequests.addAll(0, post.userRequests)
         }
@@ -148,12 +148,12 @@ class HomeFragment : Fragment() {
         rvPostsLayout.adapter?.notifyDataSetChanged()
 
         val notification = Notification(
-                authorId = user.userId,
-                content = "Novi zahtjev",
-                request = true,
-                postId = post.postId,
-                recipientsId = listOf(post.authorId) ,
-                timestamp = Timestamp(System.currentTimeMillis()/1000,0),
+            authorId = user.userId,
+            content = "Novi zahtjev",
+            request = true,
+            postId = post.postId,
+            recipientsId = listOf(post.authorId),
+            timestamp = Timestamp(System.currentTimeMillis() / 1000, 0),
         )
         viewModel.createNotificationRequest(notification)
     }

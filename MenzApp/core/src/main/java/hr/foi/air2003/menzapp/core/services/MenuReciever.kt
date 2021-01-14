@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 
 class MenuReciever : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        Thread{ getMenuItems() }
+        Thread { getMenuItems() }
             .start()
     }
 

@@ -25,9 +25,9 @@ class MenuFragment : Fragment() {
     private lateinit var adapterDinner: FoodMenuRecyclerViewAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_menu, container, false)
     }
@@ -65,15 +65,14 @@ class MenuFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
             if (data != null) {
-                for (d in data) {
-                    if(d.timestamp == currentTimestamp && d.lunch.isNotEmpty()){
-                        populateMenus(d)
-                    }
-                    else if(d.timestamp == dayBefore && d.lunch.isNotEmpty()){
-                        populateMenus(d)
-                    }
-                    else{
-                        populateMenus(d)
+                val menus = data.sortedByDescending { menu -> menu.timestamp }
+                for (menu in menus) {
+                    if (menu.timestamp == currentTimestamp && menu.lunch.isNotEmpty()) {
+                        populateMenus(menu)
+                    } else if (menu.timestamp == dayBefore && menu.lunch.isNotEmpty()) {
+                        populateMenus(menu)
+                    } else {
+                        populateMenus(menu)
                         break
                     }
                 }
@@ -89,7 +88,7 @@ class MenuFragment : Fragment() {
         adapterDinner.addItems(menu.dinner)
     }
 
-    private fun expandViewListener(){
+    private fun expandViewListener() {
         expandableLunchItems.visibility = View.VISIBLE
         expandableDinnerItems.visibility = View.GONE
 

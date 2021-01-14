@@ -7,9 +7,7 @@ import coil.api.load
 import coil.size.Scale
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
-import kotlinx.android.synthetic.main.home_post_list_item.view.*
 import kotlinx.android.synthetic.main.search_list_item.view.*
 
 class SearchUserRecyclerViewAdapter : GenericRecyclerViewAdaper<User>() {
@@ -18,13 +16,13 @@ class SearchUserRecyclerViewAdapter : GenericRecyclerViewAdaper<User>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<User> {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.search_list_item, parent, false)
+            .inflate(R.layout.search_list_item, parent, false)
         return SearchUserViewHolder(view)
     }
 
-    inner class SearchUserViewHolder(itemView: View) : GenericViewHolder<User>(itemView){
+    inner class SearchUserViewHolder(itemView: View) : GenericViewHolder<User>(itemView) {
 
-        init{
+        init {
             itemView.searchUser.setOnClickListener {
                 userClick?.invoke(items[adapterPosition])
             }
@@ -36,11 +34,11 @@ class SearchUserRecyclerViewAdapter : GenericRecyclerViewAdaper<User>() {
 
             val imgUri = item.profilePicture
             viewModel.getImage(imgUri)
-                    .addOnSuccessListener { url ->
-                        itemView.ivSearchUserPhoto.load(url){
-                            scale(Scale.FIT)
-                        }
+                .addOnSuccessListener { url ->
+                    itemView.ivSearchUserPhoto.load(url) {
+                        scale(Scale.FIT)
                     }
+                }
         }
     }
 }

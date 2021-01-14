@@ -4,25 +4,25 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
-import hr.foi.air2003.menzapp.core.model.Chat
+import hr.foi.air2003.menzapp.core.model.Message
 
-typealias ChatQueryResult = QueryResultOrException<Chat, FirebaseFirestoreException>
+typealias MessageQueryResult = QueryResultOrException<Message, FirebaseFirestoreException>
 
-class ChatQueryLiveData(query: Query) : FirestoreQueryLiveData<ChatQueryResult>(query) {
+class MessageQueryLiveData(query: Query) : FirestoreQueryLiveData<MessageQueryResult>(query) {
 
     override fun onEvent(snapshot: QuerySnapshot?, error: FirebaseFirestoreException?) {
         val documents = snapshot?.documents
-        val chats: MutableList<Chat> = mutableListOf()
+        val messages: MutableList<Message> = mutableListOf()
 
         if (documents != null) {
             for (doc in documents) {
                 val json = Gson().toJson(doc.data)
-                val chat = Gson().fromJson(json, Chat::class.java)
-                chat.chatId = doc.id
-                chats.add(chat)
+                val message = Gson().fromJson(json, Message::class.java)
+                message.messageId = doc.id
+                messages.add(message)
             }
         }
 
-        postValue(ChatQueryResult(chats, error))
+        postValue(MessageQueryResult(messages, error))
     }
 }

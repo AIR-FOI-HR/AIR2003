@@ -10,15 +10,15 @@ import hr.foi.air2003.menzapp.core.model.*
 class SharedViewModel : ViewModel() {
     private val repository = Repository()
 
-    fun getUser(userId: String) : UserLiveData{
+    fun getUser(userId: String): UserLiveData {
         return repository.getUser(userId)
     }
 
-    fun uploadImage(filePath: Uri) : Task<Uri> {
+    fun uploadImage(filePath: Uri): Task<Uri> {
         return repository.uploadImage(filePath)
     }
 
-    fun getImage(imgUri: String) : Task<Uri> {
+    fun getImage(imgUri: String): Task<Uri> {
         return repository.retrieveImage(imgUri)
     }
 
@@ -26,43 +26,43 @@ class SharedViewModel : ViewModel() {
         repository.updateUser(user)
     }
 
-    fun createPost(post: Post){
+    fun createPost(post: Post) {
         repository.createPost(post)
     }
 
-    fun createChat(chat: Chat){
+    fun createChat(chat: Chat) {
         repository.createChat(chat)
     }
 
-    fun createNotificationRequest(notification: Notification){
+    fun createNotificationRequest(notification: Notification) {
         repository.createNotification(notification)
     }
 
-    fun updatePost(post: Post){
+    fun updatePost(post: Post) {
         repository.updatePost(post)
     }
 
-    fun getAllPosts(userId: String) : PostQueryLiveData {
+    fun getAllPosts(userId: String): PostQueryLiveData {
         return repository.getAllPosts(userId)
     }
 
-    fun updateUserRequests(post: Post){
+    fun updateUserRequests(post: Post) {
         repository.updateUserRequests(post)
     }
 
-    fun getPostsByAuthor(authorId: String) : PostQueryLiveData{
+    fun getPostsByAuthor(authorId: String): PostQueryLiveData {
         return repository.getPostsByAuthor(authorId)
     }
 
-    fun getFeedbacks(recipientId: String) : FeedbackQueryLiveData {
+    fun getFeedbacks(recipientId: String): FeedbackQueryLiveData {
         return repository.getFeedbacksByRecipient(recipientId)
     }
 
-    fun getChat(userId: String) : ChatQueryLiveData {
+    fun getChat(userId: String): ChatQueryLiveData {
         return repository.getChatsByParticipant(userId)
     }
 
-    fun getChatByPostId(postId: String) : ChatQueryLiveData {
+    fun getChatByPostId(postId: String): ChatQueryLiveData {
         return repository.getChatByPostId(postId)
     }
 
@@ -74,15 +74,15 @@ class SharedViewModel : ViewModel() {
         return repository.getMenus()
     }
 
-    fun getAllNotifications(userId : String): NotificationQueryLiveData{
+    fun getAllNotifications(userId: String): NotificationQueryLiveData {
         return repository.getAllNotifications(userId)
     }
 
-    fun getAllSubscribersByUser(userId : String): UserQueryLiveData{
+    fun getAllSubscribersByUser(userId: String): UserQueryLiveData {
         return repository.getAllSubscribersByUser(userId)
     }
 
-    fun createNotification(notification: Notification){
+    fun createNotification(notification: Notification) {
         repository.createNotification(notification)
     }
 
@@ -110,7 +110,19 @@ class SharedViewModel : ViewModel() {
         repository.deleteFeedback(feedback)
     }
 
-    fun searchUsers(text: String) : UserQueryLiveData {
+    fun searchUsers(text: String): UserQueryLiveData {
         return repository.getUsersBySearch(text)
+    }
+
+    fun getAllUsers() : UserQueryLiveData {
+        return repository.getAllUsers()
+    }
+
+    fun getAllMessages(chatId: String): MessageQueryLiveData {
+        return repository.getAllMessages(chatId)
+    }
+
+    fun sendMessage(message: Message) {
+        repository.sendMessage(message)
     }
 }

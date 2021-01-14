@@ -64,13 +64,9 @@ class NotificationFragment : Fragment() {
     private fun createNotificationLayout(userId: String) {
         val liveData = viewModel.getAllNotifications(userId)
         liveData.observe(viewLifecycleOwner, {
-            val notifications: MutableList<Notification> = mutableListOf()
             val data = it.data
             if(data != null){
-                for(d in data){
-                    notifications.add(d)
-                }
-
+                val notifications = data.sortedByDescending { notification -> notification.timestamp }
                 adapterNotification.addItems(notifications)
             }
         })
@@ -83,30 +79,20 @@ class NotificationFragment : Fragment() {
                 postId = notification.postId
         )
 
-        val liveData = viewModel.getUser(notification.authorId)
-        liveData.observe(viewLifecycleOwner, {
-            val user = it.data
-            if(user != null)
-                chat.chatName = user.fullName
-            viewModel.createChat(chat)
-        })
+        viewModel.createChat(chat)
     }
 
     private fun addUserToChat(notification: Notification) {
-        var chat = Chat()
-
         val liveData = viewModel.getChatByPostId(notification.postId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
             if (data != null) {
                 for (d in data) {
-                    chat = d
                     val users = d.participantsId as MutableList
                     users.add(user.userId)
-                    chat.participantsId = users
-                    chat.chatName = "${d.chatName}, ${user.fullName}"
+                    d.participantsId = users
+                    viewModel.updateChat(d)
                 }
-                viewModel.updateChat(chat)
             } else {
                 createChat(notification)
             }

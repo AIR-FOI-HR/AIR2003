@@ -115,4 +115,16 @@ class Repository {
     fun getUsersBySearch(text: String) : UserQueryLiveData{
         return UserQueryLiveData(FirestoreService.searchData(Collection.USER, "fullName", text))
     }
+
+    fun getAllUsers(): UserQueryLiveData {
+        return UserQueryLiveData(FirestoreService.getAll(Collection.USER))
+    }
+
+    fun getAllMessages(chatId: String): MessageQueryLiveData {
+        return MessageQueryLiveData(FirestoreService.getAllWithQuery(Collection.MESSAGE, Operation.EQUAL_TO, "chatId", chatId))
+    }
+
+    fun sendMessage(message: Message) {
+        FirestoreService.post(Collection.MESSAGE, message)
+    }
 }

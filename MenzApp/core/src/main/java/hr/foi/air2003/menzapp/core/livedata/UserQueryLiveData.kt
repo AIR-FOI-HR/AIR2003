@@ -11,8 +11,8 @@ class UserQueryLiveData(query: Query) : FirestoreQueryLiveData<UserQueryResult>(
         val documents = snapshot?.documents
         val users: MutableList<User> = mutableListOf()
 
-        if(documents != null){
-            for(doc in documents){
+        if (documents != null) {
+            for (doc in documents) {
                 val json = Gson().toJson(doc.data)
                 val user = Gson().fromJson(json, User::class.java)
                 user.userId = doc.id

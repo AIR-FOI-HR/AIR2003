@@ -17,9 +17,7 @@ import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.SettingsFragmentActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
@@ -35,9 +33,9 @@ class ProfileFragment : Fragment() {
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_profile, container, false)
@@ -124,13 +122,9 @@ class ProfileFragment : Fragment() {
     private fun createFeedbackLayout(userId: String) {
         val liveData = viewModel.getFeedbacks(userId)
         liveData.observe(viewLifecycleOwner, {
-            val feedbacks: MutableList<Feedback> = mutableListOf()
             val data = it.data
-            if(data != null){
-                for(d in data){
-                    feedbacks.add(d)
-                }
-
+            if (data != null) {
+                val feedbacks = data.sortedByDescending { feedback -> feedback.mark }
                 adapterFeedback.addItems(feedbacks)
             }
         })
@@ -139,13 +133,9 @@ class ProfileFragment : Fragment() {
     private fun createPostLayout(userId: String) {
         val liveData = viewModel.getPostsByAuthor(userId)
         liveData.observe(viewLifecycleOwner, {
-            val posts: MutableList<Post> = mutableListOf()
             val data = it.data
-            if(data != null){
-                for(d in data){
-                        posts.add(d)
-                }
-
+            if (data != null) {
+                val posts = data.sortedByDescending { post -> post.timestamp }
                 adapterPost.addItems(posts)
             }
         })
@@ -159,8 +149,6 @@ class ProfileFragment : Fragment() {
 
         viewModel.getImage(user.profilePicture)
             .addOnSuccessListener { url ->
-                //val bitmap = ImageConverter.convertBytesToBitmap(bytes)
-                //val resized = ImageConverter.resizeBitmap(bitmap, ivProfilePhoto)
                 ivProfilePhoto.load(url)
             }
     }
@@ -173,7 +161,7 @@ class ProfileFragment : Fragment() {
     }
 
 
-    fun getPost(): Post{
+    fun getPost(): Post {
         return this.post
     }
 }
