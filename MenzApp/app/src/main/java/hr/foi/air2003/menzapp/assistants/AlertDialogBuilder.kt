@@ -15,4 +15,8 @@ class AlertDialogBuilder {
         builder.setView(view)
         return builder
     }
+
+    fun getView(): View{
+        return view
+    }
 }

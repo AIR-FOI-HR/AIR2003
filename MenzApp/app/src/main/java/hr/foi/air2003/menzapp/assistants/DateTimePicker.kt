@@ -69,6 +69,16 @@ class DateTimePicker(
         )
     }
 
+    fun setTimestamp(timestamp: Timestamp){
+        calendar.timeInMillis = timestamp.seconds * 1000
+
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+        month = calendar.get(Calendar.MONTH)
+        year = calendar.get(Calendar.YEAR)
+        hour = calendar.get(Calendar.HOUR_OF_DAY)
+        minute = calendar.get(Calendar.MINUTE)
+    }
+
     fun getDateString(): String {
         return "${String.format("%02d", day)}. ${months[month]} $year."
     }

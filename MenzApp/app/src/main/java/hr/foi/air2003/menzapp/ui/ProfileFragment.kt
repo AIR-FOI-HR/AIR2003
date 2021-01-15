@@ -1,6 +1,7 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import coil.api.load
+import com.google.firebase.Timestamp
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
@@ -22,6 +24,7 @@ import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -43,6 +46,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        user = (activity as MainActivity).getCurrentUser()
+
         expandViewListener()
         createRecyclerViews()
 
@@ -134,9 +139,15 @@ class ProfileFragment : Fragment() {
         val liveData = viewModel.getPostsByAuthor(userId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
+            val posts: MutableList<Post> = mutableListOf()
             if (data != null) {
-                val posts = data.sortedByDescending { post -> post.timestamp }
-                adapterPost.addItems(posts)
+                for(d in data){
+                    if(d.timestamp >= Timestamp.now())
+                        posts.add(d)
+                }
+
+                val sorted = posts.sortedByDescending { post -> post.timestamp }
+                adapterPost.addItems(sorted)
             }
         })
     }

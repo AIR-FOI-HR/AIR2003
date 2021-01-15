@@ -21,6 +21,7 @@ import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.alert_dialog.*
+import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -32,6 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var user: User
     private lateinit var authorId: String
     private lateinit var builder: AlertDialog.Builder
+    private lateinit var vd: View
     private var alertDialogBuilder = AlertDialogBuilder()
     private val viewModel = SharedViewModel()
 
@@ -50,6 +52,7 @@ class HomeFragment : Fragment() {
 
         dateTimePicker = DateTimePicker()
         builder = alertDialogBuilder.createAlertDialog(requireContext(), layoutInflater)
+        vd = alertDialogBuilder.getView()
 
         val currentDateTime = Timestamp(System.currentTimeMillis() / 1000, 0)
         filterPosts(currentDateTime)
@@ -78,20 +81,20 @@ class HomeFragment : Fragment() {
             try {
                 requestToJoin(post)
 
-                tvAlertMessage.text = getString(R.string.alert_success_join)
+                vd.tvAlertMessage.text = getString(R.string.alert_success_join)
                 val dialog = builder.create()
                 dialog.show()
-                tvOkButton.setOnClickListener {
+                vd.tvOkButton.setOnClickListener {
                     dialog.dismiss()
                 }
 
             } catch (e: Exception) {
-                tvAlertTitle.text = getString(R.string.alert_fail)
-                tvAlertMessage.text = getString(R.string.alert_fail_join)
-                ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+                vd.tvAlertTitle.text = getString(R.string.alert_fail)
+                vd.tvAlertMessage.text = getString(R.string.alert_fail_join)
+                vd.ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
                 val dialog = builder.create()
                 dialog.show()
-                tvOkButton.setOnClickListener {
+                vd.tvOkButton.setOnClickListener {
                     dialog.dismiss()
                 }
             }

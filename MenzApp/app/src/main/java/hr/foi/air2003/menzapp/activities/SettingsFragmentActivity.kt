@@ -6,8 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import coil.api.load
@@ -21,14 +23,16 @@ import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.alert_dialog.*
+import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
 
 const val REQUEST_FILE_CHOOSER = 1
 
 class SettingsFragmentActivity : FragmentActivity() {
     private lateinit var user: User
-    private lateinit var filePath: Uri
+    private var filePath: Uri? = null
     private lateinit var builder: AlertDialog.Builder
+    private lateinit var window: PopupWindow
     private val viewModel = SharedViewModel()
     private var alertDialogBuilder = AlertDialogBuilder()
 
@@ -37,6 +41,14 @@ class SettingsFragmentActivity : FragmentActivity() {
         setContentView(R.layout.activity_settings)
         user = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
         builder = alertDialogBuilder.createAlertDialog(this, layoutInflater)
+        createPopup()
+    }
+
+    private fun createPopup() {
+        window = PopupWindow(this)
+        val layout = layoutInflater.inflate(R.layout.popup_menu_settings, null)
+        window.contentView = layout
+        window.isOutsideTouchable = true
     }
 
     override fun onStart() {
@@ -60,6 +72,10 @@ class SettingsFragmentActivity : FragmentActivity() {
             super.onBackPressed()
         }
 
+        window.setOnDismissListener {
+            btnMore.postDelayed({ btnMore.isEnabled = true }, 1000)
+        }
+
         btnNewProfilePhoto.setOnClickListener {
             launchFileChooser()
         }
@@ -67,12 +83,18 @@ class SettingsFragmentActivity : FragmentActivity() {
         btn_saveSettings.setOnClickListener {
             user.fullName = tvSettingsFullName.text.toString()
             user.bio = tvSettingsBio.text.toString()
-            viewModel.uploadImage(filePath)
-                .addOnSuccessListener {uri ->
-                    user.profilePicture = uri.toString()
-                    viewModel.updateUser(user)
-                    finish()
-                }
+
+            if(filePath != null){
+                viewModel.uploadImage(filePath!!)
+                        .addOnSuccessListener {uri ->
+                            user.profilePicture = uri.toString()
+                            viewModel.updateUser(user)
+                            super.onBackPressed()
+                        }
+            }else{
+                viewModel.updateUser(user)
+                super.onBackPressed()
+            }
         }
     }
 
@@ -95,13 +117,9 @@ class SettingsFragmentActivity : FragmentActivity() {
     }
 
     private fun showPopup(view: View){
-        val window = PopupWindow(this)
-        val layout = layoutInflater.inflate(R.layout.popup_menu_settings, null)
-        window.contentView = layout
-        window.isOutsideTouchable = true
+        btnMore.isEnabled = false
         window.showAsDropDown(view, 0, 30)
-
-       window.contentView.btnToggleNotifications.isChecked = user.notificationsOn
+        window.contentView.btnToggleNotifications.isChecked = user.notificationsOn
 
         window.contentView.btnToggleNotifications.setOnClickListener {
             user.notificationsOn = window.contentView.btnToggleNotifications.isChecked
@@ -111,29 +129,41 @@ class SettingsFragmentActivity : FragmentActivity() {
             FirebaseAuth.getInstance().sendPasswordResetEmail(user.email)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            tvAlertMessage.text = getString(R.string.alert_email_sent)
-                            val dialog = builder.create()
-                            dialog.show()
-                            tvOkButton.setOnClickListener {
-                                dialog.dismiss()
-                            }
+                            notifyUser(true)
                         }else{
-                            tvAlertTitle.text = getString(R.string.alert_fail)
-                            tvAlertMessage.text = getString(R.string.alert_fail_email_sent)
-                            ivAlertIcon.background = ContextCompat.getDrawable(this, R.drawable.ic_warning)
-                            val dialog = builder.create()
-                            dialog.show()
-                            tvOkButton.setOnClickListener {
-                                dialog.dismiss()
-                            }
+                            notifyUser(false)
                         }
                     }
         }
 
         window.contentView.tvLogOut.setOnClickListener {
+            window.dismiss()
             FirebaseAuth.getInstance().signOut()
             finishAffinity()
             startActivity(Intent(this, SplashScreenActivity::class.java))
+        }
+    }
+
+    private fun notifyUser(success: Boolean){
+        val vd = alertDialogBuilder.getView()
+        window.dismiss()
+        if(success){
+            vd.tvAlertMessage.text = getString(R.string.alert_email_sent)
+            val dialog = builder.create()
+            dialog.show()
+            vd.tvOkButton.setOnClickListener {
+                dialog.dismiss()
+                this.removeDialog(R.layout.alert_dialog)
+            }
+        }else{
+            vd.tvAlertTitle.text = getString(R.string.alert_fail)
+            vd.tvAlertMessage.text = getString(R.string.alert_fail_email_sent)
+            vd.ivAlertIcon.background = ContextCompat.getDrawable(this, R.drawable.ic_warning)
+            val dialog = builder.create()
+            dialog.show()
+            vd.tvOkButton.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 }
