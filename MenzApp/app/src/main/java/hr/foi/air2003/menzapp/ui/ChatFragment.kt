@@ -41,12 +41,9 @@ class ChatFragment : Fragment() {
     private fun getChat() {
         val liveData = viewModel.getChat(user.userId)
         liveData.observe(viewLifecycleOwner, {
-            val chats: MutableList<Chat> = mutableListOf()
             val data = it.data
             if (data != null) {
-                for (d in data)
-                    chats.add(d)
-
+                val chats = data.sortedBy { chat -> chat.timestamp }
                 adapterChat.addItems(chats)
             }
         })
@@ -68,5 +65,6 @@ class ChatFragment : Fragment() {
             intent.putExtra("user", jsonUser)
             startActivity(intent)
         }
+
     }
 }

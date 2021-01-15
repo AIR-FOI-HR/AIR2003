@@ -130,7 +130,7 @@ class DateTimePicker(
         val min = cal.get(Calendar.MINUTE)
 
         val currentTimestamp = Calendar.getInstance()
-        currentTimestamp.set(Calendar.HOUR_OF_DAY, 24)
+        currentTimestamp.set(Calendar.HOUR_OF_DAY, 0)
         currentTimestamp.set(Calendar.MINUTE, 0)
         currentTimestamp.set(Calendar.SECOND, 0)
 

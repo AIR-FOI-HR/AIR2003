@@ -42,7 +42,6 @@ class MessagesRecyclerViewAdapter(private val fragment: PrivateChatActivity) : G
                 itemView.tvMessageUsername.visibility = View.GONE
                 itemView.llMessageLayout.background = ContextCompat.getDrawable(fragment, R.drawable.message_background_green)
                 itemView.tvMessageContent.setTextColor(ContextCompat.getColor(fragment, R.color.white))
-                itemView.tvMessageContent.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
 
             }else{
                 val livedata = viewModel.getUser(item.authorId)
@@ -59,7 +58,6 @@ class MessagesRecyclerViewAdapter(private val fragment: PrivateChatActivity) : G
                 itemView.tvMessageUsername.visibility = View.VISIBLE
                 itemView.llMessageLayout.background = ContextCompat.getDrawable(fragment, R.drawable.message_background_grey)
                 itemView.tvMessageContent.setTextColor(ContextCompat.getColor(fragment, R.color.black_typo))
-                itemView.tvMessageContent.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
             }
 
             itemView.llMessageLayout.setOnClickListener {

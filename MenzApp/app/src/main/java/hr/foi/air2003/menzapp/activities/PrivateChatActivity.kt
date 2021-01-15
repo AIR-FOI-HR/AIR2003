@@ -15,6 +15,7 @@ import hr.foi.air2003.menzapp.core.model.Message
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.MessagesRecyclerViewAdapter
 import kotlinx.android.synthetic.main.activity_private_chat.*
+import java.util.*
 
 class PrivateChatActivity : FragmentActivity() {
     private val viewModel = SharedViewModel()
@@ -25,10 +26,6 @@ class PrivateChatActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_private_chat)
-
-        svScrollMessages.postDelayed({
-            svScrollMessages.smoothScrollTo(0, svScrollMessages.bottom)
-        }, 1000)
 
         user = Gson().fromJson(intent.getStringExtra("user"), User::class.java)
         chat = Gson().fromJson(intent.getStringExtra("chat"), Chat::class.java)
@@ -44,6 +41,7 @@ class PrivateChatActivity : FragmentActivity() {
             if(tvTextMessage.text.isNotEmpty()) {
                 sendMessage()
                 tvTextMessage.text.clear()
+                rvAllMessages.scrollToPosition(adapterMessages.itemCount-1)
             }
         }
 
@@ -70,19 +68,19 @@ class PrivateChatActivity : FragmentActivity() {
                 }
             }
         }else{
-            ivPrivateChatImage.visibility = View.GONE
+            cvPrivateChatImage.visibility = View.GONE
             var chatName = ""
             val livedata = viewModel.getAllUsers()
             livedata.observe(this, {
                 val data = it.data
                 if (data != null) {
                     for (d in data) {
-                        if (chat.participantsId.contains(d.userId)) {
+                        if (chat.participantsId.contains(d.userId) && d.userId != user.userId) {
                             chatName += "${d.fullName}, "
                         }
                     }
 
-                    tvPrivateChatName.text = chatName.substring(chatName.length - 2)
+                    tvPrivateChatName.text = chatName.substring(0, chatName.length - 2)
                 }
             })
         }
@@ -104,12 +102,15 @@ class PrivateChatActivity : FragmentActivity() {
             if (data != null) {
                 val sorted = data.sortedBy { message -> message.sentTimestamp }
                 adapterMessages.addItems(sorted)
+                rvAllMessages.scrollToPosition(adapterMessages.itemCount-1)
             }
         })
     }
 
     private fun sendMessage() {
+        val uuid = UUID.randomUUID().toString()
         val message = Message(
+                messageId = uuid,
                 authorId = user.userId,
                 chatId = chat.chatId,
                 sentTimestamp = Timestamp.now(),
@@ -117,7 +118,7 @@ class PrivateChatActivity : FragmentActivity() {
         )
 
         chat.lastMessage = message.messageId
-        //chat.timestamp = message.sentTimestamp
+        chat.timestamp = message.sentTimestamp
 
         viewModel.sendMessage(message)
         viewModel.updateChat(chat)

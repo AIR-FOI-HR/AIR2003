@@ -125,6 +125,6 @@ class Repository {
     }
 
     fun sendMessage(message: Message) {
-        FirestoreService.post(Collection.MESSAGE, message)
+        FirestoreService.postDocumentWithID(Collection.MESSAGE, message.messageId, message)
     }
 }

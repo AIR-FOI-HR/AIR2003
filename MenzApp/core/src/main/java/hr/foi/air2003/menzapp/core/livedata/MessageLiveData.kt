@@ -23,7 +23,7 @@ class MessageLiveData(documentReference: DocumentReference) :
 
             value = MessageOrException(message, error)
         } else if (error != null) {
-            // TODO Handle error
+            println(error.message)
         }
     }
 }
