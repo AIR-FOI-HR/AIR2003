@@ -49,7 +49,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
                     if (documents != null) {
                         for ((i, doc) in documents.withIndex()) {
-                            if (!doc.getBoolean("seen")!!) {
+                            val seen = doc.getBoolean("seen")
+                            if (seen != null && !seen) {
                                 val json = Gson().toJson(doc.data)
                                 val n = Gson().fromJson(json, Notification::class.java)
                                 n.notificationId = doc.id

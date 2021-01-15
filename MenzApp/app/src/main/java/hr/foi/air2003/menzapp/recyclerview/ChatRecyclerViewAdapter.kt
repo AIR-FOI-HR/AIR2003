@@ -1,12 +1,11 @@
 package hr.foi.air2003.menzapp.recyclerview
 
 import android.annotation.SuppressLint
-import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import coil.api.load
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
@@ -36,28 +35,36 @@ class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyc
         @SuppressLint("SetTextI18n")
         override fun onBind(item: Chat) {
             val usersLiveData = viewModel.getAllUsers()
+            val messageLiveData = viewModel.getMessage(item.lastMessage)
             var chatName = ""
-            usersLiveData.observe(fragment.viewLifecycleOwner, {
+            var imgUri = ""
+
+            val timestamp = dateTimePicker.timestampToShortString(item.timestamp)
+            itemView.tvChatTimestamp.text = timestamp
+
+            usersLiveData.observeForever{
                 val data = it.data
                 if (data != null) {
                     for (user in data) {
                         if (item.participantsId.contains(user.userId) && user.userId != fragment.user.userId) {
                             chatName += "${user.fullName}, "
-                            println(user.fullName)
+                            imgUri = user.profilePicture
                         }
                     }
 
                     itemView.tvChatName.text = chatName.substring(0, chatName.length - 2)
+                    viewModel.getImage(imgUri)
+                            .addOnSuccessListener { uri ->
+                                itemView.ivChatUserImage.load(uri)
+                            }
                 }
-            })
 
-            val messageLiveData = viewModel.getMessage(item.lastMessage)
-            messageLiveData.observe(fragment.viewLifecycleOwner, {
+                return@observeForever
+            }
+
+            messageLiveData.observeForever{
                 val message = it.data
                 if (message != null) {
-                    val timestamp = dateTimePicker.timestampToShortString(message.sentTimestamp)
-                    itemView.tvChatTimestamp.text = timestamp
-
                     if (message.authorId == fragment.user.userId)
                         itemView.tvChatMessage.text = "Vi: ${message.content}"
                     else {
@@ -67,7 +74,9 @@ class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyc
                             itemView.tvChatMessage.typeface = ResourcesCompat.getFont(fragment.requireContext(), R.font.raleway_semibold)
                     }
                 }
-            })
+
+                return@observeForever
+            }
         }
     }
 }
