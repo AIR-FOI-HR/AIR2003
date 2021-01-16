@@ -65,6 +65,8 @@ class NewPostFragment : DialogFragment() {
 
         btn_saveNewPost.setOnClickListener {
             checkPostInput(post.postId)
+
+            (activity as MainActivity).setCurrentFragment(HomeFragment())
         }
 
         btnCancelNewPost.setOnClickListener {
