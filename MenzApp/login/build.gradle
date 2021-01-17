@@ -51,4 +51,11 @@ dependencies {
 
     // Modules
     implementation project(path: ':core')
+
+    // Google login integration
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+//    // Facebook login integration
+//    implementation 'com.facebook.android:facebook-login:[8,9)'
+//    implementation 'com.facebook.android:facebook-core:[8,9)'
 }

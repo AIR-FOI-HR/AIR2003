@@ -13,5 +13,5 @@ Većina studenata ne voli ići sama u menzu te često ima problema u pronalasku 
  - Pokrenuti aplikaciju na mobilnom uređaju ili emulatoru
  - Početni ekran je prijava u aplikaciju i postoje dvije mogućnosti:
  - Testirati registraciju novog korisnika (upisati proizvoljne podatke)
- - Testirati prijavu s prethodno upisanim podacima ili se prijaviti s emailom kako@to.com i lozinkom kakoto.
+ - Testirati prijavu s prethodno upisanim podacima ili se prijaviti s emailom _kako@to.com_ i lozinkom _kakoto_.
  - Nakon uspješne prijave otvara se naslovnica te se pomoću navigacije može doći do svih ekrana (Jelovnik, Pretraživanje, Razgovori i Profil).

@@ -69,8 +69,10 @@ class MenuFragment : Fragment() {
                 for (menu in menus) {
                     if (menu.timestamp == currentTimestamp && menu.lunch.isNotEmpty()) {
                         populateMenus(menu)
+                        break
                     } else if (menu.timestamp == dayBefore && menu.lunch.isNotEmpty()) {
                         populateMenus(menu)
+                        break
                     } else {
                         populateMenus(menu)
                         break
