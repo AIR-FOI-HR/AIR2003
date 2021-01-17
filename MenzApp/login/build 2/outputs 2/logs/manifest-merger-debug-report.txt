@@ -1,0 +1,53 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+	package
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:3:5-43
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:1-28:12
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:5:5-27:19
+activity#hr.foi.air2003.menzapp.login.LoginActivity
+ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:6:9-79
+	android:name
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:6:19-76
+activity#hr.foi.air2003.menzapp.login.RegistrationActivity
+ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:7:9-86
+	android:name
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:7:19-83
+meta-data#com.facebook.sdk.ApplicationId
+ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:8:9-9:54
+	android:value
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:9:13-52
+	android:name
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:8:20-65
+uses-sdk
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		ADDED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+		INJECTED from /Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
