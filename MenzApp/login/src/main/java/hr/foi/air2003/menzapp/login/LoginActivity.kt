@@ -1,6 +1,7 @@
 package hr.foi.air2003.menzapp.login
 
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_password.*
@@ -106,11 +108,15 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(LoginActivity.TAG, "signInWithCredential:success")
-                        val userInDatabase = repository.getUser(auth.currentUser?.uid!!)
-                        if (userInDatabase === null) {
-                            Log.d(LoginActivity.TAG, "user not in db, creating entry...")
-                            repository.createUser(auth.currentUser?.uid!!, getUserInfo(account, auth.currentUser?.uid!!))
-                        }
+                        val userInDatabase = FirebaseFirestore.getInstance().collection("Users")
+                                .document(auth.currentUser?.uid!!).get()
+                                .addOnSuccessListener { document ->
+                                    if (document.data === null) {
+                                        Log.d(LoginActivity.TAG, "User not in db, creating entry...")
+                                        repository.createUser(auth.currentUser?.uid!!, getUserInfo(account, auth.currentUser?.uid!!))
+                                    }
+                                }
+                                .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error getting document", e) }
                         super.onBackPressed()
                     } else { Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception) }
                 }

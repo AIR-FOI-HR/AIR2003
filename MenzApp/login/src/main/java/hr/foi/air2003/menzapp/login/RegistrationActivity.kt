@@ -60,6 +60,7 @@ class RegistrationActivity : AppCompatActivity() {
                 ) { task ->
                     if (task.isSuccessful) {
                         repository.createUser(auth.currentUser?.uid.toString(), getUserInfo())
+                        auth.currentUser!!.sendEmailVerification()
                         finish()
                         // TODO some kind of notification to user, splash screen or similar
                     } else {
