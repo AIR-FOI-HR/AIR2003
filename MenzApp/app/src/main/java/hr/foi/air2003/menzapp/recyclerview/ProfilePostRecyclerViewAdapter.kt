@@ -4,18 +4,27 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.ui.VisitedProfileFragment
+import kotlinx.android.synthetic.main.home_post_list_item.view.*
 import kotlinx.android.synthetic.main.home_post_list_item.view.tvProfilePostDescription
 import kotlinx.android.synthetic.main.profile_post_list_item.view.*
 
-class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
+class ProfilePostRecyclerViewAdapter(private val fragment: Fragment) : GenericRecyclerViewAdaper<Post>() {
     private val dateTimePicker = DateTimePicker()
+    private var currentUser: FirebaseUser? = null
     var editClick: ((Post) -> Unit)? = null
+    var sendRequest: ((Post) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.profile_post_list_item, parent, false)
+        currentUser = FirebaseAuth.getInstance().currentUser
         return ProfilePostViewHolder(view)
     }
 
@@ -24,6 +33,10 @@ class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
         init {
             itemView.btnEditPost.setOnClickListener {
                 editClick?.invoke(items[adapterPosition])
+            }
+
+            itemView.btnSendRequest.setOnClickListener {
+                sendRequest?.invoke(items[adapterPosition])
             }
         }
 
@@ -36,6 +49,23 @@ class ProfilePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
 
             if (items.indexOf(item) == items.lastIndex)
                 itemView.breakLinePost.visibility = View.GONE
+
+            if(fragment.javaClass == VisitedProfileFragment::class.java){
+                itemView.btnEditPost.visibility = View.GONE
+
+                var found = false
+                for (map in item.userRequests) {
+                    if (map.containsValue(currentUser?.uid.toString())) {
+                        found = true
+                    }
+                }
+
+                if (found) {
+                    itemView.btnSendRequest.visibility = View.GONE
+                }else{
+                    itemView.btnSendRequest.visibility = View.VISIBLE
+                }
+            }
         }
     }
 }
