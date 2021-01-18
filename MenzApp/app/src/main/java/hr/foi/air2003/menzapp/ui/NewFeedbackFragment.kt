@@ -12,6 +12,7 @@ import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_feedback.*
+import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class NewFeedbackFragment : DialogFragment() {
     private lateinit var visitedUser: User

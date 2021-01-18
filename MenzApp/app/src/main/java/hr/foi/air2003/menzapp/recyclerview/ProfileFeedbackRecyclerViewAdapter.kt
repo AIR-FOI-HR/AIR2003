@@ -43,9 +43,6 @@ class ProfileFeedbackRecyclerViewAdapter : GenericRecyclerViewAdaper<Feedback>()
 
                 return@observeForever
             }
-
-            if (items.indexOf(item) == items.lastIndex)
-                itemView.breakLineFeedback.visibility = View.GONE
         }
     }
 }

@@ -122,5 +122,7 @@ class PrivateChatActivity : FragmentActivity() {
 
         viewModel.sendMessage(message)
         viewModel.updateChat(chat)
+
+        rvAllMessages.adapter?.notifyDataSetChanged()
     }
 }

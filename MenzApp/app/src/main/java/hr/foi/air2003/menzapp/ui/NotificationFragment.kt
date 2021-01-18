@@ -120,6 +120,7 @@ class NotificationFragment : Fragment() {
     private fun deleteRequest(notification: Notification) {
         notification.request = false
         viewModel.updateNotification(notification)
+        rvNotifications.adapter?.notifyDataSetChanged()
 
         val liveData = viewModel.getPost(notification.postId)
         liveData.observe(viewLifecycleOwner, {

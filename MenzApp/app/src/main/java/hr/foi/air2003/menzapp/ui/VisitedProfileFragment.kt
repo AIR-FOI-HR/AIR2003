@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +29,8 @@ import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_visited_profile.*
+import kotlinx.android.synthetic.main.profile_feedback_list_item.view.*
+import kotlinx.android.synthetic.main.profile_post_list_item.view.*
 import java.lang.Exception
 
 class VisitedProfileFragment : Fragment() {
@@ -95,7 +99,9 @@ class VisitedProfileFragment : Fragment() {
             val newFeedbackFragment = NewFeedbackFragment()
             newFeedbackFragment.setTargetFragment(this, 1)
             newFeedbackFragment.show(requireFragmentManager(), "Feedback")
-            rvVisitedProfileFeedbacks.adapter?.notifyDataSetChanged()
+
+            if(newFeedbackFragment.isRemoving)
+                rvVisitedProfileFeedbacks.adapter?.notifyDataSetChanged()
         }
 
         btnBack.setOnClickListener {

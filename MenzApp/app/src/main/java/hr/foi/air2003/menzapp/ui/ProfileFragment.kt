@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,8 @@ import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.profile_feedback_list_item.view.*
+import kotlinx.android.synthetic.main.profile_post_list_item.view.*
 
 class ProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
@@ -83,6 +86,7 @@ class ProfileFragment : Fragment() {
 
         adapterPost.editClick = { post ->
             editPost(post)
+            rvProfilePosts.adapter?.notifyDataSetChanged()
         }
     }
 
@@ -168,7 +172,6 @@ class ProfileFragment : Fragment() {
         newPostFragment.setTargetFragment(this, 1)
         newPostFragment.show(requireFragmentManager(), "Post")
     }
-
 
     fun getPost(): Post {
         return this.post

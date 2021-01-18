@@ -128,6 +128,7 @@ class HomeFragment : Fragment() {
                 }
                 val sorted = posts.sortedByDescending { post -> post.timestamp }
                 adapterPost.addItems(sorted)
+                rvPostsLayout.adapter?.notifyDataSetChanged()
             }
         })
     }

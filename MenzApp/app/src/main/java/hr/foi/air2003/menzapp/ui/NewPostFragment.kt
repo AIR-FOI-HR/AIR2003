@@ -69,8 +69,7 @@ class NewPostFragment : DialogFragment() {
 
         btn_saveNewPost.setOnClickListener {
             checkPostInput(post.postId)
-
-            (activity as MainActivity).setCurrentFragment(HomeFragment())
+            this.dismiss()
         }
 
         btnDeletePost.setOnClickListener {
@@ -91,7 +90,7 @@ class NewPostFragment : DialogFragment() {
         window?.windowManager?.defaultDisplay?.getRealSize(size)
 
         val width = size.x
-        val height = (size.y * 0.60).toInt()
+        val height = (size.y * 0.65).toInt()
 
         window?.setLayout(width, height)
         window?.setGravity(Gravity.CENTER)
@@ -174,7 +173,6 @@ class NewPostFragment : DialogFragment() {
     private fun editPost(post: Post) {
         try {
             viewModel.updatePost(post)
-            targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
 
             vd.tvAlertMessage.text = getString(R.string.alert_edit_post)
@@ -202,7 +200,6 @@ class NewPostFragment : DialogFragment() {
             post.postId = uuid
             viewModel.createPost(post)
             createPostNotification(post)
-            targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
 
             vd.tvAlertMessage.text = getString(R.string.alert_new_post)

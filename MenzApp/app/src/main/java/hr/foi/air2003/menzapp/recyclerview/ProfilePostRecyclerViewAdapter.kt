@@ -47,9 +47,6 @@ class ProfilePostRecyclerViewAdapter(private val fragment: Fragment) : GenericRe
             itemView.tvProfilePostPeople.text = "Optimalan broj ljudi: ${item.numberOfPeople}"
             itemView.tvProfilePostDescription.text = item.description
 
-            if (items.indexOf(item) == items.lastIndex)
-                itemView.breakLinePost.visibility = View.GONE
-
             if(fragment.javaClass == VisitedProfileFragment::class.java){
                 itemView.btnEditPost.visibility = View.GONE
 
