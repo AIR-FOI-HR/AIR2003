@@ -13,7 +13,6 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.activities.PrivateChatActivity
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Chat
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ChatRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -42,8 +41,8 @@ class ChatFragment : Fragment() {
         val liveData = viewModel.getChat(user.userId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
-                val chats = data.sortedBy { chat -> chat.timestamp }
+            if (!data.isNullOrEmpty()) {
+                val chats = data.sortedByDescending { chat -> chat.timestamp }
                 adapterChat.addItems(chats)
             }
         })

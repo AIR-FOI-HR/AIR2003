@@ -12,11 +12,9 @@ import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
-import hr.foi.air2003.menzapp.ui.HomeFragment
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
 
-class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) :
-    GenericRecyclerViewAdaper<Post>() {
+class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
     private val dateTimePicker = DateTimePicker()
     private val viewModel = SharedViewModel()
     private var currentUser: FirebaseUser? = null
@@ -52,18 +50,18 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) :
             itemView.tvProfilePostDescription.text = item.description
 
             val liveData = viewModel.getUser(item.authorId)
-            liveData.observe(fragment.viewLifecycleOwner, {
+            liveData.observeForever {
                 val user = it.data
                 if (user != null) {
                     itemView.tvHomePostAuthorName.text = user.fullName
                     val imgUri = user.profilePicture
 
                     viewModel.getImage(imgUri)
-                        .addOnSuccessListener { url ->
-                            itemView.ivHomePostImage.load(url) {
-                                scale(Scale.FIT)
+                            .addOnSuccessListener { url ->
+                                itemView.ivHomePostImage.load(url) {
+                                    scale(Scale.FIT)
+                                }
                             }
-                        }
 
                     var found = false
 
@@ -77,7 +75,9 @@ class HomePostRecyclerViewAdapter(private val fragment: HomeFragment) :
                         itemView.btnRespond.visibility = View.GONE
                     }
                 }
-            })
+
+                return@observeForever
+            }
         }
     }
 }

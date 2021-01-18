@@ -104,7 +104,7 @@ class VisitedProfileFragment : Fragment() {
 
     private fun createRecyclerViews() {
         adapterPost = ProfilePostRecyclerViewAdapter()
-        adapterFeedback = ProfileFeedbackRecyclerViewAdapter(this)
+        adapterFeedback = ProfileFeedbackRecyclerViewAdapter()
 
         rvVisitedProfilePosts.hasFixedSize()
         rvVisitedProfilePosts.layoutManager = LinearLayoutManager(context)
@@ -198,7 +198,7 @@ class VisitedProfileFragment : Fragment() {
         val liveData = viewModel.getFeedbacks(authorId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 val feedbacks = data.sortedByDescending { feedback -> feedback.mark }
                 adapterFeedback.addItems(feedbacks)
             }
@@ -209,7 +209,7 @@ class VisitedProfileFragment : Fragment() {
         val liveData = viewModel.getPostsByAuthor(authorId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 val posts = data.sortedByDescending { post -> post.timestamp }
                 adapterPost.addItems(posts)
             }

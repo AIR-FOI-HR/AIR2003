@@ -79,12 +79,7 @@ class DateTimePicker(
 
     @SuppressLint("SimpleDateFormat")
     fun getTimestamp(): Timestamp {
-        val timestamp = "$year-${month + 1}-$day ${String.format("%02d", hour)}:${
-            String.format(
-                "%02d",
-                minute
-            )
-        }"
+        val timestamp = "$year-${month + 1}-$day ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm").parse(timestamp)
         return Timestamp(sdf!!.time / 1000, 0)
     }
@@ -97,12 +92,7 @@ class DateTimePicker(
     }
 
     fun getTimestampString(): String {
-        return "$year-${String.format("%02d", month + 1)}-${
-            String.format(
-                "%02d",
-                day
-            )
-        } ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
+        return "$year-${String.format("%02d", month + 1)}-${String.format("%02d", day)} ${String.format("%02d", hour)}:${String.format("%02d", minute)}"
     }
 
     fun timestampToString(timestamp: Timestamp): String {
@@ -115,12 +105,7 @@ class DateTimePicker(
         val h = cal.get(Calendar.HOUR_OF_DAY)
         val min = cal.get(Calendar.MINUTE)
 
-        return "${String.format("%02d", d)}. ${months[m]} $y./${
-            String.format(
-                "%02d",
-                h
-            )
-        }:${String.format("%02d", min)}"
+        return "${String.format("%02d", d)}. ${months[m]} $y./${String.format("%02d", h)}:${String.format("%02d", min)}"
     }
 
     fun timestampToShortString(timestamp: Timestamp): String {

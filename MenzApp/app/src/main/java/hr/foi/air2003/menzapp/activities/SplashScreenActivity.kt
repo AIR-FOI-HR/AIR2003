@@ -3,13 +3,9 @@ package hr.foi.air2003.menzapp.activities
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
-import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.core.services.FirebaseAuthService

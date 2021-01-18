@@ -64,7 +64,7 @@ class MenuFragment : Fragment() {
         val liveData = viewModel.getMenus()
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 val menus = data.sortedByDescending { menu -> menu.timestamp }
                 for (menu in menus) {
                     if (menu.timestamp == currentTimestamp && menu.lunch.isNotEmpty()) {

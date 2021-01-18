@@ -3,7 +3,6 @@ package hr.foi.air2003.menzapp.recyclerview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import coil.api.load
 import coil.size.Scale
 import hr.foi.air2003.menzapp.R
@@ -12,8 +11,7 @@ import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Notification
 import kotlinx.android.synthetic.main.notification_list_item.view.*
 
-class NotificationRecyclerViewAdapter(private val fragment: Fragment) :
-    GenericRecyclerViewAdaper<Notification>() {
+class NotificationRecyclerViewAdapter : GenericRecyclerViewAdaper<Notification>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
     var confirmClick: ((Notification) -> Unit)? = null
@@ -55,7 +53,7 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) :
             }
 
             val liveData = viewModel.getUser(item.authorId)
-            liveData.observe(fragment.viewLifecycleOwner, {
+            liveData.observeForever {
                 val user = it.data
 
                 if (user != null) {
@@ -64,13 +62,15 @@ class NotificationRecyclerViewAdapter(private val fragment: Fragment) :
 
                     val imgUri = user.profilePicture
                     viewModel.getImage(imgUri)
-                        .addOnSuccessListener { url ->
-                            itemView.ivProfileUserPhoto.load(url) {
-                                scale(Scale.FIT)
+                            .addOnSuccessListener { url ->
+                                itemView.ivProfileUserPhoto.load(url) {
+                                    scale(Scale.FIT)
+                                }
                             }
-                        }
                 }
-            })
+
+                return@observeForever
+            }
         }
     }
 }

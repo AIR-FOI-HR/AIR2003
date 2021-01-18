@@ -44,7 +44,7 @@ class NotificationFragment : Fragment() {
     }
 
     private fun createRecyclerViews() {
-        adapterNotification = NotificationRecyclerViewAdapter(this)
+        adapterNotification = NotificationRecyclerViewAdapter()
 
         rvNotifications.hasFixedSize()
         rvNotifications.layoutManager = LinearLayoutManager(context)
@@ -86,7 +86,7 @@ class NotificationFragment : Fragment() {
         val liveData = viewModel.getChatByPostId(notification.postId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 for (d in data) {
                     val users = d.participantsId as MutableList
                     users.add(user.userId)

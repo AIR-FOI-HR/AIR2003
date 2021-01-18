@@ -73,7 +73,7 @@ class PrivateChatActivity : FragmentActivity() {
             val livedata = viewModel.getAllUsers()
             livedata.observe(this, {
                 val data = it.data
-                if (data != null) {
+                if (!data.isNullOrEmpty()) {
                     for (d in data) {
                         if (chat.participantsId.contains(d.userId) && d.userId != user.userId) {
                             chatName += "${d.fullName}, "
@@ -99,7 +99,7 @@ class PrivateChatActivity : FragmentActivity() {
         val livedata = viewModel.getAllMessages(chat.chatId)
         livedata.observe(this, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 val sorted = data.sortedBy { message -> message.sentTimestamp }
                 adapterMessages.addItems(sorted)
                 rvAllMessages.scrollToPosition(adapterMessages.itemCount-1)

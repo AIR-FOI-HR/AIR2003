@@ -11,8 +11,7 @@ import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
 import kotlinx.android.synthetic.main.profile_feedback_list_item.view.*
 
-class ProfileFeedbackRecyclerViewAdapter(private val fragment: Fragment) :
-    GenericRecyclerViewAdaper<Feedback>() {
+class ProfileFeedbackRecyclerViewAdapter : GenericRecyclerViewAdaper<Feedback>() {
     private val viewModel = SharedViewModel()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Feedback> {
@@ -27,7 +26,7 @@ class ProfileFeedbackRecyclerViewAdapter(private val fragment: Fragment) :
             itemView.rbFeedbackRating.rating = item.mark.toFloat()
 
             val liveData = viewModel.getUser(item.authorId)
-            liveData.observe(fragment.viewLifecycleOwner, {
+            liveData.observeForever {
                 val user = it.data
 
                 if (user != null) {
@@ -35,13 +34,15 @@ class ProfileFeedbackRecyclerViewAdapter(private val fragment: Fragment) :
 
                     val imgUri = user.profilePicture
                     viewModel.getImage(imgUri)
-                        .addOnSuccessListener { url ->
-                            itemView.ivProfileUserPhoto.load(url) {
-                                scale(Scale.FIT)
+                            .addOnSuccessListener { url ->
+                                itemView.ivProfileUserPhoto.load(url) {
+                                    scale(Scale.FIT)
+                                }
                             }
-                        }
                 }
-            })
+
+                return@observeForever
+            }
 
             if (items.indexOf(item) == items.lastIndex)
                 itemView.breakLineFeedback.visibility = View.GONE

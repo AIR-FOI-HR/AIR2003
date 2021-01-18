@@ -67,7 +67,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun createRecyclerView() {
-        adapterPost = HomePostRecyclerViewAdapter(this)
+        adapterPost = HomePostRecyclerViewAdapter()
 
         rvPostsLayout.hasFixedSize()
         rvPostsLayout.layoutManager = LinearLayoutManager(context)
@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
         liveData.observe(viewLifecycleOwner, {
             val posts: MutableList<Post> = mutableListOf()
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 for (d in data) {
                     if (d.timestamp >= timestamp)
                         posts.add(d)
@@ -155,6 +155,7 @@ class HomeFragment : Fragment() {
             recipientsId = listOf(post.authorId),
             timestamp = Timestamp(System.currentTimeMillis() / 1000, 0),
         )
+
         viewModel.createNotificationRequest(notification)
     }
 

@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
             val liveData = viewModel.searchUsers(query)
             liveData.observe(viewLifecycleOwner, {
                 val data = it.data
-                if (data != null) {
+                if (!data.isNullOrEmpty()) {
                     val users: MutableList<User> = data as MutableList<User>
                     users.remove(user)
                     adapterUser.addItems(users)

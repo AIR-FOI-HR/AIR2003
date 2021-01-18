@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
-import com.google.android.material.resources.TextAppearance
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.activities.PrivateChatActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
@@ -17,7 +16,6 @@ import hr.foi.air2003.menzapp.core.model.Message
 import kotlinx.android.synthetic.main.fragment_menu.*
 import kotlinx.android.synthetic.main.private_chat_list_item.*
 import kotlinx.android.synthetic.main.private_chat_list_item.view.*
-import java.awt.font.TextAttribute
 
 class MessagesRecyclerViewAdapter(private val fragment: PrivateChatActivity) : GenericRecyclerViewAdaper<Message>() {
     private val dateTimePicker = DateTimePicker()
@@ -45,12 +43,14 @@ class MessagesRecyclerViewAdapter(private val fragment: PrivateChatActivity) : G
 
             }else{
                 val livedata = viewModel.getUser(item.authorId)
-                livedata.observe(fragment, {
+                livedata.observeForever {
                     val data = it.data
-                    if(data != null){
+                    if (data != null) {
                         itemView.tvMessageUsername.text = data.fullName
                     }
-                })
+
+                    return@observeForever
+                }
 
                 params.gravity = Gravity.START
                 itemView.llMessageLayout.layoutParams = params

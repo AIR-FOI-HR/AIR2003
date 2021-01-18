@@ -219,7 +219,7 @@ class NewPostFragment : DialogFragment() {
         val liveData = viewModel.getAllSubscribersByUser(post.authorId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 for (d in data) {
                     users.add(d.userId)
                 }

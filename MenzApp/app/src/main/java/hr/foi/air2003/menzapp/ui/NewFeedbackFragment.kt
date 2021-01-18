@@ -66,7 +66,7 @@ class NewFeedbackFragment : DialogFragment() {
         val liveData = viewModel.getFeedbacks(visitedUser.userId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
-            if (data != null) {
+            if (!data.isNullOrEmpty()) {
                 for (d in data) {
                     if (d.authorId == currentUser.userId) {
                         feedback = d
