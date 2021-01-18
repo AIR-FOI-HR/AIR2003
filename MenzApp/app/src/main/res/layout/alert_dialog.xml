@@ -17,8 +17,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/ic_success"
-            android:backgroundTint="@color/green_primary"/>
+            android:background="@drawable/ic_success" />
 
         <TextView
             android:id="@+id/tvAlertTitle"

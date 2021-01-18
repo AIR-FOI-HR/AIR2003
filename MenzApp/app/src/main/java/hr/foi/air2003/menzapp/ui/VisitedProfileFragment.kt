@@ -1,6 +1,7 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +16,18 @@ import coil.api.load
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
+import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
-import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
+import kotlinx.android.synthetic.main.alert_dialog.view.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_visited_profile.*
+import java.lang.Exception
 
 class VisitedProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
@@ -33,6 +37,9 @@ class VisitedProfileFragment : Fragment() {
     private lateinit var user: User
     private lateinit var parent: Fragment
     private lateinit var visitedUser: User
+    private lateinit var builder: AlertDialog.Builder
+    private lateinit var vd: View
+    private var alertDialogBuilder = AlertDialogBuilder()
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
@@ -58,6 +65,8 @@ class VisitedProfileFragment : Fragment() {
         createRecyclerViews()
 
         dateTimePicker = DateTimePicker()
+        builder = alertDialogBuilder.createAlertDialog(requireContext(), layoutInflater)
+        vd = alertDialogBuilder.getView()
 
         requireUserData()
 
@@ -103,7 +112,7 @@ class VisitedProfileFragment : Fragment() {
     }
 
     private fun createRecyclerViews() {
-        adapterPost = ProfilePostRecyclerViewAdapter()
+        adapterPost = ProfilePostRecyclerViewAdapter(this)
         adapterFeedback = ProfileFeedbackRecyclerViewAdapter()
 
         rvVisitedProfilePosts.hasFixedSize()
@@ -115,6 +124,29 @@ class VisitedProfileFragment : Fragment() {
         rvVisitedProfileFeedbacks.layoutManager = LinearLayoutManager(context)
         rvVisitedProfileFeedbacks.itemAnimator = DefaultItemAnimator()
         rvVisitedProfileFeedbacks.adapter = adapterFeedback
+
+        adapterPost.sendRequest = { post ->
+            try {
+                requestToJoin(post)
+
+                vd.tvAlertMessage.text = getString(R.string.alert_success_join)
+                val dialog = builder.create()
+                dialog.show()
+                vd.tvOkButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+            } catch (e: Exception) {
+                vd.tvAlertTitle.text = getString(R.string.alert_fail)
+                vd.tvAlertMessage.text = getString(R.string.alert_fail_join)
+                vd.ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+                val dialog = builder.create()
+                dialog.show()
+                vd.tvOkButton.setOnClickListener {
+                    dialog.dismiss()
+                }
+            }
+        }
     }
 
     private fun expandViewListener() {
@@ -188,7 +220,7 @@ class VisitedProfileFragment : Fragment() {
         tvVisitedProfileAboutMe.text = visitedUser.bio
         tvVisitedProfileSubscribers.text = "Broj pretplatnika: ${visitedUser.subscribersCount}"
 
-        viewModel.getImage(user.profilePicture)
+        viewModel.getImage(visitedUser.profilePicture)
             .addOnSuccessListener { url ->
                 ivVisitedProfilePhoto.load(url)
             }
@@ -209,11 +241,41 @@ class VisitedProfileFragment : Fragment() {
         val liveData = viewModel.getPostsByAuthor(authorId)
         liveData.observe(viewLifecycleOwner, {
             val data = it.data
+            val posts: MutableList<Post> = mutableListOf()
             if (!data.isNullOrEmpty()) {
-                val posts = data.sortedByDescending { post -> post.timestamp }
-                adapterPost.addItems(posts)
+                for(d in data){
+                    if(d.timestamp >= Timestamp.now())
+                        posts.add(d)
+                }
+
+                val sorted = posts.sortedByDescending { post -> post.timestamp }
+                adapterPost.addItems(sorted)
             }
         })
+    }
+
+    private fun requestToJoin(post: Post) {
+        val updatedUserRequests: MutableList<Map<String, Any>> = mutableListOf()
+        if (post.userRequests.isNotEmpty()) {
+            updatedUserRequests.addAll(0, post.userRequests)
+        }
+
+        updatedUserRequests.add(mapOf(Pair("opened", true), Pair("userId", user.userId)))
+        post.userRequests = updatedUserRequests
+        viewModel.updateUserRequests(post)
+        rvVisitedProfilePosts.adapter?.notifyDataSetChanged()
+
+        val timestamp = dateTimePicker.timestampToString(post.timestamp).split("/")
+
+        val notification = Notification(
+                authorId = user.userId,
+                content = "Novi zahtjev na dan: ${timestamp[0]} ${timestamp[1]}",
+                request = true,
+                postId = post.postId,
+                recipientsId = listOf(post.authorId),
+                timestamp = Timestamp(System.currentTimeMillis() / 1000, 0),
+        )
+        viewModel.createNotificationRequest(notification)
     }
 
     private fun updateSubscription(subscribe: Boolean) {

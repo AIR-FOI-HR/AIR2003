@@ -1,0 +1,46 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="hr.foi.air2003.menzapp.login"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml
+10
+11    <application>
+11-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:5:5-27:19
+12        <activity android:name="hr.foi.air2003.menzapp.login.LoginActivity" />
+12-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:6:9-79
+12-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:6:19-76
+13        <activity android:name="hr.foi.air2003.menzapp.login.RegistrationActivity" />
+13-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:7:9-86
+13-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:7:19-83
+14
+15        <meta-data
+15-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:8:9-9:54
+16            android:name="com.facebook.sdk.ApplicationId"
+16-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:8:20-65
+17            android:value="@string/facebook_app_id" />
+17-->/Users/vickoluksic/Desktop/Faks/Fakultet organizacije i informatike/Diplomski/AiR/AIR2003/MenzApp/login/src/main/AndroidManifest.xml:9:13-52
+18
+19        <!-- <activity android:name="com.facebook.FacebookActivity" -->
+20        <!-- android:configChanges= -->
+21        <!-- "keyboard|keyboardHidden|screenLayout|screenSize|orientation" -->
+22        <!-- android:label="@string/app_name" /> -->
+23        <!-- <activity -->
+24        <!-- android:name="com.facebook.CustomTabActivity" -->
+25        <!-- android:exported="true"> -->
+26        <!-- <intent-filter> -->
+27        <!-- <action android:name="android.intent.action.VIEW" /> -->
+28        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+29        <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+30        <!-- <data android:scheme="@string/fb_login_protocol_scheme" /> -->
+31        <!-- </intent-filter> -->
+32        <!-- </activity> -->
+33
+34    </application>
+35
+36</manifest>

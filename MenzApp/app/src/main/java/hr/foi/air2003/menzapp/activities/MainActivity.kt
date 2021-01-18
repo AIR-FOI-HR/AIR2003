@@ -53,6 +53,11 @@ class MainActivity : AppCompatActivity() {
         requireUserData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireUserData()
+    }
+
     private fun requireUserData(){
         if(currentUser != null){
             val liveData = viewModel.getUser(currentUser!!.uid)

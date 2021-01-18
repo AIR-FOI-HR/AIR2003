@@ -15,7 +15,7 @@ import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
-import kotlinx.android.synthetic.main.alert_dialog.*
+import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
@@ -28,6 +28,7 @@ class NewPostFragment : DialogFragment() {
     private lateinit var post: Post
     private lateinit var user: User
     private lateinit var builder: AlertDialog.Builder
+    private lateinit var vd: View
     private var viewModel = SharedViewModel()
     private var alertDialogBuilder = AlertDialogBuilder()
 
@@ -49,10 +50,13 @@ class NewPostFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         dateTimePicker = DateTimePicker()
         builder = alertDialogBuilder.createAlertDialog(requireContext(), layoutInflater)
+        vd = alertDialogBuilder.getView()
 
         if (post.postId != "") {
             textNewPost.text = getString(R.string.edit_post)
+            dateTimePicker.setTimestamp(post.timestamp)
             loadPost(post)
+            btnDeletePost.visibility = View.VISIBLE
         }
 
         tvDate.setOnClickListener {
@@ -65,6 +69,13 @@ class NewPostFragment : DialogFragment() {
 
         btn_saveNewPost.setOnClickListener {
             checkPostInput(post.postId)
+
+            (activity as MainActivity).setCurrentFragment(HomeFragment())
+        }
+
+        btnDeletePost.setOnClickListener {
+            viewModel.deletePost(post)
+            this.dismiss()
         }
 
         btnCancelNewPost.setOnClickListener {
@@ -166,20 +177,20 @@ class NewPostFragment : DialogFragment() {
             targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
 
-            tvAlertMessage.text = getString(R.string.alert_edit_post)
+            vd.tvAlertMessage.text = getString(R.string.alert_edit_post)
             val dialog = builder.create()
             dialog.show()
-            tvOkButton.setOnClickListener {
+            vd.tvOkButton.setOnClickListener {
                 dialog.dismiss()
             }
 
         } catch (e: Exception) {
-            tvAlertTitle.text = getString(R.string.alert_fail)
-            tvAlertMessage.text = getString(R.string.alert_fail_edit_post)
-            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            vd.tvAlertTitle.text = getString(R.string.alert_fail)
+            vd.tvAlertMessage.text = getString(R.string.alert_fail_edit_post)
+            vd.ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
             val dialog = builder.create()
             dialog.show()
-            tvOkButton.setOnClickListener {
+            vd.tvOkButton.setOnClickListener {
                 dialog.dismiss()
             }
         }
@@ -194,20 +205,20 @@ class NewPostFragment : DialogFragment() {
             targetFragment?.rvProfilePosts?.adapter?.notifyDataSetChanged()
             this.dismiss()
 
-            tvAlertMessage.text = getString(R.string.alert_new_post)
+            vd.tvAlertMessage.text = getString(R.string.alert_new_post)
             val dialog = builder.create()
             dialog.show()
-            tvOkButton.setOnClickListener {
+            vd.tvOkButton.setOnClickListener {
                 dialog.dismiss()
             }
 
         } catch (e: Exception) {
-            tvAlertTitle.text = getString(R.string.alert_fail)
-            tvAlertMessage.text = getString(R.string.alert_fail_new_post)
-            ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
+            vd.tvAlertTitle.text = getString(R.string.alert_fail)
+            vd.tvAlertMessage.text = getString(R.string.alert_fail_new_post)
+            vd.ivAlertIcon.background = ContextCompat.getDrawable(requireContext(), R.drawable.ic_warning)
             val dialog = builder.create()
             dialog.show()
-            tvOkButton.setOnClickListener {
+            vd.tvOkButton.setOnClickListener {
                 dialog.dismiss()
             }
         }

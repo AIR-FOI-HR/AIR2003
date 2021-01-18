@@ -46,6 +46,10 @@ class SharedViewModel : ViewModel() {
         return repository.getAllPosts(userId)
     }
 
+    fun deletePost(post: Post) {
+        repository.deletePost(post)
+    }
+
     fun updateUserRequests(post: Post) {
         repository.updateUserRequests(post)
     }

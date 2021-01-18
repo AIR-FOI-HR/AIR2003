@@ -48,6 +48,14 @@
                 android:layout_gravity="end"
                 android:background="@drawable/ic_edit_fill" />
 
+            <Button
+                android:id="@+id/btnSendRequest"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_plus"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
 
