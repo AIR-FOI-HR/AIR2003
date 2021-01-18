@@ -20,7 +20,6 @@ import hr.foi.air2003.menzapp.core.model.Notification
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
 import hr.foi.air2003.menzapp.recyclerview.HomePostRecyclerViewAdapter
-import kotlinx.android.synthetic.main.alert_dialog.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
@@ -151,9 +150,13 @@ class HomeFragment : Fragment() {
         viewModel.updateUserRequests(post)
         rvPostsLayout.adapter?.notifyDataSetChanged()
 
+        var postStringTime = dateTimePicker.getMessageTimestamp(post.timestamp)
+
+        val strs = postStringTime.split("/").toTypedArray()
+
         val notification = Notification(
             authorId = user.userId,
-            content = "Novi zahtjev",
+            content = "Novi zahtjev za datum " + strs[0] + "." + strs[1] + ".",
             request = true,
             postId = post.postId,
             recipientsId = listOf(post.authorId),
