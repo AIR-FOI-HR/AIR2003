@@ -157,6 +157,7 @@ class LoginActivity : AppCompatActivity() {
                             if(user.isEmailVerified){
                                 super.onBackPressed()
                             }else{
+                                auth.currentUser?.sendEmailVerification()
                                 updateUI(false)
                                 auth.signOut()
                             }
