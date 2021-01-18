@@ -1,2 +1,0 @@
-hr/foi/air2003/menzapp/prijava/BuildConfig.java
- hr.foi.air2003.menzapp.prijava.BuildConfig
