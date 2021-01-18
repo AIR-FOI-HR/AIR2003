@@ -150,13 +150,13 @@ class HomeFragment : Fragment() {
         viewModel.updateUserRequests(post)
         rvPostsLayout.adapter?.notifyDataSetChanged()
 
-        var postStringTime = dateTimePicker.getMessageTimestamp(post.timestamp)
+        var postStringTime = dateTimePicker.timestampToString(post.timestamp)
 
-        val strs = postStringTime.split("/").toTypedArray()
+        val times = postStringTime.split("/").toTypedArray()
 
         val notification = Notification(
             authorId = user.userId,
-            content = "Novi zahtjev za datum " + strs[0] + "." + strs[1] + ".",
+            content = "Novi zahtjev za odlazak u menzu na dan " + times[0] + " " + times[1] ,
             request = true,
             postId = post.postId,
             recipientsId = listOf(post.authorId),
