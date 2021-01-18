@@ -89,7 +89,7 @@ class NotificationFragment : Fragment() {
             if (!data.isNullOrEmpty()) {
                 for (d in data) {
                     val users = d.participantsId as MutableList
-                    users.add(user.userId)
+                    users.add(notification.authorId)
                     d.participantsId = users
                     viewModel.updateChat(d)
                 }
