@@ -127,4 +127,8 @@ class Repository {
     fun sendMessage(message: Message) {
         FirestoreService.postDocumentWithID(Collection.MESSAGE, message.messageId, message)
     }
+
+    fun deletePost(post: Post) {
+        FirestoreService.deleteDocument(Collection.POST, post.postId)
+    }
 }

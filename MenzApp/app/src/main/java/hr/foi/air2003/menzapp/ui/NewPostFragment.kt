@@ -56,6 +56,7 @@ class NewPostFragment : DialogFragment() {
             textNewPost.text = getString(R.string.edit_post)
             dateTimePicker.setTimestamp(post.timestamp)
             loadPost(post)
+            btnDeletePost.visibility = View.VISIBLE
         }
 
         tvDate.setOnClickListener {
@@ -70,6 +71,11 @@ class NewPostFragment : DialogFragment() {
             checkPostInput(post.postId)
 
             (activity as MainActivity).setCurrentFragment(HomeFragment())
+        }
+
+        btnDeletePost.setOnClickListener {
+            viewModel.deletePost(post)
+            this.dismiss()
         }
 
         btnCancelNewPost.setOnClickListener {
