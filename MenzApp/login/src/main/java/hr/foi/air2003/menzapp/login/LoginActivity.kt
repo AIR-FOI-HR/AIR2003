@@ -8,6 +8,7 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.annotation.Nullable
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -15,7 +16,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.air2003.menzapp.core.Repository
@@ -23,8 +23,6 @@ import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_password.*
 import kotlinx.android.synthetic.main.login_main.*
 import kotlinx.android.synthetic.main.login_main.txtPassword
-import kotlinx.android.synthetic.main.registration_main.*
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -57,19 +55,17 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
         txtForgotPassword.setOnClickListener {
-            Toast.makeText(this, "Toast", Toast.LENGTH_LONG).show()
-
             val popupForgotPassword = Dialog(this)
             popupForgotPassword.setContentView(layoutInflater.inflate(R.layout.dialog_password, null))
             popupForgotPassword.show()
             popupForgotPassword.btn_sendEmail.setOnClickListener {
-                if (!popupForgotPassword.txt_sendToMail.text.toString().isNullOrEmpty() &&
+                if (popupForgotPassword.txt_sendToMail.text.toString().isNotEmpty() &&
                         Patterns.EMAIL_ADDRESS.matcher(popupForgotPassword.txt_sendToMail.text.toString()).matches()) {
                     auth.sendPasswordResetEmail(popupForgotPassword.txt_sendToMail.text.toString())
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
                                     popupForgotPassword.hide()
-                                    // TODO Add some kind of popup to notify the mail is sent
+                                    Toast.makeText(this, "Email za reset lozinke je poslan!", Toast.LENGTH_SHORT).show()
                                 }
                             }
                 }
@@ -97,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
                 Log.w(LoginActivity.TAG, "Google sign in failed", e)
-                updateUI(null)
+                updateUI(false)
             }
         }
     }
@@ -113,19 +109,21 @@ class LoginActivity : AppCompatActivity() {
                                 .addOnSuccessListener { document ->
                                     if (document.data === null) {
                                         Log.d(LoginActivity.TAG, "User not in db, creating entry...")
-                                        repository.createUser(auth.currentUser?.uid!!, getUserInfo(account, auth.currentUser?.uid!!))
+                                        val user = getUserInfo(account, auth.currentUser?.uid!!)
+                                        repository.uploadImage(account.photoUrl!!)
+                                                .addOnSuccessListener { url ->
+                                                    user.profilePicture = url.toString()
+                                                    repository.createUser(auth.currentUser?.uid!!, user)
+                                                }
+                                                .addOnFailureListener {
+                                                    repository.createUser(auth.currentUser?.uid!!, user)
+                                                }
                                     }
                                 }
                                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error getting document", e) }
                         super.onBackPressed()
                     } else { Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception) }
                 }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        updateUI(currentUser)
     }
 
     private fun checkLoginInput() {
@@ -155,32 +153,37 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val user = auth.currentUser
-                        // TODO Achtung, achtung!!!!
-                        // When you uncomment these lines, all mails have to be verified to log in,
-                        // for development purposes we will leave this commented
-                        // if (auth.currentUser!!.isEmailVerified) {
-                        // All good, login the user
-                        updateUI(user)
-                        super.onBackPressed()
-                        //finish()
-                        //} else {
-                        //auth.signOut()
-                        // Display message that the user email is not verified
-                        // }
+                        if(user != null){
+                            if(user.isEmailVerified){
+                                super.onBackPressed()
+                            }else{
+                                updateUI(false)
+                                auth.signOut()
+                            }
+                        }
                     } else {
-                        Toast.makeText(baseContext, "Na žalost, nismo Vas uspjeli ulogirati",
-                                Toast.LENGTH_SHORT).show()
-                        updateUI(null)
+                        updateUI(false)
                     }
                 }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
-        // TODO add user successfully created message or something like that
-        if (user !== null && user.uid !== null) {
-            Log.d(LoginActivity.TAG, user?.uid!!)
+    private fun updateUI(success: Boolean) {
+        val builder = AlertDialog.Builder(this)
+
+        if(success) {
+            builder.setTitle("Uspjeh")
+            builder.setMessage("Uspješno ste se prijavili!")
+        }else{
+            builder.setTitle("Greška")
+            builder.setMessage("Prijava nije uspjela! Provjerite unesene podatke ili potvrdite email adresu!")
         }
 
+        builder.setPositiveButton("U redu") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun getUserInfo(user: GoogleSignInAccount, firebaseUserId: String): User {
@@ -190,6 +193,7 @@ class LoginActivity : AppCompatActivity() {
                 email = user.email!!
         )
     }
+
     companion object {
         private const val TAG = "LoginActivity"
         private const val RC_SIGN_IN = 10000

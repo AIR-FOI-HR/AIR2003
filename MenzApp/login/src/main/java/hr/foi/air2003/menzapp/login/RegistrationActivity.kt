@@ -2,9 +2,10 @@ package hr.foi.air2003.menzapp.login
 
 import android.os.Bundle
 import android.util.Patterns
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.core.Repository
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.registration_main.*
@@ -27,8 +28,24 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
-        // TODO add user successfully created message or something like that
+    private fun updateUI(success: Boolean) {
+        val builder = AlertDialog.Builder(this)
+
+        if(success) {
+            builder.setTitle("Uspjeh")
+            builder.setMessage("Uspješno ste se registrirali. Molimo potvrdite vašu email adresu!")
+        }else{
+            builder.setTitle("Greška")
+            builder.setMessage("Registracija nije uspjela!")
+        }
+
+        builder.setPositiveButton("U redu") { dialog, which ->
+            dialog.dismiss()
+            finish()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun checkRegistrationInput() {
@@ -44,8 +61,8 @@ class RegistrationActivity : AppCompatActivity() {
             return
         }
 
-        if (txtPassword.text.toString().isEmpty()) {
-            txtPassword.error = "Molimo unesite lozinku"
+        if (txtPassword.text.toString().isEmpty() || txtPassword.text.length < 6) {
+            txtPassword.error = "Molimo unesite lozinku najmanje duljine 6 znakova"
             txtPassword.requestFocus()
             return
         }
@@ -55,17 +72,15 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun createAccount() {
         auth.createUserWithEmailAndPassword(txtEmail.text.toString(), txtPassword.text.toString())
-                .addOnCompleteListener(
-                        this
-                ) { task ->
-                    if (task.isSuccessful) {
-                        repository.createUser(auth.currentUser?.uid.toString(), getUserInfo())
-                        auth.currentUser!!.sendEmailVerification()
-                        finish()
-                        // TODO some kind of notification to user, splash screen or similar
-                    } else {
-                        // TODO update notification to user in case of failure
+                .addOnSuccessListener {
+                    repository.createUser(auth.currentUser?.uid.toString(), getUserInfo())
+                    auth.currentUser!!.sendEmailVerification().addOnSuccessListener {
+                        updateUI(true)
                     }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    updateUI(false)
                 }
     }
 
