@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.activities
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,7 +42,6 @@ class PrivateChatActivity : FragmentActivity() {
             if(tvTextMessage.text.isNotEmpty()) {
                 sendMessage()
                 tvTextMessage.text.clear()
-                rvAllMessages.scrollToPosition(adapterMessages.itemCount-1)
             }
         }
 
@@ -102,7 +102,7 @@ class PrivateChatActivity : FragmentActivity() {
             if (!data.isNullOrEmpty()) {
                 val sorted = data.sortedBy { message -> message.sentTimestamp }
                 adapterMessages.addItems(sorted)
-                rvAllMessages.scrollToPosition(adapterMessages.itemCount-1)
+                rvAllMessages.postDelayed({ rvAllMessages.smoothScrollToPosition(rvAllMessages.adapter?.itemCount!!-1) }, 1000)
             }
         })
     }
@@ -121,8 +121,11 @@ class PrivateChatActivity : FragmentActivity() {
         chat.timestamp = message.sentTimestamp
 
         viewModel.sendMessage(message)
-        viewModel.updateChat(chat)
+                .addOnSuccessListener {
+                    rvAllMessages.adapter?.notifyDataSetChanged()
+                    rvAllMessages.smoothScrollToPosition(rvAllMessages.adapter?.itemCount!!-1)
+                }
 
-        rvAllMessages.adapter?.notifyDataSetChanged()
+        viewModel.updateChat(chat)
     }
 }

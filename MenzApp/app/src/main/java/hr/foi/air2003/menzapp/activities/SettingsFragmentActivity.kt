@@ -90,7 +90,9 @@ class SettingsFragmentActivity : FragmentActivity() {
                         }
             }else{
                 viewModel.updateUser(user)
-                super.onBackPressed()
+                        .addOnSuccessListener {
+                            super.onBackPressed()
+                        }
             }
         }
     }

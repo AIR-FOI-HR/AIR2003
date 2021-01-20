@@ -26,7 +26,7 @@
                     android:id="@+id/textNewPost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:paddingTop="10dp"
                     android:text="NOVI KOMENTAR"
                     android:fontFamily="@font/raleway_semibold"
                     android:textColor="@color/black_typo"
@@ -51,7 +51,6 @@
                     android:id="@+id/btnCancelFeedback"
                     android:layout_width="36dp"
                     android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/ic_x" />
             </LinearLayout>
 
@@ -103,7 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="25dp"
+            android:paddingTop="25dp"
+            android:paddingBottom="10dp"
             android:gravity="end">
 
             <Button

@@ -40,22 +40,22 @@ internal object FirestoreService {
         }
     }
 
-    fun postDocumentWithID(collection: String, document: String, data: Any) {
-        db.collection(collection).document(document)
+    fun postDocumentWithID(collection: String, document: String, data: Any) : Task<Void> {
+        return db.collection(collection).document(document)
                 .set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully rewritten!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error rewriting document", e) }
     }
 
-    fun update(collection: String, document: String, data: Any) {
-        db.collection(collection).document(document)
+    fun update(collection: String, document: String, data: Any) : Task<Void> {
+        return db.collection(collection).document(document)
                 .set(data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
     }
 
-    fun updateField(collection: String, document: String, field: String, data: Any) {
-        db.collection(collection).document(document)
+    fun updateField(collection: String, document: String, field: String, data: Any) : Task<Void> {
+        return db.collection(collection).document(document)
                 .update(field, data)
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully updated!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating document", e) }
@@ -65,8 +65,8 @@ internal object FirestoreService {
         db.collection(collection).document(document)
     }
 
-    fun deleteDocument(collection: String, document: String) {
-        db.collection(collection).document(document).delete()
+    fun deleteDocument(collection: String, document: String) : Task<Void> {
+        return db.collection(collection).document(document).delete()
                 .addOnSuccessListener { Log.d(ContentValues.TAG, "Document successfully deleted!") }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
     }

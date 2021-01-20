@@ -125,7 +125,7 @@ class HomeFragment : Fragment() {
                     if (d.timestamp >= timestamp)
                         posts.add(d)
                 }
-                val sorted = posts.sortedByDescending { post -> post.timestamp }
+                val sorted = posts.sortedBy { post -> post.timestamp }
                 adapterPost.addItems(sorted)
                 rvPostsLayout.adapter?.notifyDataSetChanged()
             }

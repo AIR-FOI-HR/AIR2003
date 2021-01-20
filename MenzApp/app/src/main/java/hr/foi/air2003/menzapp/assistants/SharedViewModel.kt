@@ -22,12 +22,12 @@ class SharedViewModel : ViewModel() {
         return repository.retrieveImage(imgUri)
     }
 
-    fun updateUser(user: User) {
-        repository.updateUser(user)
+    fun updateUser(user: User): Task<Void> {
+        return repository.updateUser(user)
     }
 
-    fun createPost(post: Post) {
-        repository.createPost(post)
+    fun createPost(post: Post): Task<Void> {
+        return repository.createPost(post)
     }
 
     fun createChat(chat: Chat) {
@@ -38,20 +38,20 @@ class SharedViewModel : ViewModel() {
         repository.createNotification(notification)
     }
 
-    fun updatePost(post: Post) {
-        repository.updatePost(post)
+    fun updatePost(post: Post): Task<Void> {
+        return repository.updatePost(post)
     }
 
     fun getAllPosts(userId: String): PostQueryLiveData {
         return repository.getAllPosts(userId)
     }
 
-    fun deletePost(post: Post) {
-        repository.deletePost(post)
+    fun deletePost(post: Post): Task<Void> {
+        return repository.deletePost(post)
     }
 
-    fun updateUserRequests(post: Post) {
-        repository.updateUserRequests(post)
+    fun updateUserRequests(post: Post): Task<Void> {
+        return repository.updateUserRequests(post)
     }
 
     fun getPostsByAuthor(authorId: String): PostQueryLiveData {
@@ -94,24 +94,24 @@ class SharedViewModel : ViewModel() {
         return repository.getPostById(postId)
     }
 
-    fun updateNotification(notification: Notification) {
-        repository.updateNotification(notification)
+    fun updateNotification(notification: Notification): Task<Void> {
+        return repository.updateNotification(notification)
     }
 
-    fun updateChat(chat: Chat) {
-        repository.updateChat(chat)
+    fun updateChat(chat: Chat): Task<Void> {
+        return repository.updateChat(chat)
     }
 
     fun createFeedback(feedback: Feedback) {
         repository.createFeedback(feedback)
     }
 
-    fun updateFeedback(feedback: Feedback) {
-        repository.updateFeedback(feedback)
+    fun updateFeedback(feedback: Feedback): Task<Void> {
+        return repository.updateFeedback(feedback)
     }
 
-    fun deleteFeedback(feedback: Feedback) {
-        repository.deleteFeedback(feedback)
+    fun deleteFeedback(feedback: Feedback): Task<Void> {
+        return repository.deleteFeedback(feedback)
     }
 
     fun searchUsers(text: String): UserQueryLiveData {
@@ -126,7 +126,7 @@ class SharedViewModel : ViewModel() {
         return repository.getAllMessages(chatId)
     }
 
-    fun sendMessage(message: Message) {
-        repository.sendMessage(message)
+    fun sendMessage(message: Message): Task<Void> {
+        return repository.sendMessage(message)
     }
 }

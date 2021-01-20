@@ -6,13 +6,13 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Feedback
 import hr.foi.air2003.menzapp.core.model.User
 import kotlinx.android.synthetic.main.dialog_new_feedback.*
-import kotlinx.android.synthetic.main.fragment_visited_profile.*
 
 class NewFeedbackFragment : DialogFragment() {
     private lateinit var visitedUser: User
@@ -41,7 +41,7 @@ class NewFeedbackFragment : DialogFragment() {
 
         btnDeleteFeedback.setOnClickListener {
             viewModel.deleteFeedback(feedback)
-            this.dismiss()
+                    .addOnSuccessListener { dismiss() }
         }
 
         btnSaveFeedback.setOnClickListener {
@@ -56,10 +56,7 @@ class NewFeedbackFragment : DialogFragment() {
         val size = Point()
         window?.windowManager?.defaultDisplay?.getRealSize(size)
 
-        val width = size.x
-        val height = (size.y * 0.5).toInt()
-
-        window?.setLayout(width, height)
+        window?.setLayout(size.x, LinearLayout.LayoutParams.WRAP_CONTENT)
         window?.setGravity(Gravity.CENTER)
     }
 
@@ -103,7 +100,7 @@ class NewFeedbackFragment : DialogFragment() {
 
     private fun editFeedback(feedback: Feedback) {
         viewModel.updateFeedback(feedback)
-        this.dismiss()
+                .addOnSuccessListener { dismiss() }
     }
 
     private fun saveFeedback(feedback: Feedback) {

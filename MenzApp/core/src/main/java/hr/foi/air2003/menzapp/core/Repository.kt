@@ -2,6 +2,7 @@ package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.*
 import hr.foi.air2003.menzapp.core.other.Collection
@@ -13,12 +14,12 @@ class Repository {
         return UserLiveData(FirestoreService.getDocumentByID(Collection.USER, userId))
     }
 
-    fun createUser(userId: String, data: User){
-        FirestoreService.postDocumentWithID(Collection.USER, userId, data)
+    fun createUser(userId: String, data: User): Task<Void> {
+        return FirestoreService.postDocumentWithID(Collection.USER, userId, data)
     }
 
-    fun updateUser(user: User){
-        FirestoreService.update(Collection.USER, user.userId, user)
+    fun updateUser(user: User): Task<Void> {
+        return FirestoreService.update(Collection.USER, user.userId, user)
     }
 
     fun uploadImage(filePath: Uri) : Task<Uri> {
@@ -41,20 +42,20 @@ class Repository {
         return FeedbackQueryLiveData(FirestoreService.getAllWithQuery(Collection.FEEDBACK, Operation.EQUAL_TO, "recipientId", recipientId))
     }
 
-    fun updateUserRequests(post: Post){
-        FirestoreService.updateField(Collection.POST, post.postId, "userRequests", post.userRequests)
+    fun updateUserRequests(post: Post): Task<Void> {
+        return FirestoreService.updateField(Collection.POST, post.postId, "userRequests", post.userRequests)
     }
 
-    fun createPost(post: Post){
-        FirestoreService.postDocumentWithID(Collection.POST,post.postId, post)
+    fun createPost(post: Post): Task<Void> {
+        return FirestoreService.postDocumentWithID(Collection.POST,post.postId, post)
     }
 
-    fun createChat(chat: Chat){
+    fun createChat(chat: Chat) {
         FirestoreService.post(Collection.CHAT, chat)
     }
 
-    fun updatePost(post: Post){
-        FirestoreService.update(Collection.POST, post.postId, post)
+    fun updatePost(post: Post): Task<Void> {
+        return FirestoreService.update(Collection.POST, post.postId, post)
     }
 
     fun getChatsByParticipant(userId: String) : ChatQueryLiveData{
@@ -66,8 +67,8 @@ class Repository {
         return ChatQueryLiveData(FirestoreService.getAllWithQuery(Collection.CHAT, Operation.EQUAL_TO, "postId", postId))
     }
 
-    fun updateChat(chat: Chat) {
-        FirestoreService.update(Collection.CHAT, chat.chatId, chat)
+    fun updateChat(chat: Chat): Task<Void> {
+        return FirestoreService.update(Collection.CHAT, chat.chatId, chat)
     }
 
     fun getMessageById(messageId: String) : MessageLiveData{
@@ -88,7 +89,7 @@ class Repository {
         return UserQueryLiveData(FirestoreService.getAllWithQuery(Collection.USER, Operation.ARRAY_CONTAINS_ANY, "subscribedTo", users))
     }
 
-    fun createNotification(notification: Notification){
+    fun createNotification(notification: Notification) {
         FirestoreService.post(Collection.NOTIFICATION, notification)
     }
 
@@ -96,20 +97,20 @@ class Repository {
         return PostLiveData(FirestoreService.getDocumentByID(Collection.POST, postId))
     }
 
-    fun updateNotification(notification: Notification) {
-        FirestoreService.update(Collection.NOTIFICATION, notification.notificationId, notification)
+    fun updateNotification(notification: Notification): Task<Void> {
+        return FirestoreService.update(Collection.NOTIFICATION, notification.notificationId, notification)
     }
 
     fun createFeedback(feedback: Feedback) {
         FirestoreService.post(Collection.FEEDBACK, feedback)
     }
 
-    fun updateFeedback(feedback: Feedback) {
-        FirestoreService.update(Collection.FEEDBACK, feedback.feedbackId, feedback)
+    fun updateFeedback(feedback: Feedback): Task<Void> {
+        return FirestoreService.update(Collection.FEEDBACK, feedback.feedbackId, feedback)
     }
 
-    fun deleteFeedback(feedback: Feedback) {
-        FirestoreService.deleteDocument(Collection.FEEDBACK, feedback.feedbackId)
+    fun deleteFeedback(feedback: Feedback): Task<Void> {
+        return FirestoreService.deleteDocument(Collection.FEEDBACK, feedback.feedbackId)
     }
 
     fun getUsersBySearch(text: String) : UserQueryLiveData{
@@ -124,11 +125,11 @@ class Repository {
         return MessageQueryLiveData(FirestoreService.getAllWithQuery(Collection.MESSAGE, Operation.EQUAL_TO, "chatId", chatId))
     }
 
-    fun sendMessage(message: Message) {
-        FirestoreService.postDocumentWithID(Collection.MESSAGE, message.messageId, message)
+    fun sendMessage(message: Message): Task<Void> {
+        return FirestoreService.postDocumentWithID(Collection.MESSAGE, message.messageId, message)
     }
 
-    fun deletePost(post: Post) {
-        FirestoreService.deleteDocument(Collection.POST, post.postId)
+    fun deletePost(post: Post): Task<Void> {
+        return FirestoreService.deleteDocument(Collection.POST, post.postId)
     }
 }

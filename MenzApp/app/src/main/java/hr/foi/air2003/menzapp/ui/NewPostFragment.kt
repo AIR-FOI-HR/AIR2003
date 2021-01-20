@@ -1,11 +1,16 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
@@ -74,7 +79,8 @@ class NewPostFragment : DialogFragment() {
 
         btnDeletePost.setOnClickListener {
             viewModel.deletePost(post)
-            this.dismiss()
+                    .addOnCompleteListener { fragmentManager?.beginTransaction()?.remove(this)
+                    dismiss()}
         }
 
         btnCancelNewPost.setOnClickListener {
@@ -89,10 +95,7 @@ class NewPostFragment : DialogFragment() {
         val size = Point()
         window?.windowManager?.defaultDisplay?.getRealSize(size)
 
-        val width = size.x
-        val height = (size.y * 0.65).toInt()
-
-        window?.setLayout(width, height)
+        window?.setLayout(size.x, LinearLayout.LayoutParams.WRAP_CONTENT)
         window?.setGravity(Gravity.CENTER)
     }
 
@@ -173,7 +176,7 @@ class NewPostFragment : DialogFragment() {
     private fun editPost(post: Post) {
         try {
             viewModel.updatePost(post)
-            this.dismiss()
+                    .addOnSuccessListener { dismiss() }
 
             vd.tvAlertMessage.text = getString(R.string.alert_edit_post)
             val dialog = builder.create()
