@@ -37,7 +37,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyUser(context: Context?) {
         currentUser = FirebaseAuth.getInstance().currentUser
-        val users = listOf(currentUser!!.uid)
+        val users = listOf(currentUser?.uid)
 
         FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users)
                 .addSnapshotListener { snapshot, error ->

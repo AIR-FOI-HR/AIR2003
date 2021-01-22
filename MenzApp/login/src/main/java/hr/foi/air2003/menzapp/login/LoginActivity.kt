@@ -30,7 +30,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private var repository = Repository()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_main)

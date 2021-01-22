@@ -78,6 +78,12 @@ class SettingsFragmentActivity : FragmentActivity() {
         }
 
         btn_saveSettings.setOnClickListener {
+            if(tvSettingsFullName.text.isNullOrEmpty()){
+                tvSettingsFullName.error = "Molimo vas unesite ime!"
+                tvSettingsFullName.requestFocus()
+                return@setOnClickListener
+            }
+
             user.fullName = tvSettingsFullName.text.toString()
             user.bio = tvSettingsBio.text.toString()
 

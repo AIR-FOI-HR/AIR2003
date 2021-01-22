@@ -95,6 +95,7 @@
             android:drawablePadding="10dp"
             android:hint="@string/registration_username"
             android:textColor="@drawable/input_text_color"
+            android:maxLines="1"
             android:padding="13dp"
             android:fontFamily="@font/raleway"
             android:textSize="16dp" />
@@ -118,6 +119,7 @@
             android:drawableLeft="@drawable/input_ic_email"
             android:drawablePadding="10dp"
             android:hint="@string/email"
+            android:maxLines="1"
             android:textColor="@drawable/input_text_color"
             android:padding="13dp"
             android:fontFamily="@font/raleway"
@@ -143,6 +145,7 @@
             android:hint="@string/password"
             android:textColor="@drawable/input_text_color"
             android:padding="13dp"
+            android:maxLines="1"
             android:fontFamily="@font/raleway"
             android:textSize="16dp"
             android:inputType="textPassword" />
@@ -167,6 +170,7 @@
             android:textColor="@drawable/input_text_color"
             android:padding="13dp"
             android:fontFamily="@font/raleway"
+            android:maxLines="1"
             android:textSize="16dp"
             android:inputType="textPassword" />
         </LinearLayout>

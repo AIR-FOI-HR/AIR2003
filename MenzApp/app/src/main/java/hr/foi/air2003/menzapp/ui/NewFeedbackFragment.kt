@@ -81,7 +81,7 @@ class NewFeedbackFragment : DialogFragment() {
         val rating = rbScore.rating
         val description = tvFeedbackDescription.text.toString()
 
-        if (description.isEmpty()) {
+        if (description.isNullOrEmpty()) {
             tvFeedbackDescription.error = "Molimo unesite opis"
             tvFeedbackDescription.requestFocus()
             return

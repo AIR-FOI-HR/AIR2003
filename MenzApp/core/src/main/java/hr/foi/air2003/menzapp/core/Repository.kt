@@ -2,7 +2,6 @@ package hr.foi.air2003.menzapp.core
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.DocumentReference
 import hr.foi.air2003.menzapp.core.livedata.*
 import hr.foi.air2003.menzapp.core.model.*
 import hr.foi.air2003.menzapp.core.other.Collection
@@ -10,6 +9,7 @@ import hr.foi.air2003.menzapp.core.other.Operation
 import hr.foi.air2003.menzapp.core.services.FirestoreService
 
 class Repository {
+
     fun getUser(userId: String) : UserLiveData{
         return UserLiveData(FirestoreService.getDocumentByID(Collection.USER, userId))
     }

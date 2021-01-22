@@ -145,6 +145,7 @@
             android:textColor="@color/black_typo"
             android:inputType="textMultiLine"
             android:padding="8dp"
+            android:maxLines="3"
             android:textSize="15sp" />
 
         <LinearLayout

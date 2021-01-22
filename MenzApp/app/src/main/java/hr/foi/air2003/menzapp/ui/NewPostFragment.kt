@@ -1,16 +1,12 @@
 package hr.foi.air2003.menzapp.ui
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
@@ -24,7 +20,6 @@ import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.dialog_new_post.*
 import kotlinx.android.synthetic.main.dialog_new_post.tvProfilePostDescription
 import kotlinx.android.synthetic.main.dialog_new_post.tvHomePostPeople
-import kotlinx.android.synthetic.main.fragment_profile.*
 import java.lang.Exception
 import java.util.UUID.randomUUID
 
@@ -134,25 +129,25 @@ class NewPostFragment : DialogFragment() {
         val numberOfPeople = tvHomePostPeople.text.toString()
         val description = tvProfilePostDescription.text.toString()
 
-        if (date.isEmpty()) {
+        if (date.isNullOrEmpty()) {
             tvDate.error = "Molimo odaberite datum"
             tvDate.requestFocus()
             return
         }
 
-        if (time.isEmpty()) {
+        if (time.isNullOrEmpty()) {
             tvTime.error = "Molimo odaberite vrijeme"
             tvTime.requestFocus()
             return
         }
 
-        if (numberOfPeople.isEmpty()) {
+        if (numberOfPeople.isNullOrEmpty()) {
             tvHomePostPeople.error = "Molimo unesite broj osoba"
             tvHomePostPeople.requestFocus()
             return
         }
 
-        if (description.isEmpty()) {
+        if (description.isNullOrEmpty()) {
             tvProfilePostDescription.error = "Molimo unesite opis"
             tvProfilePostDescription.requestFocus()
             return

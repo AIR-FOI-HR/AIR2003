@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -68,7 +69,9 @@
                 android:id="@+id/rvAllMessages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp" />
+                android:padding="10dp"
+
+                android:clipChildren="false"/>
 
         </ScrollView>
 
@@ -79,7 +82,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="15dp"
         android:weightSum="1"
         android:layout_alignParentBottom="true">
 

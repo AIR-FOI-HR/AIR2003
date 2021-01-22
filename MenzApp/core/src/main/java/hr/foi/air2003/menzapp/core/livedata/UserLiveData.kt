@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.core.livedata
 
+import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.getField
 import hr.foi.air2003.menzapp.core.model.User
@@ -7,8 +8,7 @@ import hr.foi.air2003.menzapp.core.other.DataOrException
 
 typealias UserOrException = DataOrException<User, FirebaseFirestoreException>
 
-class UserLiveData(documentReference: DocumentReference) :
-    FirestoreLiveData<UserOrException>(documentReference) {
+class UserLiveData(documentReference: DocumentReference) : FirestoreLiveData<UserOrException>(documentReference) {
 
     override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
 
@@ -27,7 +27,7 @@ class UserLiveData(documentReference: DocumentReference) :
             value = UserOrException(model, error)
 
         } else if (error != null) {
-            // TODO Handle error
+            Log.d("UserLiveData", error.message!!)
         }
     }
 }

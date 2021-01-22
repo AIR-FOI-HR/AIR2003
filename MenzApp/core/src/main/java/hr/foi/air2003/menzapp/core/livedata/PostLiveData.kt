@@ -1,5 +1,6 @@
 package hr.foi.air2003.menzapp.core.livedata
 
+import android.util.Log
 import com.google.firebase.firestore.*
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.core.model.Post
@@ -7,8 +8,7 @@ import hr.foi.air2003.menzapp.core.other.DataOrException
 
 typealias PostOrException = DataOrException<Post, FirebaseFirestoreException>
 
-class PostLiveData(documentReference: DocumentReference) :
-    FirestoreLiveData<PostOrException>(documentReference) {
+class PostLiveData(documentReference: DocumentReference) : FirestoreLiveData<PostOrException>(documentReference) {
 
     override fun onEvent(snapshot: DocumentSnapshot?, error: FirebaseFirestoreException?) {
         if (snapshot != null && snapshot.exists()) {
@@ -18,7 +18,7 @@ class PostLiveData(documentReference: DocumentReference) :
 
             value = PostOrException(post, error)
         } else if (error != null) {
-            // TODO Handle error
+            Log.d("PostLiveData", error.message!!)
         }
     }
 }

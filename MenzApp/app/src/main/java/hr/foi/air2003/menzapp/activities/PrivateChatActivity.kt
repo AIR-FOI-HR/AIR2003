@@ -48,6 +48,7 @@ class PrivateChatActivity : FragmentActivity() {
         btnBackChat.setOnClickListener {
             super.onBackPressed()
         }
+
     }
 
     private fun getChatInfo() {
@@ -90,7 +91,8 @@ class PrivateChatActivity : FragmentActivity() {
         adapterMessages = MessagesRecyclerViewAdapter(this)
 
         rvAllMessages.hasFixedSize()
-        rvAllMessages.layoutManager = LinearLayoutManager(applicationContext)
+        val manager = LinearLayoutManager(applicationContext)
+        rvAllMessages.layoutManager = manager
         rvAllMessages.itemAnimator = DefaultItemAnimator()
         rvAllMessages.adapter = adapterMessages
     }
@@ -102,7 +104,7 @@ class PrivateChatActivity : FragmentActivity() {
             if (!data.isNullOrEmpty()) {
                 val sorted = data.sortedBy { message -> message.sentTimestamp }
                 adapterMessages.addItems(sorted)
-                rvAllMessages.postDelayed({ rvAllMessages.smoothScrollToPosition(rvAllMessages.adapter?.itemCount!!-1) }, 1000)
+                rvAllMessages.layoutManager?.scrollToPosition(sorted.lastIndex)
             }
         })
     }
@@ -123,7 +125,7 @@ class PrivateChatActivity : FragmentActivity() {
         viewModel.sendMessage(message)
                 .addOnSuccessListener {
                     rvAllMessages.adapter?.notifyDataSetChanged()
-                    rvAllMessages.smoothScrollToPosition(rvAllMessages.adapter?.itemCount!!-1)
+                    rvAllMessages.layoutManager?.scrollToPosition(rvAllMessages.adapter?.itemCount!!)
                 }
 
         viewModel.updateChat(chat)

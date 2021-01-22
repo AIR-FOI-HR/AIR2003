@@ -67,6 +67,7 @@
                 android:fontFamily="@font/raleway"
                 android:hint="@string/email"
                 android:padding="13dp"
+                android:maxLines="1"
                 android:textColor="@drawable/input_text_color"
                 android:textSize="16dp" />
             </LinearLayout>
@@ -89,6 +90,7 @@
                 android:fontFamily="@font/raleway"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:maxLines="1"
                 android:padding="13dp"
                 android:textColor="@drawable/input_text_color"
                 android:textSize="16dp" />
@@ -150,31 +152,22 @@
                 android:textSize="16dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_weight="0.1">
+            android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:padding="5dp"
-                app:srcCompat="@drawable/ic_facebook" />
-
-            <ImageView
+            <com.shobhitpuri.custombuttons.GoogleSignInButton
                 android:id="@+id/btnGoogle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:padding="5dp"
-                android:src="@drawable/ic_google" />
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/google_sign_up"
+                android:fontFamily="@font/roboto_medium"
+                app:isDarkTheme="true" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

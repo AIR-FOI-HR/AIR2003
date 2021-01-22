@@ -146,6 +146,7 @@
             android:fontFamily="@font/raleway"
             android:textColor="@color/black_typo"
             android:inputType="textMultiLine"
+            android:maxLines="3"
             android:padding="8dp"
             android:textSize="15sp" />
 
