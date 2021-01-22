@@ -145,7 +145,7 @@ class SettingsFragmentActivity : FragmentActivity() {
             window.dismiss()
             FirebaseAuth.getInstance().signOut()
             finishAffinity()
-            startActivity(Intent(this, SplashScreenActivity::class.java))
+            startActivity(Intent(applicationContext, SplashScreenActivity::class.java))
         }
     }
 

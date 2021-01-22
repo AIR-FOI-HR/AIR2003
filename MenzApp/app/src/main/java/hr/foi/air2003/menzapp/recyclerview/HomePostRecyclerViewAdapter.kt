@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import coil.api.load
 import coil.size.Scale
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
 
 class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
@@ -25,7 +25,7 @@ class HomePostRecyclerViewAdapter : GenericRecyclerViewAdaper<Post>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.home_post_list_item, parent, false)
-        currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser = FirebaseAuthService.getCurrentUser()
         return HomeViewHolder(view)
     }
 

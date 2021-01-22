@@ -7,6 +7,6 @@ object FirebaseAuthService {
     private val instance = FirebaseAuth.getInstance()
 
     fun getCurrentUser(): FirebaseUser?{
-        return instance.currentUser
+        return FirebaseAuth.getInstance().currentUser
     }
 }

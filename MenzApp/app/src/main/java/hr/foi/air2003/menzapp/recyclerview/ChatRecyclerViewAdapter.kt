@@ -1,6 +1,7 @@
 package hr.foi.air2003.menzapp.recyclerview
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,13 @@ import kotlinx.android.synthetic.main.chat_message_list_item.view.*
 class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyclerViewAdaper<Chat>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
+    private lateinit var currentUserId: String
     var chatClick: ((Chat) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Chat> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.chat_message_list_item, parent, false)
+        currentUserId = fragment.getCurrentUserId()
         return ChatViewHolder(view)
     }
 
@@ -46,26 +49,36 @@ class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyc
                 val data = it.data
                 if (data != null) {
                     for (user in data) {
-                        if (item.participantsId.contains(user.userId) && user.userId != fragment.user.userId) {
+                        if (item.participantsId.contains(user.userId) && user.userId != currentUserId) {
                             chatName += "${user.fullName}, "
                             imgUri = user.profilePicture
                         }
                     }
 
-                    itemView.tvChatName.text = chatName.substring(0, chatName.length - 2)
+                    if(item.participantsId.size > 2){
+                        imgUri = "https://firebasestorage.googleapis.com/v0/b/menzapp-fa21a.appspot.com/o/photos%2Fdefault.png?alt=media&token=6e187c1f-2705-45ae-91dd-e40cfb3cab38"
+                    }
+
+                    try {
+                        itemView.tvChatName.text = chatName.substring(0, chatName.length - 2)
+                    }catch (e: Exception){
+                        Log.w("Chat Fragment", e)
+                        return@observeForever
+                    }
+
                     viewModel.getImage(imgUri)
                             .addOnSuccessListener { uri ->
                                 itemView.ivChatUserImage.load(uri)
                             }
                 }
 
-                return@observeForever
+               return@observeForever
             }
 
             messageLiveData.observeForever{
                 val message = it.data
                 if (message != null) {
-                    if (message.authorId == fragment.user.userId)
+                    if (message.authorId == currentUserId)
                         itemView.tvChatMessage.text = "Vi: ${message.content}"
                     else {
                         itemView.tvChatMessage.text = message.content

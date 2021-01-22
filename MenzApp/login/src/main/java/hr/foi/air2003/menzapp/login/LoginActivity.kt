@@ -86,14 +86,14 @@ class LoginActivity : AppCompatActivity() {
 
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)!!
-                Log.d(LoginActivity.TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account)
-            } catch (e: ApiException) {
-                Log.w(LoginActivity.TAG, "Google sign in failed", e)
-                updateUI(false)
-            }
+                    .addOnSuccessListener { account ->
+                    Log.d(LoginActivity.TAG, "firebaseAuthWithGoogle:" + account.id)
+                    firebaseAuthWithGoogle(account)
+                    }
+                    .addOnFailureListener { e ->
+                            Log.w(LoginActivity.TAG, "Google sign in failed", e)
+                            updateUI(false)
+                    }
         }
     }
 
@@ -120,7 +120,8 @@ class LoginActivity : AppCompatActivity() {
                                     }
                                 }
                                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error getting document", e) }
-                        super.onBackPressed()
+                        task.addOnSuccessListener { super.onBackPressed() }
+
                     } else { Log.w(LoginActivity.TAG, "signInWithCredential:failure", task.exception) }
                 }
     }
@@ -149,21 +150,20 @@ class LoginActivity : AppCompatActivity() {
 
     private fun userLogin() {
         auth.signInWithEmailAndPassword(txtUsername.text.toString(), txtPassword.text.toString())
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        val user = auth.currentUser
-                        if(user != null){
-                            if(user.isEmailVerified){
-                                super.onBackPressed()
-                            }else{
-                                auth.currentUser?.sendEmailVerification()
-                                updateUI(false)
-                                auth.signOut()
-                            }
+                .addOnSuccessListener {
+                    val user = auth.currentUser
+                    if(user != null){
+                        if(user.isEmailVerified){
+                            super.onBackPressed()
+                        }else{
+                            auth.currentUser?.sendEmailVerification()
+                            updateUI(false)
+                            auth.signOut()
                         }
-                    } else {
-                        updateUI(false)
                     }
+                }
+                .addOnFailureListener {
+                    updateUI(false)
                 }
     }
 

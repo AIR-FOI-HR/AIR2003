@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 
 class ChatFragment : Fragment() {
     private lateinit var adapterChat: ChatRecyclerViewAdapter
-    lateinit var user: User
+    private lateinit var user: User
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
@@ -64,6 +64,9 @@ class ChatFragment : Fragment() {
             intent.putExtra("user", jsonUser)
             startActivity(intent)
         }
+    }
 
+    fun getCurrentUserId(): String{
+        return user.userId
     }
 }

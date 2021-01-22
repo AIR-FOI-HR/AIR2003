@@ -9,7 +9,6 @@ import android.graphics.Color
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
@@ -36,7 +35,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun notifyUser(context: Context?) {
-        currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser = FirebaseAuthService.getCurrentUser()
         val users = listOf(currentUser?.uid)
 
         FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users)

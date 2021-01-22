@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthSettings
 import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.core.model.Post
+import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
 import hr.foi.air2003.menzapp.ui.VisitedProfileFragment
 import kotlinx.android.synthetic.main.home_post_list_item.view.*
 import kotlinx.android.synthetic.main.home_post_list_item.view.tvProfilePostDescription
@@ -24,7 +26,7 @@ class ProfilePostRecyclerViewAdapter(private val fragment: Fragment) : GenericRe
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Post> {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.profile_post_list_item, parent, false)
-        currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser = FirebaseAuthService.getCurrentUser()
         return ProfilePostViewHolder(view)
     }
 
