@@ -19,6 +19,7 @@ import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
 import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
 import kotlinx.android.synthetic.main.popup_menu_settings.view.*
@@ -92,12 +93,14 @@ class SettingsFragmentActivity : FragmentActivity() {
                         .addOnSuccessListener {uri ->
                             user.profilePicture = uri.toString()
                             viewModel.updateUser(user)
-                            super.onBackPressed()
+                                    .addOnSuccessListener {
+                                        onBackPressed()
+                                    }
                         }
             }else{
                 viewModel.updateUser(user)
                         .addOnSuccessListener {
-                            super.onBackPressed()
+                            onBackPressed()
                         }
             }
         }

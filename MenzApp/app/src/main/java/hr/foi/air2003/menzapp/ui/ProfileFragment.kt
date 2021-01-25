@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +21,9 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -40,20 +39,18 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        user = (activity as MainActivity).getCurrentUser()
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        user = (activity as MainActivity).getCurrentUser()
 
         expandViewListener()
         createRecyclerViews()
 
         dateTimePicker = DateTimePicker()
 
-        retrieveUserData(user)
+        retrieveUserData(FirebaseAuthService.getCurrentUser()!!.uid)
 
         btnSettings.setOnClickListener {
             val jsonUser = Gson().toJson(user)
@@ -114,15 +111,20 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun retrieveUserData(user: User) {
-        //Populate user info with data from firestore
-        createUserLayout(user)
+    private fun retrieveUserData(userId: String) {
+        val livedata = viewModel.getUser(userId)
+        livedata.observe(viewLifecycleOwner, {
+            user = it.data!!
 
-        //Populate posts with data from firestore
-        createPostLayout(user.userId)
+            //Populate user info with data from firestore
+            createUserLayout(user)
 
-        //Populate feedbacks with data from firestore
-        createFeedbackLayout(user.userId)
+            //Populate posts with data from firestore
+            createPostLayout(user.userId)
+
+            //Populate feedbacks with data from firestore
+            createFeedbackLayout(user.userId)
+        })
     }
 
     private fun createFeedbackLayout(userId: String) {

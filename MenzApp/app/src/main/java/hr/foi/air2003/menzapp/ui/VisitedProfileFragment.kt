@@ -94,9 +94,6 @@ class VisitedProfileFragment : Fragment() {
             val newFeedbackFragment = NewFeedbackFragment()
             newFeedbackFragment.setTargetFragment(this, 1)
             newFeedbackFragment.show(requireFragmentManager(), "Feedback")
-
-            if(newFeedbackFragment.isRemoving)
-                rvVisitedProfileFeedbacks.adapter?.notifyDataSetChanged()
         }
 
         btnBack.setOnClickListener {
