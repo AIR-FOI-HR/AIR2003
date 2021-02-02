@@ -6,19 +6,36 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
+import android.view.Gravity
+import android.view.View
+import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import hr.foi.air2003.menzapp.R
-import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
-import hr.foi.air2003.menzapp.login.LoginActivity
+import hr.foi.air2003.menzapp.core.ModulePresenter
+import hr.foi.air2003.menzapp.core.services.UserService
+import hr.foi.air2003.menzapp.login.managers.ModuleListener
+import hr.foi.air2003.menzapp.login.managers.ModuleManager
 import kotlinx.android.synthetic.main.dialog_internet.*
 
-class SplashScreenActivity : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity(), ModuleListener {
     private lateinit var handler: Handler
+    private lateinit var window: PopupWindow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handler = Handler()
         handler.postDelayed(runnable, 1000)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        handler.postDelayed(runnable, 1000)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(runnable)
     }
 
     private fun checkConnection():Boolean {
@@ -46,23 +63,33 @@ class SplashScreenActivity : AppCompatActivity() {
     private val runnable = Runnable {
         if(checkConnection()) {
             if (!isFinishing) {
-                if (FirebaseAuthService.getCurrentUser() === null) {
-                    startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
+                if (UserService.getCurrentUser() === null) {
+                    window = showLoginOptions()
+                    ModuleManager.chooseLoginOption(window, this)
                 } else {
+                    ModuleManager.setLoginOption(UserService.getLoginProvider(), this)
                     startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
                 }
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        handler.postDelayed(runnable, 1000)
+    private fun showLoginOptions(): PopupWindow {
+        val window = PopupWindow(this)
+        val layout = layoutInflater.inflate(R.layout.popup_menu_login, null)
+        window.contentView = layout
+        window.isOutsideTouchable = false
+        window.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.popup_login))
+        window.showAtLocation(View(this), Gravity.CENTER, 0,0)
+
+        return window
     }
 
-    override fun onPause() {
-        super.onPause()
-        handler.removeCallbacks(runnable)
-    }
+    override fun startModule(module: ModulePresenter) {
+        if(window.isShowing){
+            window.dismiss()
+        }
 
+        startActivity(Intent(this, (module as AppCompatActivity)::class.java))
+    }
 }

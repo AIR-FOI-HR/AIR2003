@@ -3,7 +3,6 @@ package hr.foi.air2003.menzapp.recyclerview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import coil.api.load
 import coil.size.Scale
 import hr.foi.air2003.menzapp.R
@@ -36,7 +35,7 @@ class ProfileFeedbackRecyclerViewAdapter : GenericRecyclerViewAdaper<Feedback>()
                     viewModel.getImage(imgUri)
                             .addOnSuccessListener { url ->
                                 itemView.ivProfileUserPhoto.load(url) {
-                                    scale(Scale.FIT)
+                                    scale(Scale.FILL)
                                 }
                             }
                 }

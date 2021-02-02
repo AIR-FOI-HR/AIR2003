@@ -2,11 +2,11 @@ package hr.foi.air2003.menzapp.activities
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
+import coil.size.Scale
 import com.google.firebase.Timestamp
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
@@ -62,7 +62,9 @@ class PrivateChatActivity : FragmentActivity() {
                             tvPrivateChatName.text = data.fullName
                             viewModel.getImage(data.profilePicture)
                                     .addOnSuccessListener { url ->
-                                        ivPrivateChatImage.load(url)
+                                        ivPrivateChatImage.load(url) {
+                                            scale(Scale.FILL)
+                                        }
                                     }
                         }
                     })

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
@@ -16,9 +15,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.AlertDialogBuilder
-import hr.foi.air2003.menzapp.assistants.ImageConverter
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
+import hr.foi.air2003.menzapp.core.services.UserService
+import hr.foi.air2003.menzapp.login.managers.ModuleManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.alert_dialog.view.*
@@ -58,7 +58,7 @@ class SettingsFragmentActivity : FragmentActivity() {
         viewModel.getImage(user.profilePicture)
                 .addOnSuccessListener { url ->
                     ivSettingsProfilePhoto.load(url){
-                        scale(Scale.FIT)
+                        scale(Scale.FILL)
                     }
                 }
 
@@ -112,8 +112,9 @@ class SettingsFragmentActivity : FragmentActivity() {
         if (requestCode == REQUEST_FILE_CHOOSER && resultCode == Activity.RESULT_OK && data != null) {
             filePath = data.data!!
 
-            val bitmap = ImageConverter.resizeBitmap(MediaStore.Images.Media.getBitmap(contentResolver, filePath), ivSettingsProfilePhoto)
-            ivSettingsProfilePhoto.setImageBitmap(bitmap)
+            ivSettingsProfilePhoto.load(filePath){
+                scale(Scale.FILL)
+            }
         }
     }
 
@@ -146,7 +147,7 @@ class SettingsFragmentActivity : FragmentActivity() {
 
         window.contentView.tvLogOut.setOnClickListener {
             window.dismiss()
-            FirebaseAuth.getInstance().signOut()
+            ModuleManager.userLogout()
             finishAffinity()
             startActivity(Intent(applicationContext, SplashScreenActivity::class.java))
         }

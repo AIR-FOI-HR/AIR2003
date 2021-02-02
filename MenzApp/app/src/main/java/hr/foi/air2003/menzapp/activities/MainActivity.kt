@@ -6,20 +6,19 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.User
-import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
 import hr.foi.air2003.menzapp.core.services.MenuReciever
 import hr.foi.air2003.menzapp.core.services.NotificationReceiver
+import hr.foi.air2003.menzapp.core.services.UserService
 import hr.foi.air2003.menzapp.ui.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: SharedViewModel = SharedViewModel()
-    private var currentUser: FirebaseUser? = null
+    private var currentUser: String? = null
     private lateinit var alarmManager: AlarmManager
     private var user = User()
 
@@ -32,10 +31,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        currentUser = FirebaseAuthService.getCurrentUser()
+        currentUser = UserService.getCurrentUser()
         requireUserData()
 
-        // Set current fragment when navigation icon is selected
         bottom_nav_bar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.ic_user -> setCurrentFragment(ProfileFragment())
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun requireUserData(){
         if(currentUser != null){
-            val liveData = viewModel.getUser(currentUser!!.uid)
+            val liveData = viewModel.getUser(currentUser!!)
             liveData.observe(this, {
                 val data = it.data
                 if (data != null) {
@@ -118,7 +116,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setCurrentFragment(fragment: Fragment) {
-        // Open fragment view inside of container
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 

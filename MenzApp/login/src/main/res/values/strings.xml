@@ -22,4 +22,5 @@
     <string name="register">Registriraj se</string>
     <string name="email">Email</string>
     <string name="google_sign_up">Prijava s Google računom</string>
+    <string name="menzapp_prijava">MenzApp prijava</string>
 </resources>

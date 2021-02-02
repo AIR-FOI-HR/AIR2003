@@ -65,8 +65,4 @@ class ChatFragment : Fragment() {
             startActivity(intent)
         }
     }
-
-    fun getCurrentUserId(): String{
-        return user.userId
-    }
 }
