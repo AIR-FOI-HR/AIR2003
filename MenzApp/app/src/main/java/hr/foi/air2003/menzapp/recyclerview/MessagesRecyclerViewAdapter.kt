@@ -13,6 +13,7 @@ import hr.foi.air2003.menzapp.activities.PrivateChatActivity
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Message
+import hr.foi.air2003.menzapp.core.services.UserService
 import kotlinx.android.synthetic.main.fragment_menu.*
 import kotlinx.android.synthetic.main.private_chat_list_item.*
 import kotlinx.android.synthetic.main.private_chat_list_item.view.*
@@ -33,8 +34,8 @@ class MessagesRecyclerViewAdapter(private val fragment: PrivateChatActivity) : G
             itemView.tvMessageContent.text = item.content
             itemView.tvMessageTimestamp.text = dateTimePicker.getMessageTimestamp(item.sentTimestamp)
 
-            val currentUser = fragment.user
-            if(item.authorId == currentUser.userId){
+            val currentUser = UserService.getCurrentUser()
+            if(item.authorId == currentUser){
                 params.gravity = Gravity.END
                 itemView.llMessageLayout.layoutParams = params
                 itemView.tvMessageUsername.visibility = View.GONE

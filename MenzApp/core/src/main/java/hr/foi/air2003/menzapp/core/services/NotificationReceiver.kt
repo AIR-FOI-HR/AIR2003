@@ -27,7 +27,7 @@ class NotificationReceiver : BroadcastReceiver() {
     private var isChannelMsgCreated = false
     private val NOTIFICATION_CHANNEL_ID = "NOTIFICATION_CHANNEL_ID"
     private val MESSAGE_CHANNEL_ID = "MESSAGE_CHANNEL_ID"
-    private var currentUser: FirebaseUser? = null
+    private lateinit var currentUser: String
 
     override fun onReceive(context: Context?, intent: Intent?) {
         Thread { notifyUser(context) }
@@ -35,8 +35,8 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun notifyUser(context: Context?) {
-        currentUser = FirebaseAuthService.getCurrentUser()
-        val users = listOf(currentUser?.uid)
+        currentUser = UserService.getCurrentUser().toString()
+        val users = listOf(currentUser)
 
         FirestoreService.getAllWithQuery(Collection.NOTIFICATION, Operation.ARRAY_CONTAINS_ANY, "recipientsId", users)
                 .addSnapshotListener { snapshot, error ->
@@ -108,7 +108,7 @@ class NotificationReceiver : BroadcastReceiver() {
                                                 val message = Gson().fromJson(json, Message::class.java)
                                                 message.messageId = doc.id
 
-                                                if (message.authorId != currentUser!!.uid && !message.seen){
+                                                if (message.authorId != currentUser && !message.seen){
 
                                                     FirestoreService.getDocumentByID(Collection.USER, message.authorId)
                                                             .addSnapshotListener { snapshot, error ->

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import coil.api.load
+import coil.size.Scale
 import com.google.firebase.Timestamp
 import com.google.gson.Gson
 import hr.foi.air2003.menzapp.activities.MainActivity
@@ -21,7 +22,7 @@ import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Post
 import hr.foi.air2003.menzapp.core.model.User
-import hr.foi.air2003.menzapp.core.services.FirebaseAuthService
+import hr.foi.air2003.menzapp.core.services.UserService
 import hr.foi.air2003.menzapp.recyclerview.ProfileFeedbackRecyclerViewAdapter
 import hr.foi.air2003.menzapp.recyclerview.ProfilePostRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -30,8 +31,8 @@ class ProfileFragment : Fragment() {
     private lateinit var dateTimePicker: DateTimePicker
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
-    private lateinit var user: User
     private lateinit var post: Post
+    private var user: User? = null
     private val viewModel = SharedViewModel()
 
     override fun onCreateView(
@@ -50,7 +51,7 @@ class ProfileFragment : Fragment() {
 
         dateTimePicker = DateTimePicker()
 
-        retrieveUserData(FirebaseAuthService.getCurrentUser()!!.uid)
+        retrieveUserData(UserService.getCurrentUser()!!)
 
         btnSettings.setOnClickListener {
             val jsonUser = Gson().toJson(user)
@@ -114,16 +115,12 @@ class ProfileFragment : Fragment() {
     private fun retrieveUserData(userId: String) {
         val livedata = viewModel.getUser(userId)
         livedata.observe(viewLifecycleOwner, {
-            user = it.data!!
-
-            //Populate user info with data from firestore
-            createUserLayout(user)
-
-            //Populate posts with data from firestore
-            createPostLayout(user.userId)
-
-            //Populate feedbacks with data from firestore
-            createFeedbackLayout(user.userId)
+            user = it.data
+            if (user != null) {
+                createUserLayout(user!!)
+                createPostLayout(user!!.userId)
+                createFeedbackLayout(user!!.userId)
+            }
         })
     }
 
@@ -163,7 +160,9 @@ class ProfileFragment : Fragment() {
 
         viewModel.getImage(user.profilePicture)
             .addOnSuccessListener { url ->
-                ivProfilePhoto.load(url)
+                ivProfilePhoto.load(url){
+                    scale(Scale.FILL)
+                }
             }
     }
 

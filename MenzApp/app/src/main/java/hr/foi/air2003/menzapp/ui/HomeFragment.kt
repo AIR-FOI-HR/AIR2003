@@ -150,7 +150,7 @@ class HomeFragment : Fragment() {
         viewModel.updateUserRequests(post)
         rvPostsLayout.adapter?.notifyDataSetChanged()
 
-        var postStringTime = dateTimePicker.timestampToString(post.timestamp)
+        val postStringTime = dateTimePicker.timestampToString(post.timestamp)
 
         val times = postStringTime.split("/").toTypedArray()
 

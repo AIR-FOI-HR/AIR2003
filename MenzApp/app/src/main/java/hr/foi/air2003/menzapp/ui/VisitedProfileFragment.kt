@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Explode
 import androidx.transition.TransitionManager
 import coil.api.load
+import coil.size.Scale
 import com.google.firebase.Timestamp
 import hr.foi.air2003.menzapp.activities.MainActivity
 import hr.foi.air2003.menzapp.R
@@ -33,9 +34,9 @@ class VisitedProfileFragment : Fragment() {
     private lateinit var adapterPost: ProfilePostRecyclerViewAdapter
     private lateinit var adapterFeedback: ProfileFeedbackRecyclerViewAdapter
     private var authorId: String? = null
+    private lateinit var visitedUser: User
     private lateinit var user: User
     private lateinit var parent: Fragment
-    private lateinit var visitedUser: User
     private lateinit var builder: AlertDialog.Builder
     private lateinit var vd: View
     private var alertDialogBuilder = AlertDialogBuilder()
@@ -51,7 +52,7 @@ class VisitedProfileFragment : Fragment() {
             authorId = (parent as HomeFragment).getAuthorId()
         } else if (targetRequestCode == 2) {
             parent = targetFragment as SearchFragment
-            visitedUser = (parent as SearchFragment).getVisitedUser()
+            authorId = (parent as SearchFragment).getVisitedUser().userId
         }
 
         user = (activity as MainActivity).getCurrentUser()
@@ -84,8 +85,7 @@ class VisitedProfileFragment : Fragment() {
             } else {
                 updateSubscription(false)
                 btnSubscribe.text = getString(R.string.subscribe)
-                btnSubscribe.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.btn_transparent_circled)
+                btnSubscribe.background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_transparent_circled)
                 btnSubscribe.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             }
         }
@@ -183,9 +183,6 @@ class VisitedProfileFragment : Fragment() {
                     checkSubscription(visitedUser)
                 }
             })
-        } else {
-            retrieveUserData(visitedUser)
-            checkSubscription(visitedUser)
         }
     }
 
@@ -204,11 +201,8 @@ class VisitedProfileFragment : Fragment() {
     }
 
     private fun retrieveUserData(visitedUser: User) {
-        //Populate user info with data from firestore
         createUserLayout(visitedUser)
-        //Populate posts with data from firestore
         createPostLayout(visitedUser.userId)
-        //Populate feedbacks with data from firestore
         createFeedbackLayout(visitedUser.userId)
     }
 
@@ -220,7 +214,9 @@ class VisitedProfileFragment : Fragment() {
 
         viewModel.getImage(visitedUser.profilePicture)
             .addOnSuccessListener { url ->
-                ivVisitedProfilePhoto.load(url)
+                ivVisitedProfilePhoto.load(url) {
+                    scale(Scale.FILL)
+                }
             }
     }
 

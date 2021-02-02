@@ -7,23 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import coil.api.load
+import coil.size.Scale
 import hr.foi.air2003.menzapp.R
 import hr.foi.air2003.menzapp.assistants.DateTimePicker
 import hr.foi.air2003.menzapp.assistants.SharedViewModel
 import hr.foi.air2003.menzapp.core.model.Chat
+import hr.foi.air2003.menzapp.core.services.UserService
 import hr.foi.air2003.menzapp.ui.ChatFragment
 import kotlinx.android.synthetic.main.chat_message_list_item.view.*
 
 class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyclerViewAdaper<Chat>() {
     private val viewModel = SharedViewModel()
     private val dateTimePicker = DateTimePicker()
-    private lateinit var currentUserId: String
+    private var currentUserId: String? = null
     var chatClick: ((Chat) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder<Chat> {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.chat_message_list_item, parent, false)
-        currentUserId = fragment.getCurrentUserId()
+        currentUserId = UserService.getCurrentUser()
         return ChatViewHolder(view)
     }
 
@@ -68,7 +70,9 @@ class ChatRecyclerViewAdapter(private val fragment: ChatFragment) : GenericRecyc
 
                     viewModel.getImage(imgUri)
                             .addOnSuccessListener { uri ->
-                                itemView.ivChatUserImage.load(uri)
+                                itemView.ivChatUserImage.load(uri) {
+                                    scale(Scale.FILL)
+                                }
                             }
                 }
 

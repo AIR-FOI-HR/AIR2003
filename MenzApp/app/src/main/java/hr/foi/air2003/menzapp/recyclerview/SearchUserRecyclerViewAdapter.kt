@@ -36,7 +36,7 @@ class SearchUserRecyclerViewAdapter : GenericRecyclerViewAdaper<User>() {
             viewModel.getImage(imgUri)
                 .addOnSuccessListener { url ->
                     itemView.ivSearchUserPhoto.load(url) {
-                        scale(Scale.FIT)
+                        scale(Scale.FILL)
                     }
                 }
         }

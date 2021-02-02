@@ -64,7 +64,7 @@ class NotificationRecyclerViewAdapter : GenericRecyclerViewAdaper<Notification>(
                     viewModel.getImage(imgUri)
                             .addOnSuccessListener { url ->
                                 itemView.ivProfileUserPhoto.load(url) {
-                                    scale(Scale.FIT)
+                                    scale(Scale.FILL)
                                 }
                             }
                 }

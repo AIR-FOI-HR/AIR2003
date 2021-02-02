@@ -1,4 +1,34 @@
+include ':module-google-login'
 include ':core'
 include ':login'
 include ':app'
 rootProject.name = "MenzApp"
+//
+//val moduleBuildFileName = "build.gradle.kts"
+//val eligibleModuleNamePattern = "module-".toRegex()
+//val moduleFilter: FileFilter = FileFilter { pathname: File -> {
+//    if (!pathname.isDirectory) {
+//        return@FileFilter false
+//    }
+//
+//    val isGradleModuleFilter = FileFilter { file: GradleFile ->
+//            file.name == moduleBuildFileName
+//    }
+//
+//    val gradleModuleFiles = pathname
+//            .listFiles(isGradleModuleFilter)
+//            .orEmpty()
+//
+//    if (gradleModuleFiles.isEmpty()) {
+//        return@FileFilter false
+//    }
+//
+//    return@FileFilter pathname.name.matches(eligibleModuleNamePattern)
+//}
+//
+//settingsDir
+//        .listFiles(moduleFilter)
+//        .orEmpty()
+//        .forEach { dir -> include(":${dir.name}") }
+//}
+

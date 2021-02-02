@@ -1,204 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:orientation="vertical"
     android:background="@color/white"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/main_margin">
+    android:gravity="center"
+    android:weightSum="1"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_weight="0.3" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_logo" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:weightSum="1"
-        >
+        android:layout_weight="0.2" >
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:orientation="vertical"
-            android:weightSum="1"
-            android:layout_margin="@dimen/dimension"
-            android:layout_weight="0.1"
-           >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_logo" />
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/txtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1"
+            android:background="@drawable/input_background"
+            android:drawableStart="@drawable/input_ic_email"
+            android:drawablePadding="10dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/raleway"
+            android:hint="@string/email"
+            android:padding="13dp"
+            android:layout_margin="10dp"
+            android:singleLine="true"
+            android:textColor="@drawable/input_text_color"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_background"
+            android:drawableStart="@drawable/input_ic_lock"
+            android:drawablePadding="10dp"
+            android:elevation="2dp"
+            android:fontFamily="@font/raleway"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:padding="13dp"
+            android:layout_margin="10dp"
+            android:textColor="@drawable/input_text_color"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_weight="0.06">
+
+        <TextView
+            android:id="@+id/txtForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/raleway"
+            android:text="@string/forgotten_password"
+            android:textColor="@color/orange_secondary"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginHorizontal="20dp"
+        android:layout_weight="0.2" >
+
+        <ImageView
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_login"
+            android:gravity="end" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:foregroundGravity="bottom"
+        android:layout_weight="0.08" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway"
             android:gravity="center"
-            android:layout_marginVertical="@dimen/dimension"
-            android:layout_weight="0.25"
-            >
+            android:text="@string/without_account"
+            android:textColor="@color/grey_dark"
+            android:textSize="16sp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="0.5"
-                android:weightSum="1"
-                android:gravity="center"
-                >
-            <EditText
-                android:id="@+id/txtUsername"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:background="@drawable/input_background"
-                android:drawableLeft="@drawable/input_ic_email"
-                android:drawablePadding="10dp"
-                android:elevation="2dp"
-                android:fontFamily="@font/raleway"
-                android:hint="@string/email"
-                android:padding="13dp"
-                android:maxLines="1"
-                android:textColor="@drawable/input_text_color"
-                android:textSize="16dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="0.5"
-                android:weightSum="1"
-                android:gravity="center">
-            <EditText
-                android:id="@+id/txtPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.8"
-                android:background="@drawable/input_background"
-                android:drawableLeft="@drawable/input_ic_lock"
-                android:drawablePadding="10dp"
-                android:elevation="2dp"
-                android:fontFamily="@font/raleway"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:padding="13dp"
-                android:textColor="@drawable/input_text_color"
-                android:textSize="16dp" />
-        </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/txtRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:weightSum="1"
-            android:layout_weight="0.02">
+            android:fontFamily="@font/raleway"
+            android:gravity="center"
+            android:text="@string/register"
+            android:textColor="@color/orange_secondary"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/txtForgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:fontFamily="@font/raleway"
-                android:text="@string/forgotten_password"
-                android:textColor="@color/orange_secondary"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right"
-            android:layout_marginHorizontal="@dimen/button"
-            android:layout_weight="0.01"
-            >
-
-            <ImageView
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_login"
-                android:gravity="right" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:layout_weight="0.01">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/raleway"
-                android:gravity="center"
-                android:text="@string/services"
-                android:textColor="@color/grey_dark"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <com.shobhitpuri.custombuttons.GoogleSignInButton
-                android:id="@+id/btnGoogle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/google_sign_up"
-                android:fontFamily="@font/roboto_medium"
-                app:isDarkTheme="true" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:layout_weight="0.1"
-            android:weightSum="1">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:fontFamily="@font/raleway"
-                android:gravity="center"
-                android:text="@string/without_account"
-                android:textColor="@color/grey_dark"
-                android:textSize="16dp"
-                android:layout_weight="0.5"/>
-
-            <TextView
-                android:id="@+id/txtRegister"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:fontFamily="@font/raleway"
-                android:gravity="center"
-                android:text="@string/register"
-                android:textColor="@color/orange_secondary"
-                android:textSize="16dp" />
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
