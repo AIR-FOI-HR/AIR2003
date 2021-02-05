@@ -7,16 +7,21 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import hr.foi.air2003.menzapp.core.ModulePresenter
 import hr.foi.air2003.menzapp.core.services.UserService
 import kotlinx.android.synthetic.main.dialog_password.*
 import kotlinx.android.synthetic.main.login_main.*
 import kotlinx.android.synthetic.main.login_main.txtPassword
 
-class LoginActivity : AppCompatActivity(), ModulePresenter {
+class LoginActivity() : AppCompatActivity(), ModulePresenter {
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: LoginViewModel
+
+    override var userData: FirebaseUser? = null
+    override var GoogleAccountData: GoogleSignInAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
